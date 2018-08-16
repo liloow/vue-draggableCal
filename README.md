@@ -5,7 +5,7 @@ A datepicker Vue component. Compatible with Vue 2.x
 - [Demo](#demo)
 - [Install](#install)
 - [Usage](#usage)
-- [Available Languages](#Available Languages)
+- [Available Languages](#available-languages)
 
 
 ## Demo
@@ -78,10 +78,10 @@ These events are emitted on actions in the datepicker
 
 | Event             | Output     | Description                          |
 |-------------------|------------|--------------------------------------|
-| selectedDate      | Object     | A date has been selected. It outputs an object : {
-formatedDate: String of the date,
+| selectedDate      | Object     | A date has been selected. It outputs an object : ```js
+{formatedDate: String of the date,
 raw: An array of [YYYY, MM, DD] that can be used to build the date object via `Date.UTC(YYYY,MM,DD)`
-}             |
+}```|
 | dateCleared       | null       | The previously selected date has been unselected by the user    |
 
 
