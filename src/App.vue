@@ -3,7 +3,7 @@
     <div class="drag-calendar" :style="monthlyState.phase === 'dragging' || dailyState.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} " style="display: block background-color: 'transparent'">
       <div class="wrapper">
         <div id="monthly" class="months ui-draggable" style="left: 0px;" @mousedown="handleDrag($event)" @touchstart="handleDrag($event)">
-          <div v-for="month in toAppend.months" class="month-cell cell" :class="month.past ? 'past' : ''" @click="toggleSelectMonth($event, month)" :month-id="`${month.fullYear}-${month.monthNumber}`">
+          <div v-for="month in calendar.months" class="month-cell cell" :class="month.past ? 'past' : ''" @click="toggleSelectMonth($event, month)" :month-id="`${month.fullYear}-${month.monthNumber}`">
             <div class="date-formatted">
               <span class="cell-content month-name">{{MONTHS[month.monthNumber] | abr}}</span> {{month.fullYear%1000}}
             </div>
@@ -12,7 +12,7 @@
       </div>
       <div class="wrapper">
         <div id="daily" class="calendar ui-draggable" :style="dailyState.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} " style="left: 0px;" @mousedown="handleDrag($event)" @touchstart="handleDrag($event)">
-          <div v-for="day in toAppend.days" class="cal-cell cell" :id="`${day.fullYear}-${day.monthNumber}-${day.day}`" :month="day.monthNumber" :year="day.fullYear" @click="toggleSelect($event, day)">
+          <div v-for="day in calendar.days" class="cal-cell cell" :id="`${day.fullYear}-${day.monthNumber}-${day.day}`" :month="day.monthNumber" :year="day.fullYear" @click="toggleSelect($event, day)">
             <div class="cell-content">
               <div class="day-number">
                 {{day.day}}
@@ -32,17 +32,14 @@
   </section>
 </template>
 <script>
-import {abr} from '@/assets/filters';
-import {names} from '@/assets/CONSTANTS';
+import {abr} from '@/utils/filters';
+import {language} from '@/utils/CONSTANTS';
+import {buildCalendar} from '@/utils/buildCalendar';
+import props from '@/utils/props';
 export default {
   name: 'VueCal',
   filters: {abr},
-  props: {
-    lang: {
-      type: String,
-      default: 'EN',
-    },
-  },
+  props: props,
   computed: {
     currentMonth() {
       let past = this.dailyState.pastBreakPoints;
@@ -70,28 +67,18 @@ export default {
   data() {
     return {
       TODAY: new Date(),
-      NUMBER_OF_DAYS: this.days || 543,
-      NUMBER_OF_MONTH: this.months || 12,
+      NUMBER_OF_DAYS: this.days,
+      NUMBER_OF_MONTHS: this.months,
       PREPEND_MONTHS: this.prepended || 2,
-      DAYS: names[this.lang].DAYS,
-      MONTHS: names[this.lang].MONTHS,
+      DAYS: language[this.lang].DAYS,
+      MONTHS: language[this.lang].MONTHS,
       selectedDate: null,
       selectedMonth: null,
-      toAppend: {
+      calendar: {
         months: [],
-        years: [],
         days: [],
       },
       monthlyState: {
-        id: 'monthly',
-        monthBreakPoints: [],
-        pastBreakPoints: [
-          {
-            offset: 0,
-            monthNumber: new Date().getMonth(),
-            fullYear: new Date().getFullYear(),
-          },
-        ],
         phase: 'sleep',
         startX: 0,
         currentOffset: 0,
@@ -100,7 +87,6 @@ export default {
         realOffset: 0,
       },
       dailyState: {
-        id: 'daily',
         monthBreakPoints: [],
         pastBreakPoints: [
           {
@@ -116,6 +102,7 @@ export default {
         maxOffset: 0,
         realOffset: 0,
       },
+      test: null,
     };
   },
   methods: {
@@ -139,6 +126,7 @@ export default {
     },
     handleDrag(e) {
       let state;
+
       if (e.type === 'mouseup' || e.type === 'mouseleave' || e.type === 'touchend') {
         document.body.removeEventListener('mousemove', this.handleDrag, false);
         document.body.removeEventListener('touchmove', this.handleDrag, false);
@@ -146,9 +134,11 @@ export default {
         this.monthlyState.phase = 'sleep';
         return true;
       }
+
       if (this.dailyState.phase !== 'sleep') state = this.dailyState;
       else if (this.monthlyState.phase !== 'sleep') state = this.monthlyState;
       else state = this[`${e.path.find(el => el.id === 'monthly' || el.id === 'daily').id}State`];
+
       if ((e.type === 'mousedown' && e.button === 0) || e.type === 'touchstart') {
         document.body.addEventListener('mousemove', this.handleDrag, false);
         document.body.addEventListener('touchmove', this.handleDrag, false);
@@ -159,6 +149,7 @@ export default {
         state.maxOffset = row.parentNode.clientWidth - row.clientWidth;
         state.initLeft = Number(state.style.left.match(/-?[0-9]+/g)[0]);
       }
+
       if (e.type === 'mousemove' || e.type === 'touchmove') {
         state.phase = 'dragging';
         state.currentOffset = (e.screenX || e.touches[0].screenX) - state.startX;
@@ -170,56 +161,6 @@ export default {
         this.currentMonth;
       }
     },
-    gWeekDay: currentConstructorDate => currentConstructorDate.getDay(),
-    gDay: currentConstructorDate => currentConstructorDate.getDate(),
-    gMonth: currentConstructorDate => currentConstructorDate.getMonth(),
-    gYear: currentConstructorDate => currentConstructorDate.getFullYear(),
-    buildCalendar() {
-      const calendar = {
-        days: [],
-        months: [],
-        years: [],
-      };
-      let currentConstructorDate = new Date();
-      let currentConstructorMonth = new Date();
-      let currentConstructorYear = new Date();
-      for (let i = 0; i < this.NUMBER_OF_DAYS; i++) {
-        let date = {
-          dayOfTheWeek: this.gWeekDay(currentConstructorDate),
-          day: this.gDay(currentConstructorDate),
-          monthNumber: this.gMonth(currentConstructorDate),
-          fullYear: this.gYear(currentConstructorDate),
-        };
-        calendar.days.push(date);
-        currentConstructorDate = new Date(date.fullYear, date.monthNumber, date.day + 1);
-      }
-      this.NUMBER_OF_MONTH =
-        (calendar.days[calendar.days.length - 1].fullYear - this.gYear(this.TODAY)) * 12 +
-        (calendar.days[calendar.days.length - 1].monthNumber - this.gMonth(this.TODAY)) +
-        1;
-      for (let i = 0; i < this.NUMBER_OF_MONTH; i++) {
-        let date = {
-          day: i === 0 ? this.gDay(currentConstructorMonth) : 1,
-          monthNumber: this.gMonth(currentConstructorMonth),
-          fullYear: this.gYear(currentConstructorMonth),
-        };
-        calendar.months.push({
-          monthNumber: date.monthNumber,
-          fullYear: date.fullYear,
-        });
-        currentConstructorMonth = new Date(date.fullYear, date.monthNumber + 1, date.day);
-      }
-      for (let i = 0; i < this.PREPEND_MONTHS; i++) {
-        let year = calendar.months[0].fullYear;
-        let index = calendar.months[0].monthNumber - 1;
-        if (index === -1) {
-          index = 11;
-          year--;
-        }
-        calendar.months = [{monthNumber: index, fullYear: year, past: true}, ...calendar.months];
-      }
-      return calendar;
-    },
     toggleSelectMonth(e, month) {
       let exist = document.querySelector('.month-cell[selected="true"]');
       if (exist) exist.setAttribute('selected', false);
@@ -227,8 +168,10 @@ export default {
         .querySelector(`[month-id="${month.fullYear}-${month.monthNumber}"]`)
         .setAttribute('selected', true);
       this.selectedMonth = `${month.fullYear}-${month.monthNumber}`;
-      const id = `[year="${month.fullYear}"][month="${month.monthNumber}"].cal-cell`;
-      if (e) this.scrollIntoView(document.querySelector(id));
+      if (e) {
+        const id = `[year="${month.fullYear}"][month="${month.monthNumber}"].cal-cell`;
+        this.scrollIntoView(document.querySelector(id));
+      }
     },
     toggleSelect(e, day) {
       let exist = document.querySelector('.cal-cell[selected="true"]');
@@ -257,7 +200,7 @@ export default {
       const raw = [date.fullYear, date.monthNumber, date.day];
       const formattedDate = new Date(
         Date.UTC(date.fullYear, date.monthNumber, date.day)
-      ).toLocaleDateString('fr-FR', {
+      ).toLocaleDateString(language[this.lang].long, {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
@@ -267,10 +210,10 @@ export default {
     },
   },
   created() {
-    this.toAppend = this.buildCalendar();
-    document.body.onmouseup = e => this.handleDrag(e);
-    document.body.onmouseleave = e => this.handleDrag(e);
-    document.body.ontouchend = e => this.handleDrag(e);
+    this.calendar = buildCalendar(this.NUMBER_OF_DAYS, this.NUMBER_OF_MONTHS, this.PREPEND_MONTHS);
+    document.body.addEventListener('mouseup', e => this.handleDrag(e), false);
+    document.body.addEventListener('mouseleave', e => this.handleDrag(e), false);
+    document.body.addEventListener('touchend', e => this.handleDrag(e), false);
   },
   mounted() {
     document.querySelector('div:not(.past).month-cell.cell').click(); //.setAttribute('selected', true);
@@ -289,6 +232,11 @@ export default {
       document.querySelector('#daily').clientWidth -
       36 -
       7;
+  },
+  beforeDestroy() {
+    document.body.removeEventListener('mouseup', e => this.handleDrag(e), false);
+    document.body.removeEventListener('mouseleave', e => this.handleDrag(e), false);
+    document.body.removeEventListener('touchend', e => this.handleDrag(e), false);
   },
 };
 </script>
