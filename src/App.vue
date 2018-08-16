@@ -242,7 +242,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 /* ========================================================================== */
-@import url('https://fonts.googleapis.com/css?family=Oswald');
+@import url('https://fonts.googleapis.com/css?family=Oswald&text=%3C%3E');
 /* ========================================================================== */
 
 .container {
