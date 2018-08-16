@@ -368,7 +368,7 @@ export default {
 
 .drag-calendar .cal-cell {
   float: left;
-  width: 4rem;
+  width: 4em;
   padding: 25px 20px;
   margin: 0px;
   border-right: 1px solid rgba(0, 0, 0, 0.03);
@@ -483,23 +483,5 @@ export default {
   opacity: 0.8;
   pointer-events: none;
   border-right: solid 0.5px rgba(222, 222, 222, 0.8);
-}
-
-@media only screen and (max-width: 768px) {
-  .drag-calendar .calendar .cell {
-    width: 70px;
-    padding: 20px 15px;
-  }
-  .drag-calendar .calendar .cell .day-number {
-    font-size: 15px;
-  }
-  .drag-calendar .calendar .cell .day {
-    font-size: 8px;
-  }
-
-  .drag-calendar .months .cell {
-    width: 85px;
-    padding: 10px 10px;
-  }
 }
 </style>
