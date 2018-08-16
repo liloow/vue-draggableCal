@@ -1,6 +1,12 @@
 {
   "name": "VueCal",
   "version": "0.1.0",
+  "main": "dist/VueCal.umd.js",
+  "module": "dist/VueCal.esm.js",
+  "unpkg": "dist/VueCal.min.js",
+  "browser": {
+    "./sfc": "src/VueCal.vue"
+  },
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

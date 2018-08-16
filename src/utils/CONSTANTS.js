@@ -1,4 +1,4 @@
-export const names = {
+export const language = {
   FR: {
     DAYS: ['DIMANCHE', 'LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI', 'SAMEDI'],
     MONTHS: [
@@ -15,6 +15,7 @@ export const names = {
       'NOVEMBRE',
       'DÉCEMBRE',
     ],
+    long: 'fr-FR',
   },
   EN: {
     DAYS: ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'],
@@ -32,5 +33,6 @@ export const names = {
       'NOVEMBER',
       'DECEMBER',
     ],
+    long: 'en-US',
   },
 };
