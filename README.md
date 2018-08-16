@@ -69,7 +69,7 @@ Emits events
 | Prop                          | Type            | Default     | Description                              |
 |-------------------------------|-----------------|-------------|------------------------------------------|
 | days                         | Number    | 365            | Number of days to append              |
-| months                          | Number          | 12             | Numbers of months to append (has precedence over days if present)                      |
+| months                          | Number          | 12             | Numbers of months to append (has precedence over `days` if custom set)                      |
 | lang                         | String          |   EN          | Language (see available in [Transations](#Translation)                                 |
 
 ## Events
