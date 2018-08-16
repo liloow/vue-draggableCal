@@ -242,7 +242,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 /* ========================================================================== */
-@import url('https://fonts.googleapis.com/css?family=Oswald&text=%3C%3E');
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 400;
+  src: url('public/font.woff2') format('woff2');
+}
 /* ========================================================================== */
 
 .container {
