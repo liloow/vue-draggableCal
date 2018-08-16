@@ -102,7 +102,6 @@ export default {
         maxOffset: 0,
         realOffset: 0,
       },
-      test: null,
     };
   },
   methods: {
@@ -314,6 +313,10 @@ export default {
       opacity: 0.5;
     }
   }
+}
+
+#monthly {
+  margin: auto;
 }
 
 .cell-content,

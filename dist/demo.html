@@ -1,19 +1,17 @@
 <meta charset="utf-8">
 <title>VueCal demo</title>
-<script src="https://unpkg.com/vue@2.5.17/dist/vue.min.js"></script>
-<script src="./VueCal.umd.min.js" async onload="loaded()"></script>
-<link rel="stylesheet" href="./VueCal.css" async>
+<script src="https://unpkg.com/vue"></script>
+<script src="./VueCal.umd.js"></script>
+<link rel="stylesheet" href="./VueCal.css">
 
 <div id="app">
   <demo></demo>
 </div>
 
-<script defer>
-function loaded() {
-  return new Vue({
+<script>
+new Vue({
   components: {
     demo: VueCal
   }
 }).$mount('#app')
-}
 </script>
