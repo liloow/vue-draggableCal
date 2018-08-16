@@ -276,47 +276,41 @@ export default {
   .arrow {
     font-family: 'Oswald', Arial, sans-serif;
     font-size: 3rem;
-    width: 36px;
+    width: 0.7em;
     justify-content: center;
     position: absolute;
     display: flex;
-    height: 88px;
-    bottom: 10px;
+    height: 1.75em;
+    bottom: 0.1em;
     align-items: center;
     z-index: 1000;
     transition: 0.2s all;
     background-color: white;
+    color: darkgrey;
     &:hover {
       background-color: #f8f8ff;
       box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
       cursor: pointer;
+      color: black;
     }
     &.left {
       left: 0;
       &:before {
         content: '<';
-        height: 88px;
+        height: 1.75em;
       }
     }
     &.right {
       right: 0;
       &:before {
         content: '>';
-        height: 88px;
+        height: 1.75em;
       }
     }
     &:active {
       transform: scale(0.8);
     }
-    &[disabled] {
-      pointer-events: none;
-      opacity: 0.5;
-    }
   }
-}
-
-#monthly {
-  margin: auto;
 }
 
 .cell-content,
@@ -345,7 +339,7 @@ export default {
   border-radius: 0.5em;
   transform: scale(1.1);
   transition: transform 0.3s ease;
-  padding: 20px;
+  padding: 1.25em;
   .cell-content {
     div {
       transform: scale(1.5);
@@ -377,7 +371,7 @@ export default {
 .drag-calendar .cal-cell {
   float: left;
   width: 4em;
-  padding: 25px 20px;
+  padding: 1.5em 1.25em;
   margin: 0px;
   border-right: 1px solid rgba(0, 0, 0, 0.03);
   text-align: center;
@@ -428,14 +422,13 @@ export default {
 
 .drag-calendar .months {
   z-index: 1;
-  list-style: none;
   float: left;
   margin: 0;
   padding: 0;
   position: relative;
   width: max-content;
   border-bottom: 0px solid ghostwhite;
-  margin-bottom: 10px;
+  margin-bottom: 1em;
 }
 
 .drag-calendar .months .cell {
