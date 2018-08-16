@@ -25,8 +25,10 @@
         </div>
       </div>
       <div class="arrow left" @click="goLeft($event)" :style="{visibility: dailyState.realOffset === 0 ? 'hidden' : 'visible'}">
+        <i class="material-icons">keyboard_arrow_left</i>
       </div>
       <div class="arrow right" @click="goRight($event)" :style="{visibility: dailyState.realOffset <= dailyState.maxOffset ? 'hidden' : 'visible'}">
+        <i class="material-icons">keyboard_arrow_right</i>
       </div>
     </div>
   </section>
@@ -294,7 +296,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 /* ========================================================================== */
-@import url('https://fonts.googleapis.com/css?family=Oswald');
+
 /* ========================================================================== */
 
 .container {
@@ -322,14 +324,10 @@ export default {
     padding: 0;
   }
   .arrow {
-    font-family: 'Oswald', Arial, sans-serif;
-    font-size: 3rem;
-    width: 36px;
-    justify-content: center;
     position: absolute;
     display: flex;
-    height: 88px;
-    bottom: 10px;
+    height: 86px;
+    bottom: 14px;
     align-items: center;
     z-index: 1000;
     transition: 0.2s all;
@@ -339,19 +337,15 @@ export default {
       box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
       cursor: pointer;
     }
+    i {
+      font-size: 36px;
+      pointer-events: none;
+    }
     &.left {
       left: 0;
-      &:before {
-        content: '<';
-        height: 88px;
-      }
     }
     &.right {
       right: 0;
-      &:before {
-        content: '>';
-        height: 88px;
-      }
     }
     &:active {
       transform: scale(0.8);

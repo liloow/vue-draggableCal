@@ -1,10 +1,11 @@
 {
-  "name": "vue-cal",
+  "name": "VueCal",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "bundle": "vue-cli-service build --target lib",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -12,6 +13,9 @@
     "vue": "^2.5.17"
   },
   "devDependencies": {
+    "prettier": "^1.14.2",
+    "eslint-plugin-html": "^4.0.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "@vue/cli-plugin-babel": "^3.0.0",
     "@vue/cli-plugin-eslint": "^3.0.0",
     "@vue/cli-plugin-unit-jest": "^3.0.0",
@@ -29,13 +33,7 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
-      "vue-cli-service lint",
-      "git add"
-    ]
+    "*.js": ["vue-cli-service lint", "git add"],
+    "*.vue": ["vue-cli-service lint", "git add"]
   }
 }
