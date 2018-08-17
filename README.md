@@ -6,7 +6,7 @@ A datepicker Vue component. Compatible with Vue 2.x
 - [Install](#install)
 - [Usage](#usage)
 - [Available Languages](#available-languages)
-
+- [Thanks](#thanks)
 
 ## Demo
 
@@ -88,3 +88,7 @@ These events are emitted on actions in the datepicker
 | ----------- |------------------|----------|
 | EN          | English          | *Default*|
 | FR          | French           |          |
+
+## Thanks
+
+Credits to [@webAngelo](https://github.com/webangelo) for his range-calendar from which this is highly inspired.
