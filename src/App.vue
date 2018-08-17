@@ -81,6 +81,7 @@ export default {
         currentOffset: 0,
         initLeft: 0,
         realOffset: 0,
+        maxOffset: 0,
       },
       dailyState: {
         monthBreakPoints: [],
@@ -96,6 +97,7 @@ export default {
         currentOffset: 0,
         initLeft: 0,
         realOffset: 0,
+        maxOffset: 0,
       },
     };
   },
@@ -201,6 +203,7 @@ export default {
   },
   created() {
     this.calendar = buildCalendar(this.NUMBER_OF_DAYS, this.NUMBER_OF_MONTHS, this.PREPEND_MONTHS);
+    console.log(this.calendar.days);
     document.body.addEventListener('mouseup', e => this.handleDrag(e), false);
     document.body.addEventListener('mouseleave', e => this.handleDrag(e), false);
     document.body.addEventListener('touchend', e => this.handleDrag(e), false);
@@ -223,8 +226,8 @@ export default {
     this.monthlyState.maxOffset =
       document.querySelector('#monthly').parentNode.clientWidth -
       document.querySelector('#monthly').clientWidth;
-    if (this.dailyState < 0) this.dailyState = 0;
-    if (this.monthlyState < 0) this.monthlyState = 0;
+    if (this.dailyState.maxOffset > 0) this.dailyState.maxOffset = 0;
+    if (this.monthlyState.maxOffset > 0) this.monthlyState.maxOffset = 0;
   },
   beforeDestroy() {
     document.body.removeEventListener('mouseup', e => this.handleDrag(e), false);
