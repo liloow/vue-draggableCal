@@ -223,6 +223,8 @@ export default {
     this.monthlyState.maxOffset =
       document.querySelector('#monthly').parentNode.clientWidth -
       document.querySelector('#monthly').clientWidth;
+    if (this.dailyState < 0) this.dailyState = 0;
+    if (this.monthlyState < 0) this.monthlyState = 0;
   },
   beforeDestroy() {
     document.body.removeEventListener('mouseup', e => this.handleDrag(e), false);

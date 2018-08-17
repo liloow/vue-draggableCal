@@ -4,15 +4,15 @@ export default {
     default: 'EN',
   },
   days: {
-    type: Number,
+    type: String,
     default: 365,
   },
   months: {
-    type: Number,
+    type: String,
     default: 12,
   },
   prepended: {
-    type: Number,
+    type: String,
     default: 2,
   },
 };
