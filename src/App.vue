@@ -1,8 +1,8 @@
 <template>
   <section class="container">
-    <div class="drag-calendar" :style="monthlyState.phase === 'dragging' || dailyState.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} " style="display: block background-color: 'transparent'">
+    <div class="drag-calendar" style="display: block background-color: 'transparent'">
       <div class="wrapper">
-        <div id="monthly" class="months ui-draggable" style="left: 0px;" @mousedown="handleDrag($event)" @touchstart="handleDrag($event)">
+        <div id="monthly" class="ui-draggable" style="left: 0px;" @mousedown="handleDrag($event)" @touchstart="handleDrag($event)" :style="monthlyState.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} ">
           <div v-for="month in calendar.months" class="month-cell cell" :class="month.past ? 'past' : ''" @click="toggleSelectMonth($event, month)" :month-id="`${month.fullYear}-${month.monthNumber}`">
             <div class="date-formatted">
               <span class="cell-content month-name">{{MONTHS[month.monthNumber] | abr}}</span> {{month.fullYear%1000}}
@@ -10,9 +10,13 @@
           </div>
         </div>
       </div>
+      <div class="arrow top left" @click="goLeft($event, 'monthly')" :style="{visibility: monthlyState.realOffset === 0 ? 'hidden' : 'visible'}">
+      </div>
+      <div class="arrow top right" @click="goRight($event, 'monthly')" :style="{visibility: monthlyState.realOffset <= monthlyState.maxOffset ? 'hidden' : 'visible'}">
+      </div>
       <div class="wrapper">
-        <div id="daily" class="calendar ui-draggable" :style="dailyState.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} " style="left: 0px;" @mousedown="handleDrag($event)" @touchstart="handleDrag($event)">
-          <div v-for="day in calendar.days" class="cal-cell cell" :id="`${day.fullYear}-${day.monthNumber}-${day.day}`" :month="day.monthNumber" :year="day.fullYear" @click="toggleSelect($event, day)">
+        <div id="daily" class="days ui-draggable" :style="dailyState.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} " style="left: 0px;" @mousedown="handleDrag($event)" @touchstart="handleDrag($event)">
+          <div v-for="day in calendar.days" :id="`${day.fullYear}-${day.monthNumber}-${day.day}`" class="cal-cell cell" :class="day.day === 1 ? 'first' : ''"  :month="day.monthNumber" :year="day.fullYear" @click="toggleSelect($event, day)">
             <div class="cell-content">
               <div class="day-number">
                 {{day.day}}
@@ -24,9 +28,9 @@
           </div>
         </div>
       </div>
-      <div class="arrow left" @click="goLeft($event)" :style="{visibility: dailyState.realOffset === 0 ? 'hidden' : 'visible'}">
+      <div class="arrow bottom left" @click="goLeft($event, 'daily')" :style="{visibility: dailyState.realOffset === 0 ? 'hidden' : 'visible'}">
       </div>
-      <div class="arrow right" @click="goRight($event)" :style="{visibility: dailyState.realOffset <= dailyState.maxOffset ? 'hidden' : 'visible'}">
+      <div class="arrow bottom right" @click="goRight($event, 'daily')" :style="{visibility: dailyState.realOffset <= dailyState.maxOffset ? 'hidden' : 'visible'}">
       </div>
     </div>
   </section>
@@ -47,26 +51,19 @@ export default {
       let off =
         Math.abs(this.dailyState.realOffset) +
         document.querySelector('#monthly').parentNode.clientWidth / 2;
-      if (past.length > 0 && off <= past[past.length - 1].offset) {
+      while (off <= past[past.length - 1].offset) {
         future.unshift(past.pop());
         this.toggleSelectMonth(null, past[past.length - 1]);
-        return past[past.length - 1];
       }
-      if (future.length > 0 && off >= future[0].offset) {
+      while (future.length > 0 && off >= future[0].offset) {
         this.toggleSelectMonth(null, future[0]);
         past.push(future.shift());
-        return past[past.length - 1];
       }
-      return {
-        offset: 0,
-        monthNumber: this.TODAY.getMonth(),
-        fullYear: this.TODAY.getFullYear(),
-      };
+      return past[past.length - 1];
     },
   },
   data() {
     return {
-      TODAY: new Date(),
       NUMBER_OF_DAYS: this.days,
       NUMBER_OF_MONTHS: this.months,
       PREPEND_MONTHS: this.prepended || 2,
@@ -83,7 +80,6 @@ export default {
         startX: 0,
         currentOffset: 0,
         initLeft: 0,
-        maxOffset: 0,
         realOffset: 0,
       },
       dailyState: {
@@ -99,28 +95,31 @@ export default {
         startX: 0,
         currentOffset: 0,
         initLeft: 0,
-        maxOffset: 0,
         realOffset: 0,
       },
     };
   },
   methods: {
-    goLeft(e) {
-      if (this.dailyState.realOffset === 0) return;
+    goLeft(e, state) {
+      if (this[`${state}State`].realOffset >= 0) return;
       let elem = e.target.previousSibling;
-      this.dailyState.realOffset =
-        this.dailyState.realOffset + Math.floor(elem.clientWidth / 111) * 111;
-      if (this.dailyState.realOffset > 0) this.dailyState.realOffset = 0;
-      document.querySelector('#daily').style.left = `${this.dailyState.realOffset}px`;
+      let cell = elem.firstChild.firstChild;
+      this[`${state}State`].realOffset =
+        this[`${state}State`].realOffset +
+        Math.floor(elem.clientWidth / cell.clientWidth) * cell.clientWidth;
+      if (this[`${state}State`].realOffset > 0) this[`${state}State`].realOffset = 0;
+      document.querySelector(`#${state}`).style.left = `${this[`${state}State`].realOffset}px`;
       this.currentMonth;
     },
-    goRight(e) {
+    goRight(e, state) {
       let elem = e.target.previousSibling.previousSibling;
-      this.dailyState.realOffset =
-        this.dailyState.realOffset - Math.floor(elem.clientWidth / 111) * 111;
-      if (this.dailyState.realOffset < this.dailyState.maxOffset)
-        this.dailyState.realOffset = this.dailyState.maxOffset;
-      document.querySelector('#daily').style.left = `${this.dailyState.realOffset}px`;
+      let cell = elem.firstChild.firstChild;
+      this[`${state}State`].realOffset =
+        this[`${state}State`].realOffset -
+        Math.floor(elem.clientWidth / cell.clientWidth) * cell.clientWidth;
+      if (this[`${state}State`].realOffset < this[`${state}State`].maxOffset)
+        this[`${state}State`].realOffset = this[`${state}State`].maxOffset;
+      document.querySelector(`#${state}`).style.left = `${this[`${state}State`].realOffset}px`;
       this.currentMonth;
     },
     handleDrag(e) {
@@ -196,16 +195,8 @@ export default {
       document.querySelector('#daily').style.left = `${this.dailyState.realOffset}px`;
     },
     dateSelected(date) {
-      const raw = [date.fullYear, date.monthNumber, date.day];
-      const formattedDate = new Date(
-        Date.UTC(date.fullYear, date.monthNumber, date.day)
-      ).toLocaleDateString(language[this.lang].long, {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      });
-      this.$emit('dateSelected', {formattedDate, raw});
+      const formattedDate = new Date(Date.UTC(date.fullYear, date.monthNumber, date.day));
+      this.$emit('dateSelected', formattedDate);
     },
   },
   created() {
@@ -228,9 +219,10 @@ export default {
       }));
     this.dailyState.maxOffset =
       document.querySelector('#daily').parentNode.clientWidth -
-      document.querySelector('#daily').clientWidth -
-      36 -
-      7;
+      document.querySelector('#daily').clientWidth;
+    this.monthlyState.maxOffset =
+      document.querySelector('#monthly').parentNode.clientWidth -
+      document.querySelector('#monthly').clientWidth;
   },
   beforeDestroy() {
     document.body.removeEventListener('mouseup', e => this.handleDrag(e), false);
@@ -258,8 +250,8 @@ export default {
 .drag-calendar {
   box-sizing: content-box;
   clear: both;
-  height: 150px;
-  overflow-x: hidden;
+  height: 9.6em;
+  overflow: hidden;
   width: 100%;
   position: relative;
   -webkit-touch-callout: none;
@@ -270,18 +262,12 @@ export default {
   user-select: none;
   padding: 0;
   background-color: transparent;
-  .month-cell {
-    padding: 0;
-  }
   .arrow {
     font-family: 'Oswald', Arial, sans-serif;
-    font-size: 3rem;
-    width: 0.7em;
+    width: 2rem;
     justify-content: center;
     position: absolute;
     display: flex;
-    height: 1.75em;
-    bottom: 0.1em;
     align-items: center;
     z-index: 1000;
     transition: 0.2s all;
@@ -292,6 +278,16 @@ export default {
       box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
       cursor: pointer;
       color: black;
+    }
+    &.bottom {
+      height: 1.75em;
+      bottom: 0.15em;
+      font-size: 3rem;
+    }
+    &.top {
+      top: 0;
+      height: 1.2em;
+      font-size: 2rem;
     }
     &.left {
       left: 0;
@@ -311,47 +307,49 @@ export default {
       transform: scale(0.8);
     }
   }
-}
 
-.cell-content,
-.date-formatted {
-  pointer-events: none;
-}
+  .cell-content,
+  .date-formatted {
+    pointer-events: none;
+  }
 
-.cell.cal-cell[selected='true'] {
-  background-color: darkblue;
-}
-
-.drag-calendar {
-  .months .cell[selected='true'] .date-formatted {
-    opacity: 0.5;
-    color: white;
+  .cell.cal-cell[selected='true'] {
     background-color: darkblue;
-    border-radius: 0.5em;
-    padding: 0.3em;
-    margin-top: -0.3em;
-    font-weight: 350;
   }
-}
 
-.cal-cell[selected='true'],
-.month-cell[selected='true'] {
-  border-radius: 0.5em;
-  transform: scale(1.1);
-  transition: transform 0.3s ease;
-  padding: 1.25em;
-  .cell-content {
-    div {
-      transform: scale(1.5);
+  #monthly .cell[selected='true'] {
+    .date-formatted {
+      opacity: 0.5;
       color: white;
+      background-color: darkblue;
+      border-radius: 0.5em;
+      padding: 0.3em;
+      margin-top: -0.3em;
+      font-weight: 350;
     }
-    .day-number {
-      margin-bottom: 4px;
+  }
+  .cal-cell[selected='true'],
+  .month-cell[selected='true'] {
+    border-radius: 0.5em;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+    padding: 1.25em;
+    .cell-content {
+      div {
+        transform: scale(1.5);
+        color: white;
+      }
+      .day-number {
+        margin-bottom: 4px;
+      }
     }
+  }
+  .month-cell {
+    padding: 0;
   }
 }
 
-.drag-calendar .calendar {
+.drag-calendar .days {
   z-index: 1;
   list-style: none;
   float: left;
@@ -362,13 +360,17 @@ export default {
   transition: all 1s ease;
   > .cell:first-child {
     color: red;
+    margin-left: 0.4em;
     .day-number {
       text-decoration: underline;
     }
   }
+  > .cell:last-child {
+    margin-right: 0.4em;
+  }
 }
 
-.drag-calendar .cal-cell {
+.drag-calendar .days .cal-cell {
   float: left;
   width: 4em;
   padding: 1.5em 1.25em;
@@ -377,18 +379,27 @@ export default {
   text-align: center;
   position: relative;
   color: #888;
+  &.first {
+    background-color: rgba(0, 0, 0, 0.02);
+    color: #666;
+    .day,
+    .day-number {
+      font-weight: bold;
+      transform: scale(1.1);
+    }
+  }
 }
 
-.drag-calendar .calendar .cell .day-number {
+.drag-calendar .days .cell .day-number {
   display: block;
   clear: both;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 1.2em;
   z-index: 1;
   position: relative;
 }
 
-.drag-calendar .calendar .cell .day {
+.drag-calendar .days .cell .day {
   display: block;
   clear: both;
   text-transform: uppercase;
@@ -400,7 +411,7 @@ export default {
   position: relative;
 }
 
-.drag-calendar .calendar .cell .month {
+.drag-calendar .days .cell .month {
   width: 100%;
   font-size: 12px;
   z-index: 1;
@@ -412,15 +423,7 @@ export default {
   font-weight: bold;
 }
 
-.drag-calendar .calendar .cell .day.ferial {
-  font-weight: bold;
-}
-
-.drag-calendar .calendar .cell .month.first {
-  opacity: 1;
-}
-
-.drag-calendar .months {
+.drag-calendar #monthly {
   z-index: 1;
   float: left;
   margin: 0;
@@ -429,13 +432,14 @@ export default {
   width: max-content;
   border-bottom: 0px solid ghostwhite;
   margin-bottom: 1em;
+  background-color: transparent;
+  transition: all 1s ease;
 }
 
-.drag-calendar .months .cell {
+.drag-calendar #monthly .cell {
   float: left;
   width: 105px;
   padding: 10px 10px;
-  margin: 0px 0;
   text-align: center;
   position: relative;
   color: #888;
@@ -443,21 +447,17 @@ export default {
   position: relative;
 }
 
-.drag-calendar .months .cell .month-name {
+.drag-calendar #monthly .cell .month-name {
   font-weight: bold;
-  font-size: 12px;
+  font-size: 0.8em;
   z-index: 1;
   position: relative;
   text-transform: uppercase;
 }
 
-.drag-calendar .months .cell .date-formatted {
+.drag-calendar #monthly .cell .date-formatted {
   font-weight: 200;
   font-size: 1em;
-}
-
-.drag-calendar .months .cell.current .bullet {
-  display: block;
 }
 
 .drag-calendar .ui-draggable {
@@ -466,19 +466,7 @@ export default {
   cursor: -webkit-grab;
 }
 
-.months {
-  background-color: transparent;
-}
-
-.months .cell {
-  color: #888;
-}
-
-.calendar {
-  background-color: transparent;
-}
-
-.drag-calendar .months .cell.past {
+.drag-calendar #monthly .cell.past {
   background-color: rgba(222, 222, 222, 0.6);
   color: lightgrey;
   opacity: 0.8;

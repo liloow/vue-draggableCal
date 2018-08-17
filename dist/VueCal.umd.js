@@ -267,13 +267,6 @@ module.exports = function (KEY, length, exec) {
 
 /***/ }),
 
-/***/ "2266":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "230e":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -641,6 +634,13 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 /***/ }),
 
+/***/ "6653":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "6762":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -750,17 +750,6 @@ module.exports = function (index, length) {
   return index < 0 ? max(index + length, 0) : min(index, length);
 };
 
-
-/***/ }),
-
-/***/ "792b":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_91015fb6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("2266");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_91015fb6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_91015fb6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_91015fb6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -1210,6 +1199,17 @@ module.exports = (
 
 /***/ }),
 
+/***/ "e4b1":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_68b57b7e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("6653");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_68b57b7e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_68b57b7e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_68b57b7e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "e853":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1251,12 +1251,12 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 var setPublicPath = __webpack_require__("1eb2");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"47426207-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=template&id=91015fb6&scoped=true&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"container"},[_c('div',{staticClass:"drag-calendar",staticStyle:{"display":"block background-color: 'transparent'"},style:(_vm.monthlyState.phase === 'dragging' || _vm.dailyState.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {})},[_c('div',{staticClass:"wrapper"},[_c('div',{staticClass:"months ui-draggable",staticStyle:{"left":"0px"},attrs:{"id":"monthly"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.months),function(month){return _c('div',{staticClass:"month-cell cell",class:month.past ? 'past' : '',attrs:{"month-id":((month.fullYear) + "-" + (month.monthNumber))},on:{"click":function($event){_vm.toggleSelectMonth($event, month)}}},[_c('div',{staticClass:"date-formatted"},[_c('span',{staticClass:"cell-content month-name"},[_vm._v(_vm._s(_vm._f("abr")(_vm.MONTHS[month.monthNumber])))]),_vm._v(" "+_vm._s(month.fullYear%1000)+"\n          ")])])}))]),_c('div',{staticClass:"wrapper"},[_c('div',{staticClass:"calendar ui-draggable",staticStyle:{"left":"0px"},style:(_vm.dailyState.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"id":"daily"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.days),function(day){return _c('div',{staticClass:"cal-cell cell",attrs:{"id":((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),"month":day.monthNumber,"year":day.fullYear},on:{"click":function($event){_vm.toggleSelect($event, day)}}},[_c('div',{staticClass:"cell-content"},[_c('div',{staticClass:"day-number"},[_vm._v("\n              "+_vm._s(day.day)+"\n            ")]),_c('div',{staticClass:"day"},[_vm._v("\n              "+_vm._s(_vm._f("abr")(_vm.DAYS[day.dayOfTheWeek]))+"\n            ")])])])}))]),_c('div',{staticClass:"arrow left",style:({visibility: _vm.dailyState.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event)}}}),_c('div',{staticClass:"arrow right",style:({visibility: _vm.dailyState.realOffset <= _vm.dailyState.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event)}}})])])}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"47426207-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=template&id=68b57b7e&scoped=true&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"container"},[_c('div',{staticClass:"drag-calendar",staticStyle:{"display":"block background-color: 'transparent'"}},[_c('div',{staticClass:"wrapper"},[_c('div',{staticClass:"ui-draggable",staticStyle:{"left":"0px"},style:(_vm.monthlyState.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"id":"monthly"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.months),function(month){return _c('div',{staticClass:"month-cell cell",class:month.past ? 'past' : '',attrs:{"month-id":((month.fullYear) + "-" + (month.monthNumber))},on:{"click":function($event){_vm.toggleSelectMonth($event, month)}}},[_c('div',{staticClass:"date-formatted"},[_c('span',{staticClass:"cell-content month-name"},[_vm._v(_vm._s(_vm._f("abr")(_vm.MONTHS[month.monthNumber])))]),_vm._v(" "+_vm._s(month.fullYear%1000)+"\n          ")])])}))]),_c('div',{staticClass:"arrow top left",style:({visibility: _vm.monthlyState.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'monthly')}}}),_c('div',{staticClass:"arrow top right",style:({visibility: _vm.monthlyState.realOffset <= _vm.monthlyState.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'monthly')}}}),_c('div',{staticClass:"wrapper"},[_c('div',{staticClass:"days ui-draggable",staticStyle:{"left":"0px"},style:(_vm.dailyState.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"id":"daily"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.days),function(day){return _c('div',{staticClass:"cal-cell cell",class:day.day === 1 ? 'first' : '',attrs:{"id":((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),"month":day.monthNumber,"year":day.fullYear},on:{"click":function($event){_vm.toggleSelect($event, day)}}},[_c('div',{staticClass:"cell-content"},[_c('div',{staticClass:"day-number"},[_vm._v("\n              "+_vm._s(day.day)+"\n            ")]),_c('div',{staticClass:"day"},[_vm._v("\n              "+_vm._s(_vm._f("abr")(_vm.DAYS[day.dayOfTheWeek]))+"\n            ")])])])}))]),_c('div',{staticClass:"arrow bottom left",style:({visibility: _vm.dailyState.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'daily')}}}),_c('div',{staticClass:"arrow bottom right",style:({visibility: _vm.dailyState.realOffset <= _vm.dailyState.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'daily')}}})])])}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=91015fb6&scoped=true&
+// CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=68b57b7e&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/arrayWithoutHoles.js
 function _arrayWithoutHoles(arr) {
@@ -1368,7 +1368,7 @@ function createMonthsArray(NUMBER_OF_MONTHS) {
   var currentConstructorMonth = new Date();
   var months = [];
 
-  for (var i = 0; i < NUMBER_OF_MONTHS; i++) {
+  for (var i = 0; i <= NUMBER_OF_MONTHS; i++) {
     var date = {
       day: i === 0 ? gDay(currentConstructorMonth) : 1,
       monthNumber: gMonth(currentConstructorMonth),
@@ -1479,6 +1479,10 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS) {
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -1495,28 +1499,21 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS) {
       var future = this.dailyState.monthBreakPoints;
       var off = Math.abs(this.dailyState.realOffset) + document.querySelector('#monthly').parentNode.clientWidth / 2;
 
-      if (past.length > 0 && off <= past[past.length - 1].offset) {
+      while (off <= past[past.length - 1].offset) {
         future.unshift(past.pop());
         this.toggleSelectMonth(null, past[past.length - 1]);
-        return past[past.length - 1];
       }
 
-      if (future.length > 0 && off >= future[0].offset) {
+      while (future.length > 0 && off >= future[0].offset) {
         this.toggleSelectMonth(null, future[0]);
         past.push(future.shift());
-        return past[past.length - 1];
       }
 
-      return {
-        offset: 0,
-        monthNumber: this.TODAY.getMonth(),
-        fullYear: this.TODAY.getFullYear()
-      };
+      return past[past.length - 1];
     }
   },
   data: function data() {
     return {
-      TODAY: new Date(),
       NUMBER_OF_DAYS: this.days,
       NUMBER_OF_MONTHS: this.months,
       PREPEND_MONTHS: this.prepended || 2,
@@ -1533,7 +1530,6 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS) {
         startX: 0,
         currentOffset: 0,
         initLeft: 0,
-        maxOffset: 0,
         realOffset: 0
       },
       dailyState: {
@@ -1547,25 +1543,26 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS) {
         startX: 0,
         currentOffset: 0,
         initLeft: 0,
-        maxOffset: 0,
         realOffset: 0
       }
     };
   },
   methods: {
-    goLeft: function goLeft(e) {
-      if (this.dailyState.realOffset === 0) return;
+    goLeft: function goLeft(e, state) {
+      if (this["".concat(state, "State")].realOffset >= 0) return;
       var elem = e.target.previousSibling;
-      this.dailyState.realOffset = this.dailyState.realOffset + Math.floor(elem.clientWidth / 111) * 111;
-      if (this.dailyState.realOffset > 0) this.dailyState.realOffset = 0;
-      document.querySelector('#daily').style.left = "".concat(this.dailyState.realOffset, "px");
+      var cell = elem.firstChild.firstChild;
+      this["".concat(state, "State")].realOffset = this["".concat(state, "State")].realOffset + Math.floor(elem.clientWidth / cell.clientWidth) * cell.clientWidth;
+      if (this["".concat(state, "State")].realOffset > 0) this["".concat(state, "State")].realOffset = 0;
+      document.querySelector("#".concat(state)).style.left = "".concat(this["".concat(state, "State")].realOffset, "px");
       this.currentMonth;
     },
-    goRight: function goRight(e) {
+    goRight: function goRight(e, state) {
       var elem = e.target.previousSibling.previousSibling;
-      this.dailyState.realOffset = this.dailyState.realOffset - Math.floor(elem.clientWidth / 111) * 111;
-      if (this.dailyState.realOffset < this.dailyState.maxOffset) this.dailyState.realOffset = this.dailyState.maxOffset;
-      document.querySelector('#daily').style.left = "".concat(this.dailyState.realOffset, "px");
+      var cell = elem.firstChild.firstChild;
+      this["".concat(state, "State")].realOffset = this["".concat(state, "State")].realOffset - Math.floor(elem.clientWidth / cell.clientWidth) * cell.clientWidth;
+      if (this["".concat(state, "State")].realOffset < this["".concat(state, "State")].maxOffset) this["".concat(state, "State")].realOffset = this["".concat(state, "State")].maxOffset;
+      document.querySelector("#".concat(state)).style.left = "".concat(this["".concat(state, "State")].realOffset, "px");
       this.currentMonth;
     },
     handleDrag: function handleDrag(e) {
@@ -1647,17 +1644,8 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS) {
       document.querySelector('#daily').style.left = "".concat(this.dailyState.realOffset, "px");
     },
     dateSelected: function dateSelected(date) {
-      var raw = [date.fullYear, date.monthNumber, date.day];
-      var formattedDate = new Date(Date.UTC(date.fullYear, date.monthNumber, date.day)).toLocaleDateString(language[this.lang].long, {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-      this.$emit('dateSelected', {
-        formattedDate: formattedDate,
-        raw: raw
-      });
+      var formattedDate = new Date(Date.UTC(date.fullYear, date.monthNumber, date.day));
+      this.$emit('dateSelected', formattedDate);
     }
   },
   created: function created() {
@@ -1690,7 +1678,8 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS) {
         fullYear: el.getAttribute('year')
       };
     });
-    this.dailyState.maxOffset = document.querySelector('#daily').parentNode.clientWidth - document.querySelector('#daily').clientWidth - 36 - 7;
+    this.dailyState.maxOffset = document.querySelector('#daily').parentNode.clientWidth - document.querySelector('#daily').clientWidth;
+    this.monthlyState.maxOffset = document.querySelector('#monthly').parentNode.clientWidth - document.querySelector('#monthly').clientWidth;
   },
   beforeDestroy: function beforeDestroy() {
     var _this2 = this;
@@ -1708,8 +1697,8 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS) {
 });
 // CONCATENATED MODULE: ./src/App.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_Appvue_type_script_lang_js_ = (Appvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/App.vue?vue&type=style&index=0&id=91015fb6&lang=scss&scoped=true&
-var Appvue_type_style_index_0_id_91015fb6_lang_scss_scoped_true_ = __webpack_require__("792b");
+// EXTERNAL MODULE: ./src/App.vue?vue&type=style&index=0&id=68b57b7e&lang=scss&scoped=true&
+var Appvue_type_style_index_0_id_68b57b7e_lang_scss_scoped_true_ = __webpack_require__("e4b1");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -1821,7 +1810,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "91015fb6",
+  "68b57b7e",
   null
   
 )

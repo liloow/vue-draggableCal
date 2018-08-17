@@ -40,7 +40,7 @@ function createMonthsArray(NUMBER_OF_MONTHS) {
   let currentConstructorMonth = new Date();
   const months = [];
 
-  for (let i = 0; i < NUMBER_OF_MONTHS; i++) {
+  for (let i = 0; i <= NUMBER_OF_MONTHS; i++) {
     let date = {
       day: i === 0 ? gDay(currentConstructorMonth) : 1,
       monthNumber: gMonth(currentConstructorMonth),
