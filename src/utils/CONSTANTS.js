@@ -15,7 +15,6 @@ export const language = {
       'NOVEMBRE',
       'DÉCEMBRE',
     ],
-    long: 'fr-FR',
   },
   EN: {
     DAYS: ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'],
@@ -33,6 +32,5 @@ export const language = {
       'NOVEMBER',
       'DECEMBER',
     ],
-    long: 'en-US',
   },
 };
