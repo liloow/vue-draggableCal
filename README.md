@@ -2,8 +2,6 @@
 
 A datepicker Vue component. Compatible with Vue 2.x
 
-License: **MIT**
-
 - [Demo](#demo)
 - [Install](#install)
 - [Usage](#usage)
@@ -94,6 +92,9 @@ These events are emitted on actions in the datepicker
 | ---- | -------- | --------- |
 | EN   | English  | _Default_ |
 | FR   | French   |           |
+
+## License
+MIT
 
 ## Thanks
 
