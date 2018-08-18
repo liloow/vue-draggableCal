@@ -150,7 +150,6 @@ export default {
       }
 
       if (e.type === 'mousemove' || e.type === 'touchmove') {
-        console.log(state.style, state);
         state.phase = 'dragging';
         state.currentOffset = (e.screenX || e.touches[0].screenX) - state.startX;
         state.realOffset = state.initLeft + state.currentOffset;
@@ -287,7 +286,7 @@ export default {
 .drag-calendar {
   box-sizing: content-box;
   clear: both;
-  height: 9.6em;
+  height: 9.6rem;
   overflow: hidden;
   width: 100%;
   position: relative;
@@ -298,6 +297,7 @@ export default {
   -ms-user-select: none;
   user-select: none;
   padding: 0;
+  line-height: 1;
   background-color: transparent;
   .cal-cell[selected='true'],
   .month-cell[selected='true'] {
@@ -338,27 +338,35 @@ export default {
     color: black;
   }
   &.bottom {
-    height: 1.75em;
-    bottom: 0.15em;
+    height: 5rem;
+    bottom: 1.1rem;
     font-size: 3rem;
   }
   &.top {
-    top: 0;
-    height: 1.2em;
+    top: 0.25rem;
+    height: 2.5rem;
     font-size: 2rem;
   }
   &.left {
     left: 0;
-    &:before {
+    &.top:before {
       content: '<';
-      height: 1.75em;
+      height: 2.5rem;
+    }
+    &.bottom:before {
+      content: '<';
+      height: 4rem;
     }
   }
   &.right {
     right: 0;
+    &.top:before {
+      content: '>';
+      height: 2.5rem;
+    }
     &:before {
       content: '>';
-      height: 1.75em;
+      height: 4rem;
     }
   }
   &:active {
@@ -390,6 +398,7 @@ export default {
   padding: 0;
   position: relative;
   width: max-content;
+  height: 5rem;
   transition: all 1s ease;
   .cell.cal-cell[selected='true'] {
     background-color: darkblue;
@@ -408,8 +417,8 @@ export default {
 
 .drag-calendar .days .cal-cell {
   float: left;
-  width: 4em;
-  padding: 1.5em 1.25em;
+  width: 4rem;
+  padding: 1.5rem 1.25rem;
   margin: 0px;
   border-right: 1px solid rgba(0, 0, 0, 0.03);
   text-align: center;
@@ -456,7 +465,6 @@ export default {
   position: absolute;
   opacity: 1;
   left: 0;
-  top: 10px;
   font-weight: bold;
 }
 
@@ -464,19 +472,20 @@ export default {
   z-index: 1;
   float: left;
   margin: 0;
+  height: 2.5rem;
   padding: 0;
   position: relative;
   width: max-content;
   border-bottom: 0px solid ghostwhite;
-  margin-bottom: 1em;
+  margin: 0.25rem 0 0.75rem;
   background-color: transparent;
   transition: all 1s ease;
 }
 
 .drag-calendar .months .cell {
   float: left;
-  width: 105px;
-  padding: 10px 10px;
+  width: 7rem;
+  padding: 0.6rem;
   text-align: center;
   position: relative;
   color: #888;

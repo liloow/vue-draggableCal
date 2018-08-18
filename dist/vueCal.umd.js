@@ -523,597 +523,6 @@ module.exports = __webpack_require__("9e1e") ? function (object, key, value) {
 
 /***/ }),
 
-/***/ "3dfd":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"47426207-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=template&id=245b56f6&scoped=true&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"container"},[_c('div',{staticClass:"drag-calendar",staticStyle:{"display":"block background-color: 'transparent'"}},[_c('div',{staticClass:"wrapper"},[_c('div',{ref:"monthly",staticClass:"months ui-draggable",staticStyle:{"left":"0px"},style:(_vm.monthly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"monthly"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.months),function(month){return _c('div',{staticClass:"month-cell cell",class:month.past ? 'past' : '',attrs:{"month-id":((month.fullYear) + "-" + (month.monthNumber))},on:{"click":function($event){_vm.toggleSelectMonth($event, month)}}},[_c('div',{staticClass:"date-formatted"},[_c('span',{staticClass:"cell-content month-name"},[_vm._v(_vm._s(_vm._f("abr")(_vm.MONTHS[month.monthNumber])))]),_vm._v(" "+_vm._s(month.fullYear%1000)+"\n          ")])])}))]),_c('div',{staticClass:"arrow top left",style:({visibility: _vm.monthly.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'monthly')}}}),_c('div',{staticClass:"arrow top right",style:({visibility: _vm.monthly.realOffset <= _vm.monthly.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'monthly')}}}),_c('div',{staticClass:"wrapper"},[_c('div',{ref:"daily",staticClass:"days ui-draggable",staticStyle:{"left":"0px"},style:(_vm.daily.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"daily"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.days),function(day){return _c('div',{key:((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),staticClass:"cal-cell cell",class:day.day === 1 ? 'first' : '',attrs:{"date":((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),"month":day.monthNumber,"year":day.fullYear},on:{"click":function($event){_vm.toggleSelect($event, day)}}},[_c('div',{staticClass:"cell-content"},[_c('div',{staticClass:"day-number"},[_vm._v("\n              "+_vm._s(day.day)+"\n            ")]),_c('div',{staticClass:"day"},[_vm._v("\n              "+_vm._s(_vm._f("abr")(_vm.DAYS[day.dayOfTheWeek]))+"\n            ")])])])}))]),_c('div',{staticClass:"arrow bottom left",style:({visibility: _vm.daily.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'daily')}}}),_c('div',{staticClass:"arrow bottom right",style:({visibility: _vm.daily.realOffset <= _vm.daily.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'daily')}}})])])}
-var staticRenderFns = []
-
-
-// CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=245b56f6&scoped=true&
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/arrayWithoutHoles.js
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
-
-    return arr2;
-  }
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/iterableToArray.js
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/toConsumableArray.js
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
-}
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.match.js
-var es6_regexp_match = __webpack_require__("4917");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.number.constructor.js
-var es6_number_constructor = __webpack_require__("c5f6");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es7.array.includes.js
-var es7_array_includes = __webpack_require__("6762");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.string.includes.js
-var es6_string_includes = __webpack_require__("2fdb");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.find.js
-var es6_array_find = __webpack_require__("7514");
-
-// CONCATENATED MODULE: ./src/utils/filters.js
-var abr = function abr(value) {
-  if (!value) return '';
-  return "".concat(value.slice(0, 3).toUpperCase());
-};
-// CONCATENATED MODULE: ./src/utils/CONSTANTS.js
-var language = {
-  FR: {
-    DAYS: ['DIMANCHE', 'LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI', 'SAMEDI'],
-    MONTHS: ['JANVIER', 'FÉVRIER', 'MARS', 'AVRIL', 'MAI', 'JUIN', 'JUILLET', 'AOÛT', 'SEPTEMBRE', 'OCTOBRE', 'NOVEMBRE', 'DÉCEMBRE']
-  },
-  EN: {
-    DAYS: ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'],
-    MONTHS: ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER']
-  }
-};
-// CONCATENATED MODULE: ./src/utils/buildCalendar.js
-
-var TODAY = new Date();
-var gWeekDay = function gWeekDay(date) {
-  return date.getDay();
-};
-var gDay = function gDay(date) {
-  return date.getDate();
-};
-var gMonth = function gMonth(date) {
-  return date.getMonth();
-};
-var gYear = function gYear(date) {
-  return date.getFullYear();
-};
-function computeMonthFromDays(NUMBER_OF_DAYS) {
-  var date = new Date(gYear(TODAY), gMonth(TODAY), gDay(TODAY) + NUMBER_OF_DAYS);
-  var NUMBER_OF_MONTHS = (gYear(date) - gYear(TODAY)) * 12 + gMonth(date) - gMonth(TODAY);
-  return NUMBER_OF_MONTHS;
-}
-function computeDaysFromMonths(NUMBER_OF_MONTH) {
-  var NUMBER_OF_DAYS = (Date.UTC(gYear(TODAY), gMonth(TODAY) + NUMBER_OF_MONTH) - Date.UTC(gYear(TODAY), gMonth(TODAY))) / (1000 * 60 * 60 * 24);
-  return NUMBER_OF_DAYS;
-}
-function createDaysArray(NUMBER_OF_DAYS, fullMonths) {
-  var currentConstructorDate = new Date();
-  var days = [];
-
-  var splitDate = function splitDate(date) {
-    return {
-      dayOfTheWeek: gWeekDay(date),
-      day: gDay(date),
-      monthNumber: gMonth(date),
-      fullYear: gYear(date)
-    };
-  };
-
-  for (var i = 0; i < NUMBER_OF_DAYS; i++) {
-    var date = splitDate(currentConstructorDate);
-    days.push(date);
-    currentConstructorDate = new Date(date.fullYear, date.monthNumber, date.day + 1);
-  }
-
-  if (fullMonths) {
-    while (gMonth(currentConstructorDate) === days[days.length - 1].monthNumber) {
-      var _date = splitDate(currentConstructorDate);
-
-      days.push(_date);
-      currentConstructorDate = new Date(_date.fullYear, _date.monthNumber, _date.day + 1);
-    }
-  }
-
-  return days;
-}
-function createMonthsArray(NUMBER_OF_MONTHS) {
-  var currentConstructorMonth = new Date();
-  var months = [];
-
-  for (var i = 0; i <= NUMBER_OF_MONTHS; i++) {
-    var date = {
-      day: i === 0 ? gDay(currentConstructorMonth) : 1,
-      monthNumber: gMonth(currentConstructorMonth),
-      fullYear: gYear(currentConstructorMonth)
-    };
-    months.push({
-      monthNumber: date.monthNumber,
-      fullYear: date.fullYear
-    });
-    currentConstructorMonth = new Date(date.fullYear, date.monthNumber + 1, date.day);
-  }
-
-  return months;
-}
-function createPrependArray(PREPEND_MONTHS) {
-  var prepended = [{
-    fullYear: gYear(TODAY),
-    monthNumber: gMonth(TODAY)
-  }];
-
-  for (var i = 0; i < PREPEND_MONTHS; i++) {
-    var year = prepended[0].fullYear;
-    var index = prepended[0].monthNumber - 1;
-
-    if (index === -1) {
-      index = 11;
-      year--;
-    }
-
-    prepended.unshift({
-      monthNumber: index,
-      fullYear: year,
-      past: true
-    });
-  }
-
-  prepended.pop();
-  return prepended;
-}
-function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMonths) {
-  if (NUMBER_OF_MONTHS !== 12) NUMBER_OF_DAYS = computeDaysFromMonths(NUMBER_OF_MONTHS);else if (NUMBER_OF_DAYS !== 365) NUMBER_OF_MONTHS = computeMonthFromDays(NUMBER_OF_DAYS);
-  var calendar = {
-    days: createDaysArray(NUMBER_OF_DAYS, fullMonths),
-    months: _toConsumableArray(createPrependArray(PREPEND_MONTHS)).concat(_toConsumableArray(createMonthsArray(NUMBER_OF_MONTHS)))
-  };
-  return calendar;
-}
-// CONCATENATED MODULE: ./src/utils/props.js
-
-/* harmony default export */ var props = ({
-  lang: {
-    type: String,
-    enum: ['EN', 'FR'],
-    default: 'EN'
-  },
-  days: {
-    type: Number,
-    default: 365
-  },
-  months: {
-    type: Number,
-    default: 12
-  },
-  prepended: {
-    type: Number,
-    default: 1
-  },
-  selected: {
-    type: Object,
-    default: null
-  },
-  fullMonths: {
-    type: Boolean,
-    default: false
-  }
-});
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=script&lang=js&
-
-
-
-
-
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ var Appvue_type_script_lang_js_ = ({
-  name: 'VueCal',
-  filters: {
-    abr: abr
-  },
-  props: props,
-  computed: {
-    currentMonth: function currentMonth() {
-      var past = this.daily.pastBreakPoints;
-      var future = this.daily.monthBreakPoints;
-      var off = Math.abs(this.daily.realOffset) + this.$refs.monthly.parentNode.clientWidth / 2;
-
-      while (off <= past[past.length - 1].offset) {
-        future.unshift(past.pop());
-        this.toggleSelectMonth(null, past[past.length - 1]);
-      }
-
-      while (future.length > 0 && off >= future[0].offset) {
-        this.toggleSelectMonth(null, future[0]);
-        past.push(future.shift());
-      }
-
-      return past[past.length - 1];
-    }
-  },
-  data: function data() {
-    return {
-      NUMBER_OF_DAYS: this.days,
-      NUMBER_OF_MONTHS: this.months,
-      PREPEND_MONTHS: this.prepended,
-      DAYS: language[this.lang].DAYS,
-      MONTHS: language[this.lang].MONTHS,
-      selectedDate: this.selected,
-      selectedMonth: null,
-      calendar: {
-        months: [],
-        days: []
-      },
-      monthly: {
-        phase: 'sleep',
-        startX: 0,
-        currentOffset: 0,
-        initLeft: 0,
-        realOffset: 0,
-        maxOffset: 0
-      },
-      daily: {
-        monthBreakPoints: [],
-        pastBreakPoints: [{
-          offset: 0,
-          monthNumber: new Date().getMonth(),
-          fullYear: new Date().getFullYear()
-        }],
-        phase: 'sleep',
-        startX: 0,
-        currentOffset: 0,
-        initLeft: 0,
-        realOffset: 0,
-        maxOffset: 0
-      }
-    };
-  },
-  methods: {
-    goLeft: function goLeft(e, state) {
-      if (this[state].realOffset >= 0) return;
-      var elem = e.target.parentNode.querySelector('.ui-draggable');
-      var cell = elem.firstChild.firstChild;
-      this[state].realOffset = this[state].realOffset + Math.floor(elem.clientWidth / cell.clientWidth) * cell.clientWidth;
-      if (this[state].realOffset > 0) this[state].realOffset = 0;
-      this.$refs[state].style.left = "".concat(this[state].realOffset, "px");
-      this.currentMonth;
-    },
-    goRight: function goRight(e, state) {
-      var elem = e.target.parentNode.querySelector('.ui-draggable');
-      var cell = elem.firstChild.firstChild;
-      this[state].realOffset = this[state].realOffset - Math.floor(elem.clientWidth / cell.clientWidth) * cell.clientWidth;
-      if (this[state].realOffset < this[state].maxOffset) this[state].realOffset = this[state].maxOffset;
-      this.$refs[state].style.left = "".concat(this[state].realOffset, "px");
-      this.currentMonth;
-    },
-    handleDrag: function handleDrag(e) {
-      var state;
-
-      if (e.type === 'mouseup' || e.type === 'mouseleave' || e.type === 'touchend') {
-        document.body.removeEventListener('mousemove', this.handleDrag, false);
-        document.body.removeEventListener('touchmove', this.handleDrag, false);
-        this.daily.phase = 'sleep';
-        this.monthly.phase = 'sleep';
-        return true;
-      }
-
-      if (this.daily.phase !== 'sleep') state = this.daily;else if (this.monthly.phase !== 'sleep') state = this.monthly;else {
-        state = this["".concat(e.path.find(function (el) {
-          return el.classList.contains('ui-draggable');
-        }).getAttribute('state'))];
-      }
-
-      if (e.type === 'mousedown' && e.button === 0 || e.type === 'touchstart') {
-        document.body.addEventListener('mousemove', this.handleDrag, false);
-        document.body.addEventListener('touchmove', this.handleDrag, false);
-        state.phase = 'listen';
-        state.startX = e.screenX || e.touches[0].screenX;
-        var row = e.path.find(function (el) {
-          return el.className.includes('ui-draggable');
-        });
-        state.style = row.style;
-        state.initLeft = Number(state.style.left.match(/-?[0-9]+/g)[0]);
-      }
-
-      if (e.type === 'mousemove' || e.type === 'touchmove') {
-        console.log(state.style, state);
-        state.phase = 'dragging';
-        state.currentOffset = (e.screenX || e.touches[0].screenX) - state.startX;
-        state.realOffset = state.initLeft + state.currentOffset;
-
-        if (Math.abs(state.realOffset) > Math.abs(state.maxOffset)) {
-          state.realOffset = state.maxOffset;
-        }
-
-        state.style.left = state.realOffset <= 0 ? "".concat(state.realOffset, "px") : '0px';
-        this.currentMonth;
-      }
-    },
-    toggleSelectMonth: function toggleSelectMonth(e, month) {
-      var exist = this.$refs.monthly.querySelector('.month-cell[selected="true"]');
-      if (exist) exist.setAttribute('selected', false);
-      this.$refs.monthly.querySelector("[month-id=\"".concat(month.fullYear, "-").concat(month.monthNumber, "\"]")).setAttribute('selected', true);
-      this.selectedMonth = "".concat(month.fullYear, "-").concat(month.monthNumber);
-
-      if (e) {
-        var id = "[year=\"".concat(month.fullYear, "\"][month=\"").concat(month.monthNumber, "\"].cal-cell");
-        this.scrollIntoView(this.$refs.daily.querySelector(id));
-      }
-    },
-    toggleSelect: function toggleSelect(e, day) {
-      var exist = this.$refs.daily.querySelector('.cal-cell[selected="true"]');
-
-      if (exist) {
-        exist.setAttribute('selected', false);
-
-        if (e.target === exist) {
-          this.selectedDate = null;
-          this.selectedMonth = null;
-          return this.$emit('dateCleared');
-        }
-      }
-
-      this.selectedDate = day;
-      this.selectedMonth = "".concat(day.fullYear, "-").concat(day.monthNumber);
-      this.toggleSelectMonth(null, day);
-      e.target.setAttribute('selected', true);
-      this.dateSelected(day);
-    },
-    scrollIntoView: function scrollIntoView(element) {
-      var cal = element;
-      if (!element) cal = this.$refs.daily.querySelector("[selected=true].cal-cell");
-      var offset = cal.offsetLeft - cal.parentNode.parentNode.clientWidth * 0.3 - cal.clientWidth;
-      this.daily.realOffset = offset > 0 ? -offset : 0;
-      this.$refs.daily.style.left = "".concat(this.daily.realOffset, "px");
-    },
-    dateSelected: function dateSelected(date) {
-      var formattedDate = new Date(Date.UTC(date.fullYear, date.monthNumber, date.day));
-      this.$emit('dateSelected', formattedDate);
-    }
-  },
-  created: function created() {
-    var _this = this;
-
-    this.calendar = buildCalendar(this.NUMBER_OF_DAYS, this.NUMBER_OF_MONTHS, this.PREPEND_MONTHS, this.fullMonths);
-    document.body.addEventListener('mouseup', function (e) {
-      return _this.handleDrag(e);
-    }, false);
-    document.body.addEventListener('mouseleave', function (e) {
-      return _this.handleDrag(e);
-    }, false);
-    document.body.addEventListener('touchend', function (e) {
-      return _this.handleDrag(e);
-    }, false);
-  },
-  mounted: function mounted() {
-    this.$refs.monthly.querySelector('div:not(.past).month-cell.cell').click();
-
-    if (this.selected) {
-      this.$refs.daily.querySelector("[date=\"".concat(this.selected.fullYear, "-").concat(this.selected.monthNumber, "-").concat(this.selected.day, "\"]")).setAttribute('selected', true);
-      this.scrollIntoView();
-    }
-
-    this.daily.monthBreakPoints = _toConsumableArray(this.$refs.daily.querySelectorAll('.cal-cell')).filter(function (cell) {
-      return /-1$/g.test(cell.getAttribute('date'));
-    }).map(function (el) {
-      return {
-        offset: el.offsetLeft,
-        monthNumber: el.getAttribute('month'),
-        fullYear: el.getAttribute('year')
-      };
-    });
-    this.daily.maxOffset = this.$refs.daily.parentNode.clientWidth - this.$refs.daily.clientWidth;
-    this.monthly.maxOffset = this.$refs.monthly.parentNode.clientWidth - this.$refs.monthly.clientWidth;
-    if (this.daily.maxOffset > 0) this.daily.maxOffset = 0;
-    if (this.monthly.maxOffset > 0) this.monthly.maxOffset = 0;
-  },
-  beforeDestroy: function beforeDestroy() {
-    var _this2 = this;
-
-    document.body.removeEventListener('mouseup', function (e) {
-      return _this2.handleDrag(e);
-    }, false);
-    document.body.removeEventListener('mouseleave', function (e) {
-      return _this2.handleDrag(e);
-    }, false);
-    document.body.removeEventListener('touchend', function (e) {
-      return _this2.handleDrag(e);
-    }, false);
-  }
-});
-// CONCATENATED MODULE: ./src/App.vue?vue&type=script&lang=js&
- /* harmony default export */ var src_Appvue_type_script_lang_js_ = (Appvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/App.vue?vue&type=style&index=0&id=245b56f6&lang=scss&scoped=true&
-var Appvue_type_style_index_0_id_245b56f6_lang_scss_scoped_true_ = __webpack_require__("5c39");
-
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode /* vue-cli only */
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-// CONCATENATED MODULE: ./src/App.vue
-
-
-
-
-
-
-/* normalize component */
-
-var component = normalizeComponent(
-  src_Appvue_type_script_lang_js_,
-  render,
-  staticRenderFns,
-  false,
-  null,
-  "245b56f6",
-  null
-  
-)
-
-component.options.__file = "App.vue"
-/* harmony default export */ var App = __webpack_exports__["a"] = (component.exports);
-
-/***/ }),
-
 /***/ "414c":
 /***/ (function(module, exports) {
 
@@ -1484,54 +893,6 @@ var store = global[SHARED] || (global[SHARED] = {});
   copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
 });
 
-
-/***/ }),
-
-/***/ "56d7":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return install; });
-/* harmony import */ var _App_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("3dfd");
-// Import vue component
- // Declare install function executed by Vue.use()
-
-function install(Vue) {
-  if (install.installed) return;
-  install.installed = true;
-  Vue.component('MyComponent', _App_vue__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]);
-} // Create module definition for Vue.use()
-
-var plugin = {
-  install: install
-}; // Auto-install when vue is found (eg. in browser via <script> tag)
-
-var GlobalVue = null;
-
-if (typeof window !== 'undefined') {
-  GlobalVue = window.Vue;
-} else if (typeof global !== 'undefined') {
-  GlobalVue = global.Vue;
-}
-
-if (GlobalVue) {
-  GlobalVue.use(plugin);
-} // To allow use as module (npm/webpack/etc.) export component
-
-
-/* harmony default export */ __webpack_exports__["a"] = (_App_vue__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("c8ba")))
-
-/***/ }),
-
-/***/ "5c39":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_245b56f6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ee68");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_245b56f6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_245b56f6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_245b56f6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -1970,6 +1331,21 @@ module.exports = function escape(url) {
 
 /***/ }),
 
+/***/ "b4a6":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("d26a");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("2eac45b0", content, true, {"sourceMap":false,"shadowMode":false});
+
+/***/ }),
+
 /***/ "be13":
 /***/ (function(module, exports) {
 
@@ -2099,33 +1475,6 @@ module.exports = !__webpack_require__("9e1e") && !__webpack_require__("79e5")(fu
 
 /***/ }),
 
-/***/ "c8ba":
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1, eval)("this");
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
 /***/ "ca5a":
 /***/ (function(module, exports) {
 
@@ -2187,6 +1536,22 @@ module.exports = function (object, names) {
 
 /***/ }),
 
+/***/ "d26a":
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__("b041");
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, "/* ========================================================================== */\n@font-face {\n  font-family: 'Oswald';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + escape(__webpack_require__("414c")) + ") format(\"woff2\");\n}\n\n/* ========================================================================== */\n:root {\n  font-size: 16px;\n  font-size: 2vw;\n}\n@media (max-width: 500px) {\n:root {\n      font-size: 10px;\n}\n}\n@media (min-width: 800px) {\n:root {\n      font-size: 16px;\n}\n}\n.container[data-v-18fe432a] {\n  padding-top: 1em;\n  width: 95%;\n  margin: auto;\n}\n.drag-calendar[data-v-18fe432a] {\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box;\n  clear: both;\n  height: 9.6rem;\n  overflow: hidden;\n  width: 100%;\n  position: relative;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  padding: 0;\n  line-height: 1;\n  background-color: transparent;\n}\n.drag-calendar .cal-cell[selected='true'][data-v-18fe432a],\n  .drag-calendar .month-cell[selected='true'][data-v-18fe432a] {\n    border-radius: 0.5em;\n    -webkit-transform: scale(1.1);\n            transform: scale(1.1);\n    -webkit-transition: -webkit-transform 0.3s ease;\n    transition: -webkit-transform 0.3s ease;\n    transition: transform 0.3s ease;\n    transition: transform 0.3s ease, -webkit-transform 0.3s ease;\n    padding: 1.25em;\n}\n.drag-calendar .cal-cell[selected='true'] .cell-content div[data-v-18fe432a],\n    .drag-calendar .month-cell[selected='true'] .cell-content div[data-v-18fe432a] {\n      -webkit-transform: scale(1.5);\n              transform: scale(1.5);\n      color: white;\n}\n.drag-calendar .cal-cell[selected='true'] .cell-content .day-number[data-v-18fe432a],\n    .drag-calendar .month-cell[selected='true'] .cell-content .day-number[data-v-18fe432a] {\n      margin-bottom: 4px;\n}\n.drag-calendar .month-cell[data-v-18fe432a] {\n    padding: 0;\n}\n.arrow[data-v-18fe432a] {\n  font-family: 'Oswald', Arial, sans-serif;\n  width: 2rem;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  position: absolute;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  z-index: 1000;\n  -webkit-transition: 0.2s all;\n  transition: 0.2s all;\n  background-color: white;\n  color: darkgrey;\n}\n.arrow[data-v-18fe432a]:hover {\n    background-color: #f8f8ff;\n    -webkit-box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n            box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n    cursor: pointer;\n    color: black;\n}\n.arrow.bottom[data-v-18fe432a] {\n    height: 5rem;\n    bottom: 1.1rem;\n    font-size: 3rem;\n}\n.arrow.top[data-v-18fe432a] {\n    top: 0.25rem;\n    height: 2.5rem;\n    font-size: 2rem;\n}\n.arrow.left[data-v-18fe432a] {\n    left: 0;\n}\n.arrow.left.top[data-v-18fe432a]:before {\n      content: '<';\n      height: 2.5rem;\n}\n.arrow.left.bottom[data-v-18fe432a]:before {\n      content: '<';\n      height: 4rem;\n}\n.arrow.right[data-v-18fe432a] {\n    right: 0;\n}\n.arrow.right.top[data-v-18fe432a]:before {\n      content: '>';\n      height: 2.5rem;\n}\n.arrow.right[data-v-18fe432a]:before {\n      content: '>';\n      height: 4rem;\n}\n.arrow[data-v-18fe432a]:active {\n    -webkit-transform: scale(0.8);\n            transform: scale(0.8);\n}\n.cell-content[data-v-18fe432a],\n.date-formatted[data-v-18fe432a] {\n  pointer-events: none;\n}\n.months .cell[selected='true'] .date-formatted[data-v-18fe432a] {\n  opacity: 0.5;\n  color: white;\n  background-color: darkblue;\n  border-radius: 0.5em;\n  padding: 0.3em;\n  margin-top: -0.3em;\n  font-weight: 350;\n}\n.drag-calendar .days[data-v-18fe432a] {\n  z-index: 1;\n  list-style: none;\n  float: left;\n  margin: 0;\n  padding: 0;\n  position: relative;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  height: 5rem;\n  -webkit-transition: all 1s ease;\n  transition: all 1s ease;\n}\n.drag-calendar .days .cell.cal-cell[selected='true'][data-v-18fe432a] {\n    background-color: darkblue;\n}\n.drag-calendar .days > .cell[data-v-18fe432a]:first-child {\n    color: red;\n    margin-left: 0.4em;\n}\n.drag-calendar .days > .cell:first-child .day-number[data-v-18fe432a] {\n      text-decoration: underline;\n}\n.drag-calendar .days > .cell[data-v-18fe432a]:last-child {\n    margin-right: 0.4em;\n}\n.drag-calendar .days .cal-cell[data-v-18fe432a] {\n  float: left;\n  width: 4rem;\n  padding: 1.5rem 1.25rem;\n  margin: 0px;\n  border-right: 1px solid rgba(0, 0, 0, 0.03);\n  text-align: center;\n  position: relative;\n  color: #888;\n}\n.drag-calendar .days .cal-cell.first[data-v-18fe432a] {\n    background-color: rgba(0, 0, 0, 0.02);\n    color: #666;\n}\n.drag-calendar .days .cal-cell.first .day[data-v-18fe432a] {\n      font-weight: bold;\n}\n.drag-calendar .days .cal-cell.first .day-number[data-v-18fe432a] {\n      font-size: 1.2em;\n}\n.drag-calendar .days .cell .day-number[data-v-18fe432a] {\n  display: block;\n  clear: both;\n  font-weight: bold;\n  font-size: 1.2em;\n  z-index: 1;\n  position: relative;\n}\n.drag-calendar .days .cell .day[data-v-18fe432a] {\n  display: block;\n  clear: both;\n  text-transform: uppercase;\n  width: 100%;\n  font-weight: 100;\n  font-size: 12px;\n  margin-top: 0px;\n  z-index: 1;\n  position: relative;\n}\n.drag-calendar .days .cell .month[data-v-18fe432a] {\n  width: 100%;\n  font-size: 12px;\n  z-index: 1;\n  text-transform: uppercase;\n  position: absolute;\n  opacity: 1;\n  left: 0;\n  font-weight: bold;\n}\n.drag-calendar .months[data-v-18fe432a] {\n  z-index: 1;\n  float: left;\n  margin: 0;\n  height: 2.5rem;\n  padding: 0;\n  position: relative;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  border-bottom: 0px solid ghostwhite;\n  margin: 0.25rem 0 0.75rem;\n  background-color: transparent;\n  -webkit-transition: all 1s ease;\n  transition: all 1s ease;\n}\n.drag-calendar .months .cell[data-v-18fe432a] {\n  float: left;\n  width: 7rem;\n  padding: 0.6rem;\n  text-align: center;\n  position: relative;\n  color: #888;\n  border-right: 1px solid rgba(0, 0, 0, 0.03);\n  position: relative;\n}\n.drag-calendar .months .cell .month-name[data-v-18fe432a] {\n  font-weight: bold;\n  font-size: 0.8em;\n  z-index: 1;\n  position: relative;\n  text-transform: uppercase;\n}\n.drag-calendar .months .cell .date-formatted[data-v-18fe432a] {\n  font-weight: 200;\n  font-size: 1em;\n}\n.drag-calendar .ui-draggable[data-v-18fe432a] {\n  cursor: move;\n  cursor: -webkit-grab;\n}\n.drag-calendar .months .cell.past[data-v-18fe432a] {\n  background-color: rgba(222, 222, 222, 0.6);\n  color: lightgrey;\n  opacity: 0.8;\n  pointer-events: none;\n  border-right: solid 0.5px rgba(222, 222, 222, 0.8);\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "d2c8":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2223,19 +1588,14 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "de95":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "dcc2":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var escape = __webpack_require__("b041");
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, "/* ========================================================================== */\n@font-face {\n  font-family: 'Oswald';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + escape(__webpack_require__("414c")) + ") format(\"woff2\");\n}\n\n/* ========================================================================== */\n:root {\n  font-size: 16px;\n  font-size: 2vw;\n}\n@media (max-width: 500px) {\n:root {\n      font-size: 10px;\n}\n}\n@media (min-width: 800px) {\n:root {\n      font-size: 16px;\n}\n}\n.container[data-v-245b56f6] {\n  padding-top: 1em;\n  width: 95%;\n  margin: auto;\n}\n.drag-calendar[data-v-245b56f6] {\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box;\n  clear: both;\n  height: 9.6em;\n  overflow: hidden;\n  width: 100%;\n  position: relative;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  padding: 0;\n  background-color: transparent;\n}\n.drag-calendar .cal-cell[selected='true'][data-v-245b56f6],\n  .drag-calendar .month-cell[selected='true'][data-v-245b56f6] {\n    border-radius: 0.5em;\n    -webkit-transform: scale(1.1);\n            transform: scale(1.1);\n    -webkit-transition: -webkit-transform 0.3s ease;\n    transition: -webkit-transform 0.3s ease;\n    transition: transform 0.3s ease;\n    transition: transform 0.3s ease, -webkit-transform 0.3s ease;\n    padding: 1.25em;\n}\n.drag-calendar .cal-cell[selected='true'] .cell-content div[data-v-245b56f6],\n    .drag-calendar .month-cell[selected='true'] .cell-content div[data-v-245b56f6] {\n      -webkit-transform: scale(1.5);\n              transform: scale(1.5);\n      color: white;\n}\n.drag-calendar .cal-cell[selected='true'] .cell-content .day-number[data-v-245b56f6],\n    .drag-calendar .month-cell[selected='true'] .cell-content .day-number[data-v-245b56f6] {\n      margin-bottom: 4px;\n}\n.drag-calendar .month-cell[data-v-245b56f6] {\n    padding: 0;\n}\n.arrow[data-v-245b56f6] {\n  font-family: 'Oswald', Arial, sans-serif;\n  width: 2rem;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  position: absolute;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  z-index: 1000;\n  -webkit-transition: 0.2s all;\n  transition: 0.2s all;\n  background-color: white;\n  color: darkgrey;\n}\n.arrow[data-v-245b56f6]:hover {\n    background-color: #f8f8ff;\n    -webkit-box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n            box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n    cursor: pointer;\n    color: black;\n}\n.arrow.bottom[data-v-245b56f6] {\n    height: 1.75em;\n    bottom: 0.15em;\n    font-size: 3rem;\n}\n.arrow.top[data-v-245b56f6] {\n    top: 0;\n    height: 1.2em;\n    font-size: 2rem;\n}\n.arrow.left[data-v-245b56f6] {\n    left: 0;\n}\n.arrow.left[data-v-245b56f6]:before {\n      content: '<';\n      height: 1.75em;\n}\n.arrow.right[data-v-245b56f6] {\n    right: 0;\n}\n.arrow.right[data-v-245b56f6]:before {\n      content: '>';\n      height: 1.75em;\n}\n.arrow[data-v-245b56f6]:active {\n    -webkit-transform: scale(0.8);\n            transform: scale(0.8);\n}\n.cell-content[data-v-245b56f6],\n.date-formatted[data-v-245b56f6] {\n  pointer-events: none;\n}\n.months .cell[selected='true'] .date-formatted[data-v-245b56f6] {\n  opacity: 0.5;\n  color: white;\n  background-color: darkblue;\n  border-radius: 0.5em;\n  padding: 0.3em;\n  margin-top: -0.3em;\n  font-weight: 350;\n}\n.drag-calendar .days[data-v-245b56f6] {\n  z-index: 1;\n  list-style: none;\n  float: left;\n  margin: 0;\n  padding: 0;\n  position: relative;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  -webkit-transition: all 1s ease;\n  transition: all 1s ease;\n}\n.drag-calendar .days .cell.cal-cell[selected='true'][data-v-245b56f6] {\n    background-color: darkblue;\n}\n.drag-calendar .days > .cell[data-v-245b56f6]:first-child {\n    color: red;\n    margin-left: 0.4em;\n}\n.drag-calendar .days > .cell:first-child .day-number[data-v-245b56f6] {\n      text-decoration: underline;\n}\n.drag-calendar .days > .cell[data-v-245b56f6]:last-child {\n    margin-right: 0.4em;\n}\n.drag-calendar .days .cal-cell[data-v-245b56f6] {\n  float: left;\n  width: 4em;\n  padding: 1.5em 1.25em;\n  margin: 0px;\n  border-right: 1px solid rgba(0, 0, 0, 0.03);\n  text-align: center;\n  position: relative;\n  color: #888;\n}\n.drag-calendar .days .cal-cell.first[data-v-245b56f6] {\n    background-color: rgba(0, 0, 0, 0.02);\n    color: #666;\n}\n.drag-calendar .days .cal-cell.first .day[data-v-245b56f6] {\n      font-weight: bold;\n}\n.drag-calendar .days .cal-cell.first .day-number[data-v-245b56f6] {\n      font-size: 1.2em;\n}\n.drag-calendar .days .cell .day-number[data-v-245b56f6] {\n  display: block;\n  clear: both;\n  font-weight: bold;\n  font-size: 1.2em;\n  z-index: 1;\n  position: relative;\n}\n.drag-calendar .days .cell .day[data-v-245b56f6] {\n  display: block;\n  clear: both;\n  text-transform: uppercase;\n  width: 100%;\n  font-weight: 100;\n  font-size: 12px;\n  margin-top: 0px;\n  z-index: 1;\n  position: relative;\n}\n.drag-calendar .days .cell .month[data-v-245b56f6] {\n  width: 100%;\n  font-size: 12px;\n  z-index: 1;\n  text-transform: uppercase;\n  position: absolute;\n  opacity: 1;\n  left: 0;\n  top: 10px;\n  font-weight: bold;\n}\n.drag-calendar .months[data-v-245b56f6] {\n  z-index: 1;\n  float: left;\n  margin: 0;\n  padding: 0;\n  position: relative;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  border-bottom: 0px solid ghostwhite;\n  margin-bottom: 1em;\n  background-color: transparent;\n  -webkit-transition: all 1s ease;\n  transition: all 1s ease;\n}\n.drag-calendar .months .cell[data-v-245b56f6] {\n  float: left;\n  width: 105px;\n  padding: 10px 10px;\n  text-align: center;\n  position: relative;\n  color: #888;\n  border-right: 1px solid rgba(0, 0, 0, 0.03);\n  position: relative;\n}\n.drag-calendar .months .cell .month-name[data-v-245b56f6] {\n  font-weight: bold;\n  font-size: 0.8em;\n  z-index: 1;\n  position: relative;\n  text-transform: uppercase;\n}\n.drag-calendar .months .cell .date-formatted[data-v-245b56f6] {\n  font-weight: 200;\n  font-size: 1em;\n}\n.drag-calendar .ui-draggable[data-v-245b56f6] {\n  cursor: move;\n  cursor: -webkit-grab;\n}\n.drag-calendar .months .cell.past[data-v-245b56f6] {\n  background-color: rgba(222, 222, 222, 0.6);\n  color: lightgrey;\n  opacity: 0.8;\n  pointer-events: none;\n  border-right: solid 0.5px rgba(222, 222, 222, 0.8);\n}\n", ""]);
-
-// exports
-
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_18fe432a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("b4a6");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_18fe432a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_18fe432a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_18fe432a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -2273,21 +1633,6 @@ module.exports = function (original) {
 
 /***/ }),
 
-/***/ "ee68":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("de95");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("e21cf408", content, true, {"sourceMap":false,"shadowMode":false});
-
-/***/ }),
-
 /***/ "fab2":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2302,14 +1647,596 @@ module.exports = document && document.documentElement;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("1eb2");
-/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_setPublicPath__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("56d7");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "install", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__["b"]; });
+
+// EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
+var setPublicPath = __webpack_require__("1eb2");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"47426207-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=template&id=18fe432a&scoped=true&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"container"},[_c('div',{staticClass:"drag-calendar",staticStyle:{"display":"block background-color: 'transparent'"}},[_c('div',{staticClass:"wrapper"},[_c('div',{ref:"monthly",staticClass:"months ui-draggable",staticStyle:{"left":"0px"},style:(_vm.monthly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"monthly"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.months),function(month){return _c('div',{staticClass:"month-cell cell",class:month.past ? 'past' : '',attrs:{"month-id":((month.fullYear) + "-" + (month.monthNumber))},on:{"click":function($event){_vm.toggleSelectMonth($event, month)}}},[_c('div',{staticClass:"date-formatted"},[_c('span',{staticClass:"cell-content month-name"},[_vm._v(_vm._s(_vm._f("abr")(_vm.MONTHS[month.monthNumber])))]),_vm._v(" "+_vm._s(month.fullYear%1000)+"\n          ")])])}))]),_c('div',{staticClass:"arrow top left",style:({visibility: _vm.monthly.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'monthly')}}}),_c('div',{staticClass:"arrow top right",style:({visibility: _vm.monthly.realOffset <= _vm.monthly.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'monthly')}}}),_c('div',{staticClass:"wrapper"},[_c('div',{ref:"daily",staticClass:"days ui-draggable",staticStyle:{"left":"0px"},style:(_vm.daily.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"daily"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.days),function(day){return _c('div',{key:((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),staticClass:"cal-cell cell",class:day.day === 1 ? 'first' : '',attrs:{"date":((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),"month":day.monthNumber,"year":day.fullYear},on:{"click":function($event){_vm.toggleSelect($event, day)}}},[_c('div',{staticClass:"cell-content"},[_c('div',{staticClass:"day-number"},[_vm._v("\n              "+_vm._s(day.day)+"\n            ")]),_c('div',{staticClass:"day"},[_vm._v("\n              "+_vm._s(_vm._f("abr")(_vm.DAYS[day.dayOfTheWeek]))+"\n            ")])])])}))]),_c('div',{staticClass:"arrow bottom left",style:({visibility: _vm.daily.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'daily')}}}),_c('div',{staticClass:"arrow bottom right",style:({visibility: _vm.daily.realOffset <= _vm.daily.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'daily')}}})])])}
+var staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=18fe432a&scoped=true&
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/arrayWithoutHoles.js
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  }
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/iterableToArray.js
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/toConsumableArray.js
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (_entry__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]);
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+}
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.match.js
+var es6_regexp_match = __webpack_require__("4917");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.number.constructor.js
+var es6_number_constructor = __webpack_require__("c5f6");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es7.array.includes.js
+var es7_array_includes = __webpack_require__("6762");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.string.includes.js
+var es6_string_includes = __webpack_require__("2fdb");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.find.js
+var es6_array_find = __webpack_require__("7514");
+
+// CONCATENATED MODULE: ./src/utils/filters.js
+var abr = function abr(value) {
+  if (!value) return '';
+  return "".concat(value.slice(0, 3).toUpperCase());
+};
+// CONCATENATED MODULE: ./src/utils/CONSTANTS.js
+var language = {
+  FR: {
+    DAYS: ['DIMANCHE', 'LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI', 'SAMEDI'],
+    MONTHS: ['JANVIER', 'FÉVRIER', 'MARS', 'AVRIL', 'MAI', 'JUIN', 'JUILLET', 'AOÛT', 'SEPTEMBRE', 'OCTOBRE', 'NOVEMBRE', 'DÉCEMBRE']
+  },
+  EN: {
+    DAYS: ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'],
+    MONTHS: ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER']
+  }
+};
+// CONCATENATED MODULE: ./src/utils/buildCalendar.js
+
+var TODAY = new Date();
+var gWeekDay = function gWeekDay(date) {
+  return date.getDay();
+};
+var gDay = function gDay(date) {
+  return date.getDate();
+};
+var gMonth = function gMonth(date) {
+  return date.getMonth();
+};
+var gYear = function gYear(date) {
+  return date.getFullYear();
+};
+function computeMonthFromDays(NUMBER_OF_DAYS) {
+  var date = new Date(gYear(TODAY), gMonth(TODAY), gDay(TODAY) + NUMBER_OF_DAYS);
+  var NUMBER_OF_MONTHS = (gYear(date) - gYear(TODAY)) * 12 + gMonth(date) - gMonth(TODAY);
+  return NUMBER_OF_MONTHS;
+}
+function computeDaysFromMonths(NUMBER_OF_MONTH) {
+  var NUMBER_OF_DAYS = (Date.UTC(gYear(TODAY), gMonth(TODAY) + NUMBER_OF_MONTH) - Date.UTC(gYear(TODAY), gMonth(TODAY))) / (1000 * 60 * 60 * 24);
+  return NUMBER_OF_DAYS;
+}
+function createDaysArray(NUMBER_OF_DAYS, fullMonths) {
+  var currentConstructorDate = new Date();
+  var days = [];
+
+  var splitDate = function splitDate(date) {
+    return {
+      dayOfTheWeek: gWeekDay(date),
+      day: gDay(date),
+      monthNumber: gMonth(date),
+      fullYear: gYear(date)
+    };
+  };
+
+  for (var i = 0; i < NUMBER_OF_DAYS; i++) {
+    var date = splitDate(currentConstructorDate);
+    days.push(date);
+    currentConstructorDate = new Date(date.fullYear, date.monthNumber, date.day + 1);
+  }
+
+  if (fullMonths) {
+    while (gMonth(currentConstructorDate) === days[days.length - 1].monthNumber) {
+      var _date = splitDate(currentConstructorDate);
+
+      days.push(_date);
+      currentConstructorDate = new Date(_date.fullYear, _date.monthNumber, _date.day + 1);
+    }
+  }
+
+  return days;
+}
+function createMonthsArray(NUMBER_OF_MONTHS) {
+  var currentConstructorMonth = new Date();
+  var months = [];
+
+  for (var i = 0; i <= NUMBER_OF_MONTHS; i++) {
+    var date = {
+      day: i === 0 ? gDay(currentConstructorMonth) : 1,
+      monthNumber: gMonth(currentConstructorMonth),
+      fullYear: gYear(currentConstructorMonth)
+    };
+    months.push({
+      monthNumber: date.monthNumber,
+      fullYear: date.fullYear
+    });
+    currentConstructorMonth = new Date(date.fullYear, date.monthNumber + 1, date.day);
+  }
+
+  return months;
+}
+function createPrependArray(PREPEND_MONTHS) {
+  var prepended = [{
+    fullYear: gYear(TODAY),
+    monthNumber: gMonth(TODAY)
+  }];
+
+  for (var i = 0; i < PREPEND_MONTHS; i++) {
+    var year = prepended[0].fullYear;
+    var index = prepended[0].monthNumber - 1;
+
+    if (index === -1) {
+      index = 11;
+      year--;
+    }
+
+    prepended.unshift({
+      monthNumber: index,
+      fullYear: year,
+      past: true
+    });
+  }
+
+  prepended.pop();
+  return prepended;
+}
+function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMonths) {
+  if (NUMBER_OF_MONTHS !== 12) NUMBER_OF_DAYS = computeDaysFromMonths(NUMBER_OF_MONTHS);else if (NUMBER_OF_DAYS !== 365) NUMBER_OF_MONTHS = computeMonthFromDays(NUMBER_OF_DAYS);
+  var calendar = {
+    days: createDaysArray(NUMBER_OF_DAYS, fullMonths),
+    months: _toConsumableArray(createPrependArray(PREPEND_MONTHS)).concat(_toConsumableArray(createMonthsArray(NUMBER_OF_MONTHS)))
+  };
+  return calendar;
+}
+// CONCATENATED MODULE: ./src/utils/props.js
+
+/* harmony default export */ var props = ({
+  lang: {
+    type: String,
+    enum: ['EN', 'FR'],
+    default: 'EN'
+  },
+  days: {
+    type: Number,
+    default: 365
+  },
+  months: {
+    type: Number,
+    default: 12
+  },
+  prepended: {
+    type: Number,
+    default: 1
+  },
+  selected: {
+    type: Object,
+    default: null
+  },
+  fullMonths: {
+    type: Boolean,
+    default: false
+  }
+});
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=script&lang=js&
+
+
+
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ var Appvue_type_script_lang_js_ = ({
+  name: 'VueCal',
+  filters: {
+    abr: abr
+  },
+  props: props,
+  computed: {
+    currentMonth: function currentMonth() {
+      var past = this.daily.pastBreakPoints;
+      var future = this.daily.monthBreakPoints;
+      var off = Math.abs(this.daily.realOffset) + this.$refs.monthly.parentNode.clientWidth / 2;
+
+      while (off <= past[past.length - 1].offset) {
+        future.unshift(past.pop());
+        this.toggleSelectMonth(null, past[past.length - 1]);
+      }
+
+      while (future.length > 0 && off >= future[0].offset) {
+        this.toggleSelectMonth(null, future[0]);
+        past.push(future.shift());
+      }
+
+      return past[past.length - 1];
+    }
+  },
+  data: function data() {
+    return {
+      NUMBER_OF_DAYS: this.days,
+      NUMBER_OF_MONTHS: this.months,
+      PREPEND_MONTHS: this.prepended,
+      DAYS: language[this.lang].DAYS,
+      MONTHS: language[this.lang].MONTHS,
+      selectedDate: this.selected,
+      selectedMonth: null,
+      calendar: {
+        months: [],
+        days: []
+      },
+      monthly: {
+        phase: 'sleep',
+        startX: 0,
+        currentOffset: 0,
+        initLeft: 0,
+        realOffset: 0,
+        maxOffset: 0
+      },
+      daily: {
+        monthBreakPoints: [],
+        pastBreakPoints: [{
+          offset: 0,
+          monthNumber: new Date().getMonth(),
+          fullYear: new Date().getFullYear()
+        }],
+        phase: 'sleep',
+        startX: 0,
+        currentOffset: 0,
+        initLeft: 0,
+        realOffset: 0,
+        maxOffset: 0
+      }
+    };
+  },
+  methods: {
+    goLeft: function goLeft(e, state) {
+      if (this[state].realOffset >= 0) return;
+      var elem = e.target.parentNode.querySelector('.ui-draggable');
+      var cell = elem.firstChild.firstChild;
+      this[state].realOffset = this[state].realOffset + Math.floor(elem.clientWidth / cell.clientWidth) * cell.clientWidth;
+      if (this[state].realOffset > 0) this[state].realOffset = 0;
+      this.$refs[state].style.left = "".concat(this[state].realOffset, "px");
+      this.currentMonth;
+    },
+    goRight: function goRight(e, state) {
+      var elem = e.target.parentNode.querySelector('.ui-draggable');
+      var cell = elem.firstChild.firstChild;
+      this[state].realOffset = this[state].realOffset - Math.floor(elem.clientWidth / cell.clientWidth) * cell.clientWidth;
+      if (this[state].realOffset < this[state].maxOffset) this[state].realOffset = this[state].maxOffset;
+      this.$refs[state].style.left = "".concat(this[state].realOffset, "px");
+      this.currentMonth;
+    },
+    handleDrag: function handleDrag(e) {
+      var state;
+
+      if (e.type === 'mouseup' || e.type === 'mouseleave' || e.type === 'touchend') {
+        document.body.removeEventListener('mousemove', this.handleDrag, false);
+        document.body.removeEventListener('touchmove', this.handleDrag, false);
+        this.daily.phase = 'sleep';
+        this.monthly.phase = 'sleep';
+        return true;
+      }
+
+      if (this.daily.phase !== 'sleep') state = this.daily;else if (this.monthly.phase !== 'sleep') state = this.monthly;else {
+        state = this["".concat(e.path.find(function (el) {
+          return el.classList.contains('ui-draggable');
+        }).getAttribute('state'))];
+      }
+
+      if (e.type === 'mousedown' && e.button === 0 || e.type === 'touchstart') {
+        document.body.addEventListener('mousemove', this.handleDrag, false);
+        document.body.addEventListener('touchmove', this.handleDrag, false);
+        state.phase = 'listen';
+        state.startX = e.screenX || e.touches[0].screenX;
+        var row = e.path.find(function (el) {
+          return el.className.includes('ui-draggable');
+        });
+        state.style = row.style;
+        state.initLeft = Number(state.style.left.match(/-?[0-9]+/g)[0]);
+      }
+
+      if (e.type === 'mousemove' || e.type === 'touchmove') {
+        state.phase = 'dragging';
+        state.currentOffset = (e.screenX || e.touches[0].screenX) - state.startX;
+        state.realOffset = state.initLeft + state.currentOffset;
+
+        if (Math.abs(state.realOffset) > Math.abs(state.maxOffset)) {
+          state.realOffset = state.maxOffset;
+        }
+
+        state.style.left = state.realOffset <= 0 ? "".concat(state.realOffset, "px") : '0px';
+        this.currentMonth;
+      }
+    },
+    toggleSelectMonth: function toggleSelectMonth(e, month) {
+      var exist = this.$refs.monthly.querySelector('.month-cell[selected="true"]');
+      if (exist) exist.setAttribute('selected', false);
+      this.$refs.monthly.querySelector("[month-id=\"".concat(month.fullYear, "-").concat(month.monthNumber, "\"]")).setAttribute('selected', true);
+      this.selectedMonth = "".concat(month.fullYear, "-").concat(month.monthNumber);
+
+      if (e) {
+        var id = "[year=\"".concat(month.fullYear, "\"][month=\"").concat(month.monthNumber, "\"].cal-cell");
+        this.scrollIntoView(this.$refs.daily.querySelector(id));
+      }
+    },
+    toggleSelect: function toggleSelect(e, day) {
+      var exist = this.$refs.daily.querySelector('.cal-cell[selected="true"]');
+
+      if (exist) {
+        exist.setAttribute('selected', false);
+
+        if (e.target === exist) {
+          this.selectedDate = null;
+          this.selectedMonth = null;
+          return this.$emit('dateCleared');
+        }
+      }
+
+      this.selectedDate = day;
+      this.selectedMonth = "".concat(day.fullYear, "-").concat(day.monthNumber);
+      this.toggleSelectMonth(null, day);
+      e.target.setAttribute('selected', true);
+      this.dateSelected(day);
+    },
+    scrollIntoView: function scrollIntoView(element) {
+      var cal = element;
+      if (!element) cal = this.$refs.daily.querySelector("[selected=true].cal-cell");
+      var offset = cal.offsetLeft - cal.parentNode.parentNode.clientWidth * 0.3 - cal.clientWidth;
+      this.daily.realOffset = offset > 0 ? -offset : 0;
+      this.$refs.daily.style.left = "".concat(this.daily.realOffset, "px");
+    },
+    dateSelected: function dateSelected(date) {
+      var formattedDate = new Date(Date.UTC(date.fullYear, date.monthNumber, date.day));
+      this.$emit('dateSelected', formattedDate);
+    }
+  },
+  created: function created() {
+    var _this = this;
+
+    this.calendar = buildCalendar(this.NUMBER_OF_DAYS, this.NUMBER_OF_MONTHS, this.PREPEND_MONTHS, this.fullMonths);
+    document.body.addEventListener('mouseup', function (e) {
+      return _this.handleDrag(e);
+    }, false);
+    document.body.addEventListener('mouseleave', function (e) {
+      return _this.handleDrag(e);
+    }, false);
+    document.body.addEventListener('touchend', function (e) {
+      return _this.handleDrag(e);
+    }, false);
+  },
+  mounted: function mounted() {
+    this.$refs.monthly.querySelector('div:not(.past).month-cell.cell').click();
+
+    if (this.selected) {
+      this.$refs.daily.querySelector("[date=\"".concat(this.selected.fullYear, "-").concat(this.selected.monthNumber, "-").concat(this.selected.day, "\"]")).setAttribute('selected', true);
+      this.scrollIntoView();
+    }
+
+    this.daily.monthBreakPoints = _toConsumableArray(this.$refs.daily.querySelectorAll('.cal-cell')).filter(function (cell) {
+      return /-1$/g.test(cell.getAttribute('date'));
+    }).map(function (el) {
+      return {
+        offset: el.offsetLeft,
+        monthNumber: el.getAttribute('month'),
+        fullYear: el.getAttribute('year')
+      };
+    });
+    this.daily.maxOffset = this.$refs.daily.parentNode.clientWidth - this.$refs.daily.clientWidth;
+    this.monthly.maxOffset = this.$refs.monthly.parentNode.clientWidth - this.$refs.monthly.clientWidth;
+    if (this.daily.maxOffset > 0) this.daily.maxOffset = 0;
+    if (this.monthly.maxOffset > 0) this.monthly.maxOffset = 0;
+  },
+  beforeDestroy: function beforeDestroy() {
+    var _this2 = this;
+
+    document.body.removeEventListener('mouseup', function (e) {
+      return _this2.handleDrag(e);
+    }, false);
+    document.body.removeEventListener('mouseleave', function (e) {
+      return _this2.handleDrag(e);
+    }, false);
+    document.body.removeEventListener('touchend', function (e) {
+      return _this2.handleDrag(e);
+    }, false);
+  }
+});
+// CONCATENATED MODULE: ./src/App.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_Appvue_type_script_lang_js_ = (Appvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./src/App.vue?vue&type=style&index=0&id=18fe432a&lang=scss&scoped=true&
+var Appvue_type_style_index_0_id_18fe432a_lang_scss_scoped_true_ = __webpack_require__("dcc2");
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode /* vue-cli only */
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+// CONCATENATED MODULE: ./src/App.vue
+
+
+
+
+
+
+/* normalize component */
+
+var component = normalizeComponent(
+  src_Appvue_type_script_lang_js_,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  "18fe432a",
+  null
+  
+)
+
+component.options.__file = "App.vue"
+/* harmony default export */ var App = (component.exports);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
+
+
+/* harmony default export */ var entry_lib = __webpack_exports__["default"] = (App);
 
 
 
@@ -2324,6 +2251,6 @@ module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u20
 
 /***/ })
 
-/******/ });
+/******/ })["default"];
 });
 //# sourceMappingURL=vueCal.umd.js.map

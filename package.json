@@ -1,7 +1,7 @@
 {
   "name": "vue-cal",
-  "version": "0.5.3",
-  "main": "dist/vueCal.umd.js",
+  "version": "0.6.0",
+  "main": "dist/vueCal.common.js",
   "module": "dist/vueCal.esm.js",
   "unpkg": "dist/vueCal.min.js",
   "browser": {
@@ -10,7 +10,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "bundle": "vue-cli-service build --target lib --name vueCal src/main.js",
+    "bundle": "vue-cli-service build --target lib --name vueCal",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
