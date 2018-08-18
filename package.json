@@ -1,16 +1,16 @@
 {
-  "name": "vue-cal",
+  "name": "vue-draggable-cal",
   "version": "1.0.0",
-  "main": "dist/vueCal.common.js",
-  "module": "dist/vueCal.esm.js",
-  "unpkg": "dist/vueCal.min.js",
+  "main": "dist/draggableCal.common.js",
+  "module": "dist/draggableCal.esm.js",
+  "unpkg": "dist/draggableCal.umd.js",
   "browser": {
-    "./sfc": "src/vueCal.vue"
+    "./sfc": "src/draggableCal.vue"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "bundle": "vue-cli-service build --target lib --name vueCal",
+    "bundle": "vue-cli-service build --target lib --name draggableCal",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -42,5 +42,10 @@
     "*.vue": ["vue-cli-service lint", "git add"]
   },
   "files": ["dist/*", "README.md", "*.json"],
-  "keywords": ["calendar", "date picker", "datePicker", "draggable"]
+  "keywords": ["calendar", "date picker", "datePicker", "draggable", "vue", "vue component"],
+  "engines": {
+    "node": ">=6"
+  },
+  "homepage": "https://github.com/liloow/vue-dragCal#readme",
+  "license": "MIT"
 }

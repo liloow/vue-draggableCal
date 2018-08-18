@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["vueCal"] = factory();
+		exports["draggableCal"] = factory();
 	else
-		root["vueCal"] = factory();
+		root["draggableCal"] = factory();
 })((typeof self !== 'undefined' ? self : this), function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -2253,4 +2253,4 @@ module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u20
 
 /******/ })["default"];
 });
-//# sourceMappingURL=vueCal.umd.js.map
+//# sourceMappingURL=draggableCal.umd.js.map
