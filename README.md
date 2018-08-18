@@ -1,7 +1,8 @@
 # DraggableCal
 
 A datepicker Vue component. Compatible with Vue 2.x
-License: MIT
+
+License: **MIT**
 
 - [Demo](#demo)
 - [Install](#install)
