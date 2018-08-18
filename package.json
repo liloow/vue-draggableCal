@@ -1,17 +1,16 @@
 {
-  "name": "VueCal",
-  "version": "0.1.0",
-  "main": "dist/VueCal.umd.js",
-  "module": "dist/VueCal.esm.js",
-  "unpkg": "dist/VueCal.min.js",
+  "name": "vue-cal",
+  "version": "0.2.0",
+  "main": "dist/vue-cal.common.js",
+  "module": "dist/vue-cal.esm.js",
+  "unpkg": "dist/vue-cal.min.js",
   "browser": {
-    "./sfc": "src/VueCal.vue"
+    "./sfc": "src/vue-cal.vue"
   },
-  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "bundle": "vue-cli-service build --target lib",
+    "bundle": "vue-cli-service build --target lib --name vue-cal src/main.js",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -39,13 +38,9 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
-      "vue-cli-service lint",
-      "git add"
-    ]
-  }
+    "*.js": ["vue-cli-service lint", "git add"],
+    "*.vue": ["vue-cli-service lint", "git add"]
+  },
+  "files": ["dist/*", "README.md", "*.json"],
+  "keywords": ["calendar", "date picker", "datePicker", "draggable"]
 }
