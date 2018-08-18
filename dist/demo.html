@@ -1,8 +1,16 @@
 <meta charset="utf-8">
-<title>vue-cal demo</title>
-<script src="./vue-cal.umd.js"></script>
-<link rel="stylesheet" href="./vue-cal.css">
+<title>vueCal demo</title>
+<script src="https://unpkg.com/vue"></script>
+<script src="./vueCal.umd.js"></script>
+
+<div id="app">
+  <demo></demo>
+</div>
 
 <script>
-console.log(vue-cal)
+new Vue({
+  components: {
+    demo: vueCal
+  }
+}).$mount('#app')
 </script>

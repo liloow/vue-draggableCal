@@ -1,6 +1,6 @@
 {
   "name": "vue-cal",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "main": "dist/vue-cal.common.js",
   "module": "dist/vue-cal.esm.js",
   "unpkg": "dist/vue-cal.min.js",
@@ -10,7 +10,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "bundle": "vue-cli-service build --target lib --name vue-cal src/main.js",
+    "bundle": "vue-cli-service build --target lib --name vueCal",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
