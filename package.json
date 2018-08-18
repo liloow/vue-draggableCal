@@ -1,6 +1,6 @@
 {
   "name": "vue-cal",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "main": "dist/vueCal.umd.js",
   "module": "dist/vueCal.esm.js",
   "unpkg": "dist/vueCal.min.js",

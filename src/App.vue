@@ -243,6 +243,29 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@mixin responsive-font($responsive, $min, $max: false, $fallback: false) {
+  $responsive-unitless: $responsive / ($responsive - $responsive + 1);
+  $dimension: if(unit($responsive) == 'vh', 'height', 'width');
+  $min-breakpoint: $min / $responsive-unitless * 100;
+
+  @media (max-#{$dimension}: #{$min-breakpoint}) {
+    font-size: $min;
+  }
+
+  @if $max {
+    $max-breakpoint: $max / $responsive-unitless * 100;
+
+    @media (min-#{$dimension}: #{$max-breakpoint}) {
+      font-size: $max;
+    }
+  }
+
+  @if $fallback {
+    font-size: $fallback;
+  }
+
+  font-size: $responsive;
+}
 /* ========================================================================== */
 @font-face {
   font-family: 'Oswald';
@@ -251,6 +274,9 @@ export default {
   src: url('public/font.woff2') format('woff2');
 }
 /* ========================================================================== */
+:root {
+  @include responsive-font(2vw, 10px, 16px, 16px);
+}
 
 .container {
   padding-top: 1em;
