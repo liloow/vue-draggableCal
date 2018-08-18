@@ -1,16 +1,16 @@
 {
   "name": "vue-cal",
-  "version": "0.4.0",
-  "main": "dist/vue-cal.common.js",
-  "module": "dist/vue-cal.esm.js",
-  "unpkg": "dist/vue-cal.min.js",
+  "version": "0.5.2",
+  "main": "dist/vueCal.umd.js",
+  "module": "dist/vueCal.esm.js",
+  "unpkg": "dist/vueCal.min.js",
   "browser": {
-    "./sfc": "src/vue-cal.vue"
+    "./sfc": "src/vueCal.vue"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "bundle": "vue-cli-service build --target lib --name vueCal",
+    "bundle": "vue-cli-service build --target lib --name vueCal src/main.js",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
