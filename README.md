@@ -23,11 +23,11 @@ npm i vue-draggable-cal --save
 or
 
 ```bash
-yarn add vue-draggable-call
+yarn add vue-draggable-cal
 ```
 
 ```javascript
-import DraggableCal from 'vue-draggable-call';
+import DraggableCal from 'vue-draggable-cal';
 
 export default {
   // ...
