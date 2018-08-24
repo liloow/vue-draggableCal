@@ -144,8 +144,6 @@ export default {
         document.body.addEventListener('touchmove', this.handleDrag, false);
         state.phase = 'listen';
         state.startX = e.screenX || e.touches[0].screenX;
-        let row = e.path.find(el => el.className.includes('ui-draggable'));
-        state.style = row.style;
         state.initLeft = Number(state.style.left.match(/-?[0-9]+/g)[0]);
       }
 
@@ -199,6 +197,25 @@ export default {
       const formattedDate = new Date(Date.UTC(date.fullYear, date.monthNumber, date.day));
       this.$emit('dateSelected', formattedDate);
     },
+    handleResize() {
+      this.daily.phase = 'dragging';
+      this.monthly.phase = 'dragging';
+      this.maxOffsets();
+      setTimeout(() => {
+        this.daily.phase = 'sleep';
+        this.monthly.phase = 'sleep';
+      }, 200);
+    },
+    maxOffsets() {
+      const d = this.daily;
+      const m = this.monthly;
+      d.maxOffset = this.$refs.daily.parentNode.clientWidth - this.$refs.daily.clientWidth;
+      m.maxOffset = this.$refs.monthly.parentNode.clientWidth - this.$refs.monthly.clientWidth;
+      if (d.maxOffset > 0) d.maxOffset = 0;
+      if (m.maxOffset > 0) m.maxOffset = 0;
+      if (d.style.left.slice(0, -2) < d.maxOffset) d.style.left = `${d.maxOffset}px`;
+      if (m.style.left.slice(0, -2) < m.maxOffset) m.style.left = `${m.maxOffset}px`;
+    },
   },
   created() {
     this.calendar = buildCalendar(
@@ -210,6 +227,7 @@ export default {
     document.body.addEventListener('mouseup', e => this.handleDrag(e), false);
     document.body.addEventListener('mouseleave', e => this.handleDrag(e), false);
     document.body.addEventListener('touchend', e => this.handleDrag(e), false);
+    window.addEventListener('resize', e => this.handleResize(), false);
   },
   mounted() {
     this.$refs.monthly.querySelector('div:not(.past).month-cell.cell').click();
@@ -228,11 +246,9 @@ export default {
         monthNumber: el.getAttribute('month'),
         fullYear: el.getAttribute('year'),
       }));
-    this.daily.maxOffset = this.$refs.daily.parentNode.clientWidth - this.$refs.daily.clientWidth;
-    this.monthly.maxOffset =
-      this.$refs.monthly.parentNode.clientWidth - this.$refs.monthly.clientWidth;
-    if (this.daily.maxOffset > 0) this.daily.maxOffset = 0;
-    if (this.monthly.maxOffset > 0) this.monthly.maxOffset = 0;
+    this.daily.style = this.$refs.daily.style;
+    this.monthly.style = this.$refs.monthly.style;
+    this.maxOffsets();
   },
   beforeDestroy() {
     document.body.removeEventListener('mouseup', e => this.handleDrag(e), false);

@@ -96,6 +96,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
+/***/ "0864":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("c1f8");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("eeb0dd3a", content, true, {"sourceMap":false,"shadowMode":false});
+
+/***/ }),
+
 /***/ "0a49":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -488,26 +503,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "2fdb":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// 21.1.3.7 String.prototype.includes(searchString, position = 0)
-
-var $export = __webpack_require__("5ca1");
-var context = __webpack_require__("d2c8");
-var INCLUDES = 'includes';
-
-$export($export.P + $export.F * __webpack_require__("5147")(INCLUDES), 'String', {
-  includes: function includes(searchString /* , position = 0 */) {
-    return !!~context(this, searchString, INCLUDES)
-      .indexOf(searchString, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-
-
-/***/ }),
-
 /***/ "32e9":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -850,25 +845,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "5147":
-/***/ (function(module, exports, __webpack_require__) {
-
-var MATCH = __webpack_require__("2b4c")('match');
-module.exports = function (KEY) {
-  var re = /./;
-  try {
-    '/./'[KEY](re);
-  } catch (e) {
-    try {
-      re[MATCH] = false;
-      return !'/./'[KEY](re);
-    } catch (f) { /* empty */ }
-  } return true;
-};
-
-
-/***/ }),
-
 /***/ "52a7":
 /***/ (function(module, exports) {
 
@@ -987,26 +963,6 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 /***/ }),
 
-/***/ "6762":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// https://github.com/tc39/Array.prototype.includes
-var $export = __webpack_require__("5ca1");
-var $includes = __webpack_require__("c366")(true);
-
-$export($export.P, 'Array', {
-  includes: function includes(el /* , fromIndex = 0 */) {
-    return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-
-__webpack_require__("9c6c")('includes');
-
-
-/***/ }),
-
 /***/ "6821":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1110,6 +1066,17 @@ module.exports = function (exec) {
   }
 };
 
+
+/***/ }),
+
+/***/ "7a1e":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_63903767_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("0864");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_63903767_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_63903767_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_63903767_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -1293,21 +1260,6 @@ module.exports = exporter;
 
 /***/ }),
 
-/***/ "aae3":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.2.8 IsRegExp(argument)
-var isObject = __webpack_require__("d3f4");
-var cof = __webpack_require__("2d95");
-var MATCH = __webpack_require__("2b4c")('match');
-module.exports = function (it) {
-  var isRegExp;
-  return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : cof(it) == 'RegExp');
-};
-
-
-/***/ }),
-
 /***/ "b041":
 /***/ (function(module, exports) {
 
@@ -1331,21 +1283,6 @@ module.exports = function escape(url) {
 
 /***/ }),
 
-/***/ "b4a6":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("d26a");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("2eac45b0", content, true, {"sourceMap":false,"shadowMode":false});
-
-/***/ }),
-
 /***/ "be13":
 /***/ (function(module, exports) {
 
@@ -1354,6 +1291,22 @@ module.exports = function (it) {
   if (it == undefined) throw TypeError("Can't call method on  " + it);
   return it;
 };
+
+
+/***/ }),
+
+/***/ "c1f8":
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__("b041");
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, "/* ========================================================================== */\n@font-face {\n  font-family: 'Oswald';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + escape(__webpack_require__("414c")) + ") format(\"woff2\");\n}\n\n/* ========================================================================== */\n:root {\n  font-size: 16px;\n  font-size: 2vw;\n}\n@media (max-width: 500px) {\n:root {\n      font-size: 10px;\n}\n}\n@media (min-width: 800px) {\n:root {\n      font-size: 16px;\n}\n}\n.container[data-v-63903767] {\n  padding-top: 1em;\n  width: 95%;\n  margin: auto;\n}\n.drag-calendar[data-v-63903767] {\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box;\n  clear: both;\n  height: 9.6rem;\n  overflow: hidden;\n  width: 100%;\n  position: relative;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  padding: 0;\n  line-height: 1;\n  background-color: transparent;\n}\n.drag-calendar .cal-cell[selected='true'][data-v-63903767],\n  .drag-calendar .month-cell[selected='true'][data-v-63903767] {\n    border-radius: 0.5em;\n    -webkit-transform: scale(1.1);\n            transform: scale(1.1);\n    -webkit-transition: -webkit-transform 0.3s ease;\n    transition: -webkit-transform 0.3s ease;\n    transition: transform 0.3s ease;\n    transition: transform 0.3s ease, -webkit-transform 0.3s ease;\n    padding: 1.25em;\n}\n.drag-calendar .cal-cell[selected='true'] .cell-content div[data-v-63903767],\n    .drag-calendar .month-cell[selected='true'] .cell-content div[data-v-63903767] {\n      -webkit-transform: scale(1.5);\n              transform: scale(1.5);\n      color: white;\n}\n.drag-calendar .cal-cell[selected='true'] .cell-content .day-number[data-v-63903767],\n    .drag-calendar .month-cell[selected='true'] .cell-content .day-number[data-v-63903767] {\n      margin-bottom: 4px;\n}\n.drag-calendar .month-cell[data-v-63903767] {\n    padding: 0;\n}\n.arrow[data-v-63903767] {\n  font-family: 'Oswald', Arial, sans-serif;\n  width: 2rem;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  position: absolute;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  z-index: 1000;\n  -webkit-transition: 0.2s all;\n  transition: 0.2s all;\n  background-color: white;\n  color: darkgrey;\n}\n.arrow[data-v-63903767]:hover {\n    background-color: #f8f8ff;\n    -webkit-box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n            box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n    cursor: pointer;\n    color: black;\n}\n.arrow.bottom[data-v-63903767] {\n    height: 5rem;\n    bottom: 1.1rem;\n    font-size: 3rem;\n}\n.arrow.top[data-v-63903767] {\n    top: 0.25rem;\n    height: 2.5rem;\n    font-size: 2rem;\n}\n.arrow.left[data-v-63903767] {\n    left: 0;\n}\n.arrow.left.top[data-v-63903767]:before {\n      content: '<';\n      height: 2.5rem;\n}\n.arrow.left.bottom[data-v-63903767]:before {\n      content: '<';\n      height: 4rem;\n}\n.arrow.right[data-v-63903767] {\n    right: 0;\n}\n.arrow.right.top[data-v-63903767]:before {\n      content: '>';\n      height: 2.5rem;\n}\n.arrow.right[data-v-63903767]:before {\n      content: '>';\n      height: 4rem;\n}\n.arrow[data-v-63903767]:active {\n    -webkit-transform: scale(0.8);\n            transform: scale(0.8);\n}\n.cell-content[data-v-63903767],\n.date-formatted[data-v-63903767] {\n  pointer-events: none;\n}\n.months .cell[selected='true'] .date-formatted[data-v-63903767] {\n  opacity: 0.5;\n  color: white;\n  background-color: darkblue;\n  border-radius: 0.5em;\n  padding: 0.3em;\n  margin-top: -0.3em;\n  font-weight: 350;\n}\n.drag-calendar .days[data-v-63903767] {\n  z-index: 1;\n  list-style: none;\n  float: left;\n  margin: 0;\n  padding: 0;\n  position: relative;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  height: 5rem;\n  -webkit-transition: all 1s ease;\n  transition: all 1s ease;\n}\n.drag-calendar .days .cell.cal-cell[selected='true'][data-v-63903767] {\n    background-color: darkblue;\n}\n.drag-calendar .days > .cell[data-v-63903767]:first-child {\n    color: red;\n    margin-left: 0.4em;\n}\n.drag-calendar .days > .cell:first-child .day-number[data-v-63903767] {\n      text-decoration: underline;\n}\n.drag-calendar .days > .cell[data-v-63903767]:last-child {\n    margin-right: 0.4em;\n}\n.drag-calendar .days .cal-cell[data-v-63903767] {\n  float: left;\n  width: 4rem;\n  padding: 1.5rem 1.25rem;\n  margin: 0px;\n  border-right: 1px solid rgba(0, 0, 0, 0.03);\n  text-align: center;\n  position: relative;\n  color: #888;\n}\n.drag-calendar .days .cal-cell.first[data-v-63903767] {\n    background-color: rgba(0, 0, 0, 0.02);\n    color: #666;\n}\n.drag-calendar .days .cal-cell.first .day[data-v-63903767] {\n      font-weight: bold;\n}\n.drag-calendar .days .cal-cell.first .day-number[data-v-63903767] {\n      font-size: 1.2em;\n}\n.drag-calendar .days .cell .day-number[data-v-63903767] {\n  display: block;\n  clear: both;\n  font-weight: bold;\n  font-size: 1.2em;\n  z-index: 1;\n  position: relative;\n}\n.drag-calendar .days .cell .day[data-v-63903767] {\n  display: block;\n  clear: both;\n  text-transform: uppercase;\n  width: 100%;\n  font-weight: 100;\n  font-size: 12px;\n  margin-top: 0px;\n  z-index: 1;\n  position: relative;\n}\n.drag-calendar .days .cell .month[data-v-63903767] {\n  width: 100%;\n  font-size: 12px;\n  z-index: 1;\n  text-transform: uppercase;\n  position: absolute;\n  opacity: 1;\n  left: 0;\n  font-weight: bold;\n}\n.drag-calendar .months[data-v-63903767] {\n  z-index: 1;\n  float: left;\n  margin: 0;\n  height: 2.5rem;\n  padding: 0;\n  position: relative;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  border-bottom: 0px solid ghostwhite;\n  margin: 0.25rem 0 0.75rem;\n  background-color: transparent;\n  -webkit-transition: all 1s ease;\n  transition: all 1s ease;\n}\n.drag-calendar .months .cell[data-v-63903767] {\n  float: left;\n  width: 7rem;\n  padding: 0.6rem;\n  text-align: center;\n  position: relative;\n  color: #888;\n  border-right: 1px solid rgba(0, 0, 0, 0.03);\n  position: relative;\n}\n.drag-calendar .months .cell .month-name[data-v-63903767] {\n  font-weight: bold;\n  font-size: 0.8em;\n  z-index: 1;\n  position: relative;\n  text-transform: uppercase;\n}\n.drag-calendar .months .cell .date-formatted[data-v-63903767] {\n  font-weight: 200;\n  font-size: 1em;\n}\n.drag-calendar .ui-draggable[data-v-63903767] {\n  cursor: move;\n  cursor: -webkit-grab;\n}\n.drag-calendar .months .cell.past[data-v-63903767] {\n  background-color: rgba(222, 222, 222, 0.6);\n  color: lightgrey;\n  opacity: 0.8;\n  pointer-events: none;\n  border-right: solid 0.5px rgba(222, 222, 222, 0.8);\n}\n", ""]);
+
+// exports
 
 
 /***/ }),
@@ -1536,37 +1489,6 @@ module.exports = function (object, names) {
 
 /***/ }),
 
-/***/ "d26a":
-/***/ (function(module, exports, __webpack_require__) {
-
-var escape = __webpack_require__("b041");
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, "/* ========================================================================== */\n@font-face {\n  font-family: 'Oswald';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + escape(__webpack_require__("414c")) + ") format(\"woff2\");\n}\n\n/* ========================================================================== */\n:root {\n  font-size: 16px;\n  font-size: 2vw;\n}\n@media (max-width: 500px) {\n:root {\n      font-size: 10px;\n}\n}\n@media (min-width: 800px) {\n:root {\n      font-size: 16px;\n}\n}\n.container[data-v-18fe432a] {\n  padding-top: 1em;\n  width: 95%;\n  margin: auto;\n}\n.drag-calendar[data-v-18fe432a] {\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box;\n  clear: both;\n  height: 9.6rem;\n  overflow: hidden;\n  width: 100%;\n  position: relative;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  padding: 0;\n  line-height: 1;\n  background-color: transparent;\n}\n.drag-calendar .cal-cell[selected='true'][data-v-18fe432a],\n  .drag-calendar .month-cell[selected='true'][data-v-18fe432a] {\n    border-radius: 0.5em;\n    -webkit-transform: scale(1.1);\n            transform: scale(1.1);\n    -webkit-transition: -webkit-transform 0.3s ease;\n    transition: -webkit-transform 0.3s ease;\n    transition: transform 0.3s ease;\n    transition: transform 0.3s ease, -webkit-transform 0.3s ease;\n    padding: 1.25em;\n}\n.drag-calendar .cal-cell[selected='true'] .cell-content div[data-v-18fe432a],\n    .drag-calendar .month-cell[selected='true'] .cell-content div[data-v-18fe432a] {\n      -webkit-transform: scale(1.5);\n              transform: scale(1.5);\n      color: white;\n}\n.drag-calendar .cal-cell[selected='true'] .cell-content .day-number[data-v-18fe432a],\n    .drag-calendar .month-cell[selected='true'] .cell-content .day-number[data-v-18fe432a] {\n      margin-bottom: 4px;\n}\n.drag-calendar .month-cell[data-v-18fe432a] {\n    padding: 0;\n}\n.arrow[data-v-18fe432a] {\n  font-family: 'Oswald', Arial, sans-serif;\n  width: 2rem;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  position: absolute;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  z-index: 1000;\n  -webkit-transition: 0.2s all;\n  transition: 0.2s all;\n  background-color: white;\n  color: darkgrey;\n}\n.arrow[data-v-18fe432a]:hover {\n    background-color: #f8f8ff;\n    -webkit-box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n            box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n    cursor: pointer;\n    color: black;\n}\n.arrow.bottom[data-v-18fe432a] {\n    height: 5rem;\n    bottom: 1.1rem;\n    font-size: 3rem;\n}\n.arrow.top[data-v-18fe432a] {\n    top: 0.25rem;\n    height: 2.5rem;\n    font-size: 2rem;\n}\n.arrow.left[data-v-18fe432a] {\n    left: 0;\n}\n.arrow.left.top[data-v-18fe432a]:before {\n      content: '<';\n      height: 2.5rem;\n}\n.arrow.left.bottom[data-v-18fe432a]:before {\n      content: '<';\n      height: 4rem;\n}\n.arrow.right[data-v-18fe432a] {\n    right: 0;\n}\n.arrow.right.top[data-v-18fe432a]:before {\n      content: '>';\n      height: 2.5rem;\n}\n.arrow.right[data-v-18fe432a]:before {\n      content: '>';\n      height: 4rem;\n}\n.arrow[data-v-18fe432a]:active {\n    -webkit-transform: scale(0.8);\n            transform: scale(0.8);\n}\n.cell-content[data-v-18fe432a],\n.date-formatted[data-v-18fe432a] {\n  pointer-events: none;\n}\n.months .cell[selected='true'] .date-formatted[data-v-18fe432a] {\n  opacity: 0.5;\n  color: white;\n  background-color: darkblue;\n  border-radius: 0.5em;\n  padding: 0.3em;\n  margin-top: -0.3em;\n  font-weight: 350;\n}\n.drag-calendar .days[data-v-18fe432a] {\n  z-index: 1;\n  list-style: none;\n  float: left;\n  margin: 0;\n  padding: 0;\n  position: relative;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  height: 5rem;\n  -webkit-transition: all 1s ease;\n  transition: all 1s ease;\n}\n.drag-calendar .days .cell.cal-cell[selected='true'][data-v-18fe432a] {\n    background-color: darkblue;\n}\n.drag-calendar .days > .cell[data-v-18fe432a]:first-child {\n    color: red;\n    margin-left: 0.4em;\n}\n.drag-calendar .days > .cell:first-child .day-number[data-v-18fe432a] {\n      text-decoration: underline;\n}\n.drag-calendar .days > .cell[data-v-18fe432a]:last-child {\n    margin-right: 0.4em;\n}\n.drag-calendar .days .cal-cell[data-v-18fe432a] {\n  float: left;\n  width: 4rem;\n  padding: 1.5rem 1.25rem;\n  margin: 0px;\n  border-right: 1px solid rgba(0, 0, 0, 0.03);\n  text-align: center;\n  position: relative;\n  color: #888;\n}\n.drag-calendar .days .cal-cell.first[data-v-18fe432a] {\n    background-color: rgba(0, 0, 0, 0.02);\n    color: #666;\n}\n.drag-calendar .days .cal-cell.first .day[data-v-18fe432a] {\n      font-weight: bold;\n}\n.drag-calendar .days .cal-cell.first .day-number[data-v-18fe432a] {\n      font-size: 1.2em;\n}\n.drag-calendar .days .cell .day-number[data-v-18fe432a] {\n  display: block;\n  clear: both;\n  font-weight: bold;\n  font-size: 1.2em;\n  z-index: 1;\n  position: relative;\n}\n.drag-calendar .days .cell .day[data-v-18fe432a] {\n  display: block;\n  clear: both;\n  text-transform: uppercase;\n  width: 100%;\n  font-weight: 100;\n  font-size: 12px;\n  margin-top: 0px;\n  z-index: 1;\n  position: relative;\n}\n.drag-calendar .days .cell .month[data-v-18fe432a] {\n  width: 100%;\n  font-size: 12px;\n  z-index: 1;\n  text-transform: uppercase;\n  position: absolute;\n  opacity: 1;\n  left: 0;\n  font-weight: bold;\n}\n.drag-calendar .months[data-v-18fe432a] {\n  z-index: 1;\n  float: left;\n  margin: 0;\n  height: 2.5rem;\n  padding: 0;\n  position: relative;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  border-bottom: 0px solid ghostwhite;\n  margin: 0.25rem 0 0.75rem;\n  background-color: transparent;\n  -webkit-transition: all 1s ease;\n  transition: all 1s ease;\n}\n.drag-calendar .months .cell[data-v-18fe432a] {\n  float: left;\n  width: 7rem;\n  padding: 0.6rem;\n  text-align: center;\n  position: relative;\n  color: #888;\n  border-right: 1px solid rgba(0, 0, 0, 0.03);\n  position: relative;\n}\n.drag-calendar .months .cell .month-name[data-v-18fe432a] {\n  font-weight: bold;\n  font-size: 0.8em;\n  z-index: 1;\n  position: relative;\n  text-transform: uppercase;\n}\n.drag-calendar .months .cell .date-formatted[data-v-18fe432a] {\n  font-weight: 200;\n  font-size: 1em;\n}\n.drag-calendar .ui-draggable[data-v-18fe432a] {\n  cursor: move;\n  cursor: -webkit-grab;\n}\n.drag-calendar .months .cell.past[data-v-18fe432a] {\n  background-color: rgba(222, 222, 222, 0.6);\n  color: lightgrey;\n  opacity: 0.8;\n  pointer-events: none;\n  border-right: solid 0.5px rgba(222, 222, 222, 0.8);\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "d2c8":
-/***/ (function(module, exports, __webpack_require__) {
-
-// helper for String#{startsWith, endsWith, includes}
-var isRegExp = __webpack_require__("aae3");
-var defined = __webpack_require__("be13");
-
-module.exports = function (that, searchString, NAME) {
-  if (isRegExp(searchString)) throw TypeError('String#' + NAME + " doesn't accept regex!");
-  return String(defined(that));
-};
-
-
-/***/ }),
-
 /***/ "d3f4":
 /***/ (function(module, exports) {
 
@@ -1585,17 +1507,6 @@ module.exports = function (it) {
   return it;
 };
 
-
-/***/ }),
-
-/***/ "dcc2":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_18fe432a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("b4a6");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_18fe432a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_18fe432a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_18fe432a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -1651,12 +1562,12 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 var setPublicPath = __webpack_require__("1eb2");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"47426207-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=template&id=18fe432a&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"47426207-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=template&id=63903767&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"container"},[_c('div',{staticClass:"drag-calendar",staticStyle:{"display":"block background-color: 'transparent'"}},[_c('div',{staticClass:"wrapper"},[_c('div',{ref:"monthly",staticClass:"months ui-draggable",staticStyle:{"left":"0px"},style:(_vm.monthly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"monthly"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.months),function(month){return _c('div',{staticClass:"month-cell cell",class:month.past ? 'past' : '',attrs:{"month-id":((month.fullYear) + "-" + (month.monthNumber))},on:{"click":function($event){_vm.toggleSelectMonth($event, month)}}},[_c('div',{staticClass:"date-formatted"},[_c('span',{staticClass:"cell-content month-name"},[_vm._v(_vm._s(_vm._f("abr")(_vm.MONTHS[month.monthNumber])))]),_vm._v(" "+_vm._s(month.fullYear%1000)+"\n          ")])])}))]),_c('div',{staticClass:"arrow top left",style:({visibility: _vm.monthly.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'monthly')}}}),_c('div',{staticClass:"arrow top right",style:({visibility: _vm.monthly.realOffset <= _vm.monthly.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'monthly')}}}),_c('div',{staticClass:"wrapper"},[_c('div',{ref:"daily",staticClass:"days ui-draggable",staticStyle:{"left":"0px"},style:(_vm.daily.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"daily"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.days),function(day){return _c('div',{key:((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),staticClass:"cal-cell cell",class:day.day === 1 ? 'first' : '',attrs:{"date":((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),"month":day.monthNumber,"year":day.fullYear},on:{"click":function($event){_vm.toggleSelect($event, day)}}},[_c('div',{staticClass:"cell-content"},[_c('div',{staticClass:"day-number"},[_vm._v("\n              "+_vm._s(day.day)+"\n            ")]),_c('div',{staticClass:"day"},[_vm._v("\n              "+_vm._s(_vm._f("abr")(_vm.DAYS[day.dayOfTheWeek]))+"\n            ")])])])}))]),_c('div',{staticClass:"arrow bottom left",style:({visibility: _vm.daily.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'daily')}}}),_c('div',{staticClass:"arrow bottom right",style:({visibility: _vm.daily.realOffset <= _vm.daily.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'daily')}}})])])}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=18fe432a&scoped=true&
+// CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=63903767&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/arrayWithoutHoles.js
 function _arrayWithoutHoles(arr) {
@@ -1688,12 +1599,6 @@ var es6_regexp_match = __webpack_require__("4917");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.number.constructor.js
 var es6_number_constructor = __webpack_require__("c5f6");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es7.array.includes.js
-var es7_array_includes = __webpack_require__("6762");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.string.includes.js
-var es6_string_includes = __webpack_require__("2fdb");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.find.js
 var es6_array_find = __webpack_require__("7514");
@@ -1854,8 +1759,6 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
 
 
 
-
-
 //
 //
 //
@@ -1999,10 +1902,6 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
         document.body.addEventListener('touchmove', this.handleDrag, false);
         state.phase = 'listen';
         state.startX = e.screenX || e.touches[0].screenX;
-        var row = e.path.find(function (el) {
-          return el.className.includes('ui-draggable');
-        });
-        state.style = row.style;
         state.initLeft = Number(state.style.left.match(/-?[0-9]+/g)[0]);
       }
 
@@ -2059,20 +1958,44 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
     dateSelected: function dateSelected(date) {
       var formattedDate = new Date(Date.UTC(date.fullYear, date.monthNumber, date.day));
       this.$emit('dateSelected', formattedDate);
+    },
+    handleResize: function handleResize() {
+      var _this = this;
+
+      this.daily.phase = 'dragging';
+      this.monthly.phase = 'dragging';
+      this.maxOffsets();
+      setTimeout(function () {
+        _this.daily.phase = 'sleep';
+        _this.monthly.phase = 'sleep';
+      }, 200);
+    },
+    maxOffsets: function maxOffsets() {
+      var d = this.daily;
+      var m = this.monthly;
+      d.maxOffset = this.$refs.daily.parentNode.clientWidth - this.$refs.daily.clientWidth;
+      m.maxOffset = this.$refs.monthly.parentNode.clientWidth - this.$refs.monthly.clientWidth;
+      if (d.maxOffset > 0) d.maxOffset = 0;
+      if (m.maxOffset > 0) m.maxOffset = 0;
+      if (d.style.left.slice(0, -2) < d.maxOffset) d.style.left = "".concat(d.maxOffset, "px");
+      if (m.style.left.slice(0, -2) < m.maxOffset) m.style.left = "".concat(m.maxOffset, "px");
     }
   },
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
     this.calendar = buildCalendar(this.NUMBER_OF_DAYS, this.NUMBER_OF_MONTHS, this.PREPEND_MONTHS, this.fullMonths);
     document.body.addEventListener('mouseup', function (e) {
-      return _this.handleDrag(e);
+      return _this2.handleDrag(e);
     }, false);
     document.body.addEventListener('mouseleave', function (e) {
-      return _this.handleDrag(e);
+      return _this2.handleDrag(e);
     }, false);
     document.body.addEventListener('touchend', function (e) {
-      return _this.handleDrag(e);
+      return _this2.handleDrag(e);
+    }, false);
+    window.addEventListener('resize', function (e) {
+      return _this2.handleResize();
     }, false);
   },
   mounted: function mounted() {
@@ -2092,29 +2015,28 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
         fullYear: el.getAttribute('year')
       };
     });
-    this.daily.maxOffset = this.$refs.daily.parentNode.clientWidth - this.$refs.daily.clientWidth;
-    this.monthly.maxOffset = this.$refs.monthly.parentNode.clientWidth - this.$refs.monthly.clientWidth;
-    if (this.daily.maxOffset > 0) this.daily.maxOffset = 0;
-    if (this.monthly.maxOffset > 0) this.monthly.maxOffset = 0;
+    this.daily.style = this.$refs.daily.style;
+    this.monthly.style = this.$refs.monthly.style;
+    this.maxOffsets();
   },
   beforeDestroy: function beforeDestroy() {
-    var _this2 = this;
+    var _this3 = this;
 
     document.body.removeEventListener('mouseup', function (e) {
-      return _this2.handleDrag(e);
+      return _this3.handleDrag(e);
     }, false);
     document.body.removeEventListener('mouseleave', function (e) {
-      return _this2.handleDrag(e);
+      return _this3.handleDrag(e);
     }, false);
     document.body.removeEventListener('touchend', function (e) {
-      return _this2.handleDrag(e);
+      return _this3.handleDrag(e);
     }, false);
   }
 });
 // CONCATENATED MODULE: ./src/App.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_Appvue_type_script_lang_js_ = (Appvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/App.vue?vue&type=style&index=0&id=18fe432a&lang=scss&scoped=true&
-var Appvue_type_style_index_0_id_18fe432a_lang_scss_scoped_true_ = __webpack_require__("dcc2");
+// EXTERNAL MODULE: ./src/App.vue?vue&type=style&index=0&id=63903767&lang=scss&scoped=true&
+var Appvue_type_style_index_0_id_63903767_lang_scss_scoped_true_ = __webpack_require__("7a1e");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -2226,7 +2148,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "18fe432a",
+  "63903767",
   null
   
 )
