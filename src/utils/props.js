@@ -16,6 +16,10 @@ export default {
     type: Number,
     default: 1,
   },
+  years: {
+    type: Number,
+    default: 0,
+  },
   selected: {
     type: Object,
     default: null,
