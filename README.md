@@ -22,7 +22,7 @@ I am planning to add a few more customizations props in the near future, but I d
 
 - [ ] Add more languages
 - [ ] Add props for easy custom styling
-- [X] Add the possibility to append years as well
+- [X] ~~Add the possibility to append years as well~~
 - [ ] Optimize the Array of days rendered
 
 ## Install
@@ -71,7 +71,9 @@ new Vue({
 
 ```html
 <draggable-cal></draggable-cal>
+
 <!-- OR -->
+
 <DraggableCal></DraggableCal>
 ```
 
