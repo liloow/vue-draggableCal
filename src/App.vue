@@ -10,9 +10,9 @@
           </div>
         </div>
       </div>
-      <div class="arrow top left" @click="goLeft($event, 'yearly')" :style="{visibility: yearly.realOffset === 0 ? 'hidden' : 'visible'}">
+      <div v-if="NUMBER_OF_YEARS" class="arrow top left" @click="goLeft($event, 'yearly')" :style="{visibility: yearly.realOffset === 0 ? 'hidden' : 'visible'}">
       </div>
-      <div class="arrow top right" @click="goRight($event, 'yearly')" :style="{visibility: yearly.realOffset <= yearly.maxOffset ? 'hidden' : 'visible'}">
+      <div v-if="NUMBER_OF_YEARS" class="arrow top right" @click="goRight($event, 'yearly')" :style="{visibility: yearly.realOffset <= yearly.maxOffset ? 'hidden' : 'visible'}">
       </div>
       <div :class="monthly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'">
         <div ref="monthly" state="monthly" class="months ui-draggable" style="left: 0px;" @mousedown="handleDrag($event)" @touchstart="handleDrag($event)" :style="monthly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} ">
@@ -157,6 +157,7 @@ export default {
       this.$refs[state].style.left = `${this[state].realOffset}px`;
     },
     goRight(e, state) {
+      console.log(state);
       let elem = e.target.parentNode.querySelector(`[state="${state}"`);
       let cell = elem.firstChild;
       this[state].realOffset =
@@ -287,6 +288,10 @@ export default {
       let m = this.calendar.months;
       let d = this.calendar.days;
       year = Number(year);
+      if (this.selectedDate.day) {
+        this.selectedDate = {};
+        this.$emit('dateCleared');
+      }
       this.monthly.realOffset = 0;
       this.daily.realOffset = 0;
       m.splice(0, 14);
