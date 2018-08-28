@@ -49,14 +49,17 @@ export default {
       let past = this.daily.pastBreakPoints;
       let future = this.daily.monthBreakPoints;
       let off = Math.abs(this.daily.realOffset) + this.$refs.monthly.parentNode.clientWidth / 2;
+      if (this.daily.realOffset === 0) off = 1;
+      let changed = false;
       while (off <= past[past.length - 1].offset) {
         future.unshift(past.pop());
-        this.toggleSelectMonth(null, past[past.length - 1]);
+        changed = true;
       }
       while (future.length > 0 && off >= future[0].offset) {
-        this.toggleSelectMonth(null, future[0]);
         past.push(future.shift());
+        changed = true;
       }
+      if (changed) this.toggleSelectMonth(null, past[past.length - 1]);
       return past[past.length - 1];
     },
   },
@@ -86,8 +89,8 @@ export default {
         pastBreakPoints: [
           {
             offset: 0,
-            monthNumber: new Date().getMonth(),
-            fullYear: new Date().getFullYear(),
+            monthNumber: `${new Date().getMonth()}`,
+            fullYear: `${new Date().getFullYear()}`,
           },
         ],
         phase: 'sleep',
@@ -108,7 +111,6 @@ export default {
         this[state].realOffset + Math.floor(elem.clientWidth / cell.clientWidth) * cell.clientWidth;
       if (this[state].realOffset > 0) this[state].realOffset = 0;
       this.$refs[state].style.left = `${this[state].realOffset}px`;
-      this.currentMonth;
     },
     goRight(e, state) {
       let elem = e.target.parentNode.querySelector('.ui-draggable');
@@ -118,7 +120,6 @@ export default {
       if (this[state].realOffset < this[state].maxOffset)
         this[state].realOffset = this[state].maxOffset;
       this.$refs[state].style.left = `${this[state].realOffset}px`;
-      this.currentMonth;
     },
     handleDrag(e) {
       let state;
@@ -169,6 +170,7 @@ export default {
         const id = `[year="${month.fullYear}"][month="${month.monthNumber}"].cal-cell`;
         this.scrollIntoView(this.$refs.daily.querySelector(id));
       }
+      this.checkMonthIsInView();
     },
     toggleSelect(e, day) {
       let exist = this.$refs.daily.querySelector('.cal-cell[selected="true"]');
@@ -216,6 +218,23 @@ export default {
       if (d.style.left.slice(0, -2) < d.maxOffset) d.style.left = `${d.maxOffset}px`;
       if (m.style.left.slice(0, -2) < m.maxOffset) m.style.left = `${m.maxOffset}px`;
     },
+    checkMonthIsInView() {
+      const sel = this.$refs.monthly.querySelector('[selected="true"]');
+      if (sel) {
+        const cw = sel.parentNode.parentNode.clientWidth;
+        const m = this.monthly;
+        if (sel.offsetLeft > -m.realOffset - sel.clientWidth + cw) {
+          m.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
+          if (m.realOffset < m.maxOffset) m.realOffset = m.maxOffset;
+          m.style.left = `${m.realOffset}px`;
+        }
+        if (-sel.offsetLeft > m.realOffset) {
+          m.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
+          if (m.realOffset > 0) m.realOffset = 0;
+          m.style.left = `${m.realOffset}px`;
+        }
+      }
+    },
   },
   created() {
     this.calendar = buildCalendar(
@@ -249,6 +268,9 @@ export default {
     this.daily.style = this.$refs.daily.style;
     this.monthly.style = this.$refs.monthly.style;
     this.maxOffsets();
+  },
+  updated() {
+    this.currentMonth;
   },
   beforeDestroy() {
     document.body.removeEventListener('mouseup', e => this.handleDrag(e), false);
