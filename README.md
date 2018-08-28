@@ -22,7 +22,7 @@ I am planning to add a few more customizations props in the near future, but I d
 
 - [ ] Add more languages
 - [ ] Add props for easy custom styling
-- [X] ~~Add the possibility to append years as well~~
+- [x] ~~Add the possibility to append years as well~~
 - [ ] Optimize the Array of days rendered
 
 ## Install
@@ -89,7 +89,7 @@ Emits events
 | :---------- | :------ | :------ | :-------------------------------------------------------------------------------------------------------------------- |
 | days        | Number  | 365     | Number of days to append                                                                                              |
 | months      | Number  | 12      | Numbers of months to append (has precedence over `days` if custom set)                                                |
-| years       | Number  | 0       | Number of years to append and enable year mode (see [Demo](#Demo) )                                                                        |
+| years       | Number  | 0       | Number of years to append and enable year mode (see [Demo](#demo) )                                                   |
 | fullMonths  | Boolean | false   | Weither or not to always use complete months (i.e. `days=1` if set to `true` the whole month is going to be appended) |
 | accentColor | String  | #00008b | Set the accent color (`HEX` or `CSS color names`)                                                                     |
 | lang        | String  | EN      | Language (see available in [Transations](#Translation))                                                               |
