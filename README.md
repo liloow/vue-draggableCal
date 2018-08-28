@@ -14,6 +14,8 @@ To view a demo online: [demo](https://liloow.github.io/vue-draggableCal/dist/dem
 
 To view demo examples locally clone the repo and run `npm i && npm serve --open App.vue`
 
+![gif](https://raw.githubusercontent.com/liloow/vue-draggableCal/master/screenshot.gif)
+
 ## What the future holds
 
 I am planning to add a few more customizations props in the near future, but I don't let my lack of imagination/creativity stop yours ! I strongly encourage you ton open Issues or pull requests if you have any ideas/needs that you'd like to see added to the component ! 
