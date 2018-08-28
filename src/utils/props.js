@@ -16,6 +16,10 @@ export default {
     type: Number,
     default: 1,
   },
+  years: {
+    type: Number,
+    default: 0,
+  },
   selected: {
     type: Object,
     default: null,
@@ -23,5 +27,9 @@ export default {
   fullMonths: {
     type: Boolean,
     default: false,
+  },
+  accentColor: {
+    type: String,
+    default: '#00008b',
   },
 };

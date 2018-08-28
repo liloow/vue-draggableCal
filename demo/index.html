@@ -1,0 +1,24 @@
+<meta charset="utf-8">
+<title>draggableCal demo</title>
+<script src="https://unpkg.com/vue"></script>
+<script src="../dist/draggableCal.umd.min.js"></script>
+<style>h1 {margin: 2.5rem 0;} </style>
+
+<div id="app" style="width = 95%">
+  <h1> Classic version, all default</h1>
+  <noyear></noyear>
+  <h1> Custom version with 18 complete months </h1>
+  <noyearcustom :days=2 :months=18 :fullMonths=true accent-color="#dbde1b"></noyearcustom>
+  <h1> With years version, with 5 years</h1>
+  <year :years=5 accent-color="#f44336"></year>
+</div>
+
+<script>
+new Vue({
+  components: {
+    noyear: draggableCal,
+    year: draggableCal,
+    noyearcustom: draggableCal
+  }
+}).$mount('#app')
+</script>

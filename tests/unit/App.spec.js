@@ -8,6 +8,7 @@ describe('VueCal', () => {
     expect(wrapper.vm.calendar.days.length).toEqual(365);
     expect(wrapper.vm.calendar.months.length).toEqual(14);
   });
+
   it('should build with custom days', () => {
     const wrapper = shallowMount(App, {
       propsData: {days: 900},
@@ -15,6 +16,7 @@ describe('VueCal', () => {
     });
     expect(wrapper.vm.calendar.days.length).toEqual(900);
   });
+
   it('should discard days if months is set', () => {
     const wrapper = shallowMount(App, {
       propsData: {days: 900, months: 6},
@@ -22,6 +24,7 @@ describe('VueCal', () => {
     });
     expect(wrapper.vm.calendar.months.length).toEqual(8);
   });
+
   it('should change the language', () => {
     const wrapper = shallowMount(App, {
       propsData: {lang: 'FR'},
@@ -29,7 +32,8 @@ describe('VueCal', () => {
     });
     expect(wrapper.vm.MONTHS[0]).toMatch('JANVIER');
   });
-  const wrapper = mount(App, {
+
+  const noyear = mount(App, {
     sync: false,
     attachToDocument: true,
     propsData: {
@@ -41,15 +45,64 @@ describe('VueCal', () => {
       },
     },
   });
-  it('should', async () => {
-    wrapper.element.querySelector('.arrow.bottom.left').click();
-    wrapper.element.querySelector('.arrow.bottom.right').click();
-    wrapper.vm.$refs.monthly.childNodes[2].click();
-    wrapper.vm.$refs.daily.childNodes[5].click();
-    expect(wrapper.vm.selectedDate).not.toBe(null);
-    expect(wrapper.element).toMatchSnapshot();
-    wrapper.vm.$refs.daily.childNodes[5].click();
-    expect(wrapper.vm.selectedDate).toBe(null);
-    wrapper.vm.$destroy();
+
+  const years = mount(App, {
+    sync: false,
+    attachToDocument: true,
+    propsData: {
+      years: 10,
+    },
+  });
+
+  it('should build noyear', async () => {
+    noyear.element.querySelector('.arrow.top.right').click();
+    noyear.vm.$nextTick(() => expect(Number(noyear.vm.monthly.realOffset)).toBeLessThan(0));
+
+    noyear.element.querySelector('.arrow.bottom.right').click();
+    noyear.vm.$nextTick(() => expect(Number(noyear.vm.daily.realOffset)).toBeLessThan(0));
+
+    noyear.vm.$refs.monthly.childNodes[2].click();
+    noyear.vm.$nextTick(() =>
+      expect(noyear.vm.$refs.monthly.childNodes[2].getAttribute('selected')).toBe('selected')
+    );
+
+    noyear.vm.$refs.daily.childNodes[5].click();
+    expect(noyear.vm.selectedDate).not.toBe(null);
+
+    noyear.vm.$refs.daily.childNodes[5].click();
+    noyear.vm.$nextTick(() => expect(noyear.vm.selectedDate).toBe({}));
+
+    expect(noyear.element).toMatchSnapshot();
+    noyear.vm.$destroy();
+  });
+
+  it('should build year', async () => {
+    years.vm.$refs.yearly.childNodes[2].click();
+    noyear.vm.$nextTick(() =>
+      expect(years.vm.$refs.yearly.childNodes[2].getAttribute('selected')).toBe('selected')
+    );
+
+    years.element.querySelector('.arrow.top.right').click();
+    noyear.vm.$nextTick(() => expect(Number(years.vm.yearly.realOffset)).toBeLessThan(0));
+
+    years.element.querySelector('.arrow.middle.right').click();
+    noyear.vm.$nextTick(() => expect(Number(years.vm.monthly.realOffset)).toBeLessThan(0));
+
+    years.element.querySelector('.arrow.bottom.right').click();
+    noyear.vm.$nextTick(() => expect(Number(years.vm.daily.realOffset)).toBeLessThan(0));
+
+    years.vm.$refs.monthly.childNodes[2].click();
+    noyear.vm.$nextTick(() =>
+      expect(years.vm.$refs.monthly.childNodes[2].getAttribute('selected')).toBe('selected')
+    );
+
+    years.vm.$refs.daily.childNodes[5].click();
+    years.vm.$nextTick(() => expect(years.vm.selectedDate).not.toBe({}));
+
+    years.vm.$refs.daily.childNodes[5].click();
+    years.vm.$nextTick(() => expect(years.vm.selectedDate).toBe({}));
+
+    expect(years.element).toMatchSnapshot();
+    years.vm.$destroy();
   });
 });
