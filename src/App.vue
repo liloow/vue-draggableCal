@@ -4,8 +4,8 @@
       <div v-if="NUMBER_OF_YEARS" :class="yearly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'">
         <div ref="yearly" state="yearly" class="years ui-draggable" style="left: 0px;" @mousedown="handleDrag($event)" @touchstart="handleDrag($event)" :style="yearly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} ">
           <div v-for="year in calendar.years" :key="year" class="year-cell cell" @click="toggleSelectYear($event, year)" :year-id="year">
-            <div class="date-formatted">
-              <span class="cell-content year">{{year}}</span>
+            <div class="cell-content">
+              <span class="year">{{year}}</span>
             </div>
           </div>
         </div>
@@ -17,9 +17,9 @@
       <div :class="monthly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'">
         <div ref="monthly" state="monthly" class="months ui-draggable" style="left: 0px;" @mousedown="handleDrag($event)" @touchstart="handleDrag($event)" :style="monthly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} ">
           <div v-for="month in calendar.months" :key="`${month.fullYear}-${month.monthNumber}`" v-if="month" class="month-cell cell" :class="{prev: month.prev, next: month.next, past: month.past}" @click="toggleSelectMonth($event, month)" :month-id="`${month.fullYear}-${month.monthNumber}`" :year-id="month.fullYear">
-            <div class="date-formatted">
+            <div class="cell-content">
               <span class="cell-content month-name">{{MONTHS[month.monthNumber] | abr}} </span>
-              <div class="hover" v-if="month.next || NUMBER_OF_YEARS"> {{month.fullYear}}</div>
+              <div class="hover" v-if="month.next"> {{month.fullYear}}</div>
               <div class="hover" v-if="month.prev"> {{month.fullYear}}</div>
               <span v-if="!NUMBER_OF_YEARS"> {{month.fullYear%1000}}</span>
             </div>
@@ -32,7 +32,7 @@
       </div>
       <div class="wrapper">
         <div ref="daily" state="daily" class="days ui-draggable" :style="daily.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} " style="left: 0px;" @mousedown="handleDrag($event)" @touchstart="handleDrag($event)">
-          <div v-for="day in calendar.days" :key="`${day.fullYear}-${day.monthNumber}-${day.day}`" :date="`${day.fullYear}-${day.monthNumber}-${day.day}`" class="cal-cell cell" :class="{first: day.day == 1, next: day.next, prev: day.prev}" :month-id="day.monthNumber" :year-id="day.fullYear" :day-id="day.day" @click="toggleSelect($event, day)">
+          <div v-for="day in calendar.days" :key="`${day.fullYear}-${day.monthNumber}-${day.day}`" :date="`${day.fullYear}-${day.monthNumber}-${day.day}`" class="cal-cell cell" :class="{first: day.day == 1, next: day.next, prev: day.prev, today: day.today}" :month-id="day.monthNumber" :year-id="day.fullYear" :day-id="day.day" @click="toggleSelect($event, day)">
             <div class="hover" v-if="day.next"> {{day.fullYear}}</div>
             <div class="hover" v-if="day.prev"> {{day.fullYear}}</div>
             <div class="cell-content">
@@ -57,7 +57,6 @@
 import {abr} from '@/utils/filters';
 import {language} from '@/utils/CONSTANTS';
 import {buildCalendar, buildEntireCalendar, gYear} from '@/utils/buildCalendar';
-import {nextTick} from 'vue';
 import props from '@/utils/props';
 export default {
   name: 'VueCal',
@@ -67,7 +66,7 @@ export default {
     currentMonth() {
       let past = this.daily.pastBreakPoints;
       let future = this.daily.monthBreakPoints;
-      let off = Math.abs(this.daily.realOffset) + this.$refs.monthly.parentNode.clientWidth / 2;
+      let off = -this.daily.realOffset + this.$refs.monthly.parentNode.clientWidth / 2;
       if (this.daily.realOffset === 0) off = 1;
       let changed = false;
       while (past.length > 0 && off <= past[past.length - 1].offset) {
@@ -78,7 +77,7 @@ export default {
         past.push(future.shift());
         changed = true;
       }
-      if (changed) this.toggleSelectMonth(null, past[past.length - 1]);
+      if (changed && past.length > 0) this.toggleSelectMonth(null, past[past.length - 1]);
       return past[past.length - 1];
     },
   },
@@ -259,25 +258,21 @@ export default {
       if (m.style.left.slice(0, -2) < m.maxOffset) m.style.left = `${m.maxOffset}px`;
     },
     computeBreakPoints() {
-      this.$refs.monthly.querySelector('div:not(.past):not(.prev).month-cell.cell').click();
-      if (this.selected) {
-        this.$refs.daily
-          .querySelector(
-            `[date="${this.selected.fullYear}-${this.selected.monthNumber}-${this.selected.day}"]`
-          )
-          .setAttribute('selected', true);
-        this.scrollIntoView();
-      }
+      const first = this.$refs.monthly.querySelector('div:not(.past):not(.prev).month-cell.cell');
+      if (first) first.click();
       this.daily.pastBreakPoints = [];
       this.daily.monthBreakPoints = [
+        this.$refs.daily.querySelector('.cal-cell.today'),
         ...this.$refs.daily.querySelectorAll(
           '.cal-cell:not(.past):not(.prev):not(.next)[day-id="1"]'
         ),
-      ].map((el, i) => ({
-        offset: i === 0 ? 0 : el.offsetLeft,
-        monthNumber: el.getAttribute('month-id'),
-        fullYear: el.getAttribute('year-id'),
-      }));
+      ]
+        .filter(Boolean)
+        .map((el, i) => ({
+          offset: i === 0 ? 0 : el.offsetLeft,
+          monthNumber: el.getAttribute('month-id'),
+          fullYear: el.getAttribute('year-id'),
+        }));
     },
     appendYear(year) {
       const ec = this.entireCalendar;
@@ -393,17 +388,16 @@ export default {
 
 /* ========================================================================== */
 
+/* ========================================================================== */
+
 @font-face {
   font-family: 'Oswald';
   font-style: normal;
   font-weight: 400;
   src: url('public/font.woff2') format('woff2');
 }
-
-/* ========================================================================== */
-
 :root {
-  @include responsive-font(2vw, 10px, 16px, 16px);
+  @include responsive-font(1.75vw, 12px, 16px, 14px);
 }
 
 .container {
@@ -431,6 +425,14 @@ export default {
     display: inline-flex;
     width: 100%;
   }
+  .ui-draggable {
+    cursor: move;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+    .cell-content {
+      pointer-events: none;
+    }
+  }
   .cal-cell[selected='true'],
   .month-cell[selected='true'] {
     border-radius: 0.5em;
@@ -443,344 +445,309 @@ export default {
         color: white;
       }
       .day-number {
-        margin-bottom: 4px;
+        margin-bottom: 0.25rem;
       }
     }
   }
-  .month-cell {
+  .arrow {
+    font-family: 'Oswald';
+    width: 2rem;
+    justify-content: center;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    transition: 0.2s all;
+    background-color: white;
+    color: darkgrey;
+    &:hover {
+      background-color: #f8f8ff;
+      box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      color: black;
+    }
+    &.bottom {
+      height: 5rem;
+      bottom: 1.1rem;
+      font-size: 3rem;
+    }
+    &.middle {
+      top: 3.25rem;
+      height: 2.5rem;
+      font-size: 2rem;
+    }
+    &.top {
+      top: 0.25rem;
+      height: 2.5rem;
+      font-size: 2rem;
+    }
+    &.left {
+      left: 0;
+      &.middle:before {
+        content: '<';
+        height: 2.5rem;
+      }
+      &.top:before {
+        content: '<';
+        height: 2.5rem;
+      }
+      &.bottom:before {
+        content: '<';
+        height: 4rem;
+      }
+    }
+    &.right {
+      right: 0;
+      &.middle:before {
+        content: '>';
+        height: 2.5rem;
+      }
+      &.top:before {
+        content: '>';
+        height: 2.5rem;
+      }
+      &:before {
+        content: '>';
+        height: 4rem;
+      }
+    }
+    &:active {
+      transform: scale(0.8);
+    }
+  }
+  .days {
+    z-index: 1;
+    list-style: none;
+    float: left;
+    margin: 0;
     padding: 0;
-  }
-}
-
-.arrow {
-  font-family: 'Oswald', Arial, sans-serif;
-  width: 2rem;
-  justify-content: center;
-  position: absolute;
-  display: flex;
-  align-items: center;
-  z-index: 1000;
-  transition: 0.2s all;
-  background-color: white;
-  color: darkgrey;
-  &:hover {
-    background-color: #f8f8ff;
-    box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    color: black;
-  }
-  &.bottom {
+    position: relative;
+    width: max-content;
     height: 5rem;
-    bottom: 1.1rem;
-    font-size: 3rem;
-  }
-  &.middle {
-    top: 3.25rem;
-    height: 2.5rem;
-    font-size: 2rem;
-  }
-  &.top {
-    top: 0.25rem;
-    height: 2.5rem;
-    font-size: 2rem;
-  }
-  &.left {
-    left: 0;
-    &.middle:before {
-      content: '<';
-      height: 2.5rem;
-    }
-    &.top:before {
-      content: '<';
-      height: 2.5rem;
-    }
-    &.bottom:before {
-      content: '<';
-      height: 4rem;
-    }
-  }
-  &.right {
-    right: 0;
-    &.middle:before {
-      content: '>';
-      height: 2.5rem;
-    }
-    &.top:before {
-      content: '>';
-      height: 2.5rem;
-    }
-    &:before {
-      content: '>';
-      height: 4rem;
-    }
-  }
-  &:active {
-    transform: scale(0.8);
-  }
-}
-
-.cell-content,
-.date-formatted {
-  pointer-events: none;
-}
-
-.months .cell[selected='true'] {
-  .date-formatted {
-    opacity: 0.5;
-    color: white;
-    background-color: darkblue;
-    border-radius: 0.5em;
-    padding: 0.3em;
-    margin-top: -0.3em;
-    font-weight: 350;
-  }
-}
-
-.drag-calendar .days {
-  z-index: 1;
-  list-style: none;
-  float: left;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  width: max-content;
-  height: 5rem;
-  transition: all 1s ease;
-  .cell.cal-cell[selected='true'] {
-    background-color: darkblue;
-  }
-  > .cell:first-child {
-    margin-left: 0.4em;
-  }
-  > .cell:last-child {
-    margin-right: 0.4em;
-  }
-  > .cell {
-    &.next,
-    &.prev {
-      background-color: rgba(0, 0, 0, 0.02);
-      margin-right: 0.4rem;
-      opacity: 0.5;
-      .hover {
-        position: absolute;
-        opacity: 0;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-weight: bold;
+    transition: all 1s ease;
+    .cell {
+      float: left;
+      width: 4rem;
+      padding: 1.5rem 1.25rem;
+      margin: 0px;
+      border-right: 1px solid rgba(0, 0, 0, 0.03);
+      text-align: center;
+      position: relative;
+      color: #888;
+      &:first-child {
+        margin-left: 0.4em;
       }
-      &:hover {
-        opacity: 1;
+      &:last-child {
+        margin-right: 0.4em;
+      }
+      &[selected='true'] {
+        background-color: darkblue;
+      }
+      &.next,
+      &.prev {
+        background-color: rgba(0, 0, 0, 0.02);
+        margin-right: 0.4rem;
+        opacity: 0.5;
         .hover {
-          transition: all 1s ease;
-          pointer-events: none;
+          position: absolute;
+          opacity: 0;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-weight: bold;
+        }
+        &:hover {
           opacity: 1;
+          .hover {
+            transition: all 1s ease;
+            pointer-events: none;
+            opacity: 1;
+          }
+          .cell-content {
+            pointer-events: none;
+            transition: all 1s ease;
+            opacity: 0;
+          }
+        }
+      }
+      &.today {
+        .day-number {
+          color: red;
+          text-decoration: underline;
+        }
+      }
+      .day-number {
+        display: block;
+        clear: both;
+        font-weight: bold;
+        font-size: 1.2em;
+        z-index: 1;
+        position: relative;
+      }
+      .day {
+        display: block;
+        clear: both;
+        text-transform: uppercase;
+        width: 100%;
+        font-weight: 100;
+        font-size: 12px;
+        margin-top: 0px;
+        z-index: 1;
+        position: relative;
+      }
+      &.first {
+        background-color: rgba(0, 0, 0, 0.02);
+        color: #666;
+        .day {
+          font-weight: bold;
+        }
+        .day-number {
+          font-size: 1.2em;
+        }
+      }
+    }
+  }
+  .months {
+    z-index: 1;
+    float: left;
+    margin: 0;
+    height: 2.5rem;
+    padding: 0;
+    padding-left: 0.6rem;
+    position: relative;
+    width: max-content;
+    border-bottom: 0px solid ghostwhite;
+    margin: 0.25rem 0 0.75rem;
+    background-color: transparent;
+    transition: all 1s ease;
+    display: inline-flex;
+    flex: 1;
+    .cell {
+      float: left;
+      width: 8rem;
+      padding: 0.6rem;
+      text-align: center;
+      position: relative;
+      color: #888;
+      border-right: 1px solid rgba(0, 0, 0, 0.03);
+      position: relative;
+      flex: 1;
+      &.past {
+        background-color: rgba(222, 222, 222, 0.6);
+        color: lightgrey;
+        opacity: 0.8;
+        pointer-events: none;
+        border-right: solid 0.5px rgba(222, 222, 222, 0.8);
+      }
+      &.next,
+      &.prev {
+        background-color: rgba(0, 0, 0, 0.02);
+        margin-right: 0.4rem;
+        opacity: 0.5;
+        &:hover {
+          opacity: 1;
+          .hover {
+            transition: all 1s ease;
+            opacity: 1;
+            pointer-events: none;
+          }
+          .month-name {
+            transition: all 1s ease;
+            opacity: 0;
+          }
+        }
+        .hover {
+          position: absolute;
+          opacity: 0;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
         }
         .cell-content {
           pointer-events: none;
-          transition: all 1s ease;
-          opacity: 0;
+          opacity: 0.5;
+          color: black;
+          font-weight: bold;
+          font-size: 1rem;
+        }
+      }
+      &[selected='true'] {
+        .cell-content {
+          opacity: 0.5;
+          color: white;
+          background-color: darkblue;
+          border-radius: 0.5em;
+          padding: 0.3em;
+          margin-top: -0.3em;
+          font-weight: 350;
+        }
+      }
+      &.next {
+        flex: 0.5;
+      }
+      .cell-content {
+        font-weight: 200;
+        font-size: 1em;
+        .month-name {
+          opacity: 1;
+          font-weight: bold;
+          font-size: 0.9rem;
+          z-index: 1;
+          position: relative;
+          text-transform: uppercase;
         }
       }
     }
   }
-}
-
-.drag-calendar .days .cal-cell {
-  float: left;
-  width: 4rem;
-  padding: 1.5rem 1.25rem;
-  margin: 0px;
-  border-right: 1px solid rgba(0, 0, 0, 0.03);
-  text-align: center;
-  position: relative;
-  color: #888;
-  &.first {
-    background-color: rgba(0, 0, 0, 0.02);
-    color: #666;
-    .day {
-      font-weight: bold;
-    }
-    .day-number {
-      font-size: 1.2em;
-    }
-  }
-}
-
-.drag-calendar .days .cell .day-number {
-  display: block;
-  clear: both;
-  font-weight: bold;
-  font-size: 1.2em;
-  z-index: 1;
-  position: relative;
-}
-
-.drag-calendar .days .cell .day {
-  display: block;
-  clear: both;
-  text-transform: uppercase;
-  width: 100%;
-  font-weight: 100;
-  font-size: 12px;
-  margin-top: 0px;
-  z-index: 1;
-  position: relative;
-}
-
-.drag-calendar .days .cell .month {
-  width: 100%;
-  font-size: 0.8rem;
-  z-index: 1;
-  text-transform: uppercase;
-  position: absolute;
-  opacity: 1;
-  left: 0;
-  font-weight: bold;
-}
-
-.drag-calendar .months {
-  z-index: 1;
-  float: left;
-  margin: 0;
-  height: 2.5rem;
-  padding: 0;
-  padding-left: 0.6rem;
-  position: relative;
-  width: max-content;
-  border-bottom: 0px solid ghostwhite;
-  margin: 0.25rem 0 0.75rem;
-  background-color: transparent;
-  transition: all 1s ease;
-  display: inline-flex;
-  flex: 1;
-}
-
-.drag-calendar .months .cell {
-  float: left;
-  width: 8rem;
-  padding: 0.6rem;
-  text-align: center;
-  position: relative;
-  color: #888;
-  border-right: 1px solid rgba(0, 0, 0, 0.03);
-  position: relative;
-  flex: 1;
-  &.next {
-    flex: 0.5;
-  }
-}
-
-.drag-calendar .months .cell .month-name {
-  font-weight: bold;
-  font-size: 0.9rem;
-  z-index: 1;
-  position: relative;
-  text-transform: uppercase;
-}
-
-.drag-calendar .months .cell .date-formatted {
-  font-weight: 200;
-  font-size: 1em;
-}
-
-.drag-calendar .years {
-  z-index: 1;
-  float: left;
-  margin: 0;
-  height: 2.5rem;
-  padding: 0;
-  position: relative;
-  width: max-content;
-  border-bottom: 0px solid ghostwhite;
-  margin: 0.25rem 0 0.25rem;
-  background-color: transparent;
-  transition: all 1s ease;
-  display: flex;
-  flex: 1;
-}
-
-.drag-calendar .years .cell {
-  float: left;
-  width: 16rem;
-  flex: 1;
-  padding: 0.6rem;
-  text-align: center;
-  position: relative;
-  color: #888;
-  border-right: 1px solid rgba(0, 0, 0, 0.03);
-  position: relative;
-}
-
-.drag-calendar .years .cell .month-name {
-  font-weight: bold;
-  font-size: 1rem;
-  z-index: 1;
-  position: relative;
-  text-transform: uppercase;
-}
-
-.drag-calendar .years .cell .date-formatted {
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-.years .cell[selected='true'] {
-  .date-formatted {
-    opacity: 0.25;
-    color: white;
-    background-color: darkblue;
-    border-radius: 0.5rem;
-    padding: 0.3rem;
-    margin-top: -0.3rem;
-    font-weight: 350;
-  }
-}
-
-.drag-calendar .ui-draggable {
-  cursor: move;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
-}
-
-.drag-calendar .months .cell {
-  &.past {
-    background-color: rgba(222, 222, 222, 0.6);
-    color: lightgrey;
-    opacity: 0.8;
-    pointer-events: none;
-    border-right: solid 0.5px rgba(222, 222, 222, 0.8);
-  }
-  &.next,
-  &.prev {
-    background-color: rgba(0, 0, 0, 0.02);
-    margin-right: 0.4rem;
-    opacity: 0.5;
-    &:hover {
-      opacity: 1;
-      .hover {
-        transition: all 1s ease;
-        opacity: 1;
-        pointer-events: none;
+  .years {
+    z-index: 1;
+    float: left;
+    margin: 0;
+    height: 2.5rem;
+    padding: 0;
+    position: relative;
+    width: max-content;
+    border-bottom: 0px solid ghostwhite;
+    margin: 0.25rem 0 0.25rem;
+    background-color: transparent;
+    transition: all 1s ease;
+    display: flex;
+    flex: 1;
+    .cell {
+      float: left;
+      width: 16rem;
+      flex: 1;
+      padding: 0.6rem;
+      text-align: center;
+      position: relative;
+      color: #888;
+      border-right: 1px solid rgba(0, 0, 0, 0.03);
+      position: relative;
+      .cell-content {
+        font-weight: 600;
+        font-size: 1rem;
+        .month-name {
+          font-weight: bold;
+          font-size: 1rem;
+          z-index: 1;
+          position: relative;
+          text-transform: uppercase;
+        }
       }
-      .month-name {
-        transition: all 1s ease;
-        opacity: 0;
+      &[selected='true'] {
+        .cell-content {
+          opacity: 0.25;
+          color: white;
+          background-color: darkblue;
+          border-radius: 0.5rem;
+          padding: 0.3rem;
+          margin-top: -0.3rem;
+          .year {
+            font-weight: 600;
+            opacity: 1;
+          }
+        }
       }
-    }
-    .hover {
-      position: absolute;
-      opacity: 0;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    .date-formatted {
-      pointer-events: none;
-      opacity: 0.5;
-      color: black;
-      font-weight: bold;
-      font-size: 1rem;
     }
   }
 }

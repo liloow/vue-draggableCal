@@ -26,11 +26,13 @@ function computeDaysFromMonths(NUMBER_OF_MONTH) {
 }
 
 function createDaysArray(NUMBER_OF_DAYS, fullMonths) {
+  if (NUMBER_OF_DAYS <= 0) return [];
   let currentConstructorDate = new Date();
   const days = [];
 
   for (let i = 0; i < NUMBER_OF_DAYS; i++) {
     let date = splitDate(currentConstructorDate);
+    if (i === 0) date.today = true;
     days.push(date);
     currentConstructorDate = new Date(date.fullYear, date.monthNumber, date.day + 1);
   }
@@ -46,6 +48,7 @@ function createDaysArray(NUMBER_OF_DAYS, fullMonths) {
 }
 
 function createMonthsArray(NUMBER_OF_MONTHS) {
+  if (NUMBER_OF_MONTHS <= 0) return [];
   let currentConstructorMonth = new Date();
   const months = [];
 
@@ -105,6 +108,7 @@ export function buildEntireCalendar(NUMBER_OF_YEARS) {
   entireCalendar[c.y].days = entireCalendar[c.y].days.filter(
     el => el.monthNumber > c.m || (el.monthNumber === c.m && el.day >= c.d)
   );
+  entireCalendar[c.y].days[0].today = true;
   return entireCalendar;
 }
 export function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMonths) {

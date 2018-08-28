@@ -96,6 +96,83 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
+/***/ "01f9":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var LIBRARY = __webpack_require__("2d00");
+var $export = __webpack_require__("5ca1");
+var redefine = __webpack_require__("2aba");
+var hide = __webpack_require__("32e9");
+var Iterators = __webpack_require__("84f2");
+var $iterCreate = __webpack_require__("41a0");
+var setToStringTag = __webpack_require__("7f20");
+var getPrototypeOf = __webpack_require__("38fd");
+var ITERATOR = __webpack_require__("2b4c")('iterator');
+var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
+var FF_ITERATOR = '@@iterator';
+var KEYS = 'keys';
+var VALUES = 'values';
+
+var returnThis = function () { return this; };
+
+module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED) {
+  $iterCreate(Constructor, NAME, next);
+  var getMethod = function (kind) {
+    if (!BUGGY && kind in proto) return proto[kind];
+    switch (kind) {
+      case KEYS: return function keys() { return new Constructor(this, kind); };
+      case VALUES: return function values() { return new Constructor(this, kind); };
+    } return function entries() { return new Constructor(this, kind); };
+  };
+  var TAG = NAME + ' Iterator';
+  var DEF_VALUES = DEFAULT == VALUES;
+  var VALUES_BUG = false;
+  var proto = Base.prototype;
+  var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
+  var $default = $native || getMethod(DEFAULT);
+  var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
+  var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
+  var methods, key, IteratorPrototype;
+  // Fix native
+  if ($anyNative) {
+    IteratorPrototype = getPrototypeOf($anyNative.call(new Base()));
+    if (IteratorPrototype !== Object.prototype && IteratorPrototype.next) {
+      // Set @@toStringTag to native iterators
+      setToStringTag(IteratorPrototype, TAG, true);
+      // fix for some old engines
+      if (!LIBRARY && typeof IteratorPrototype[ITERATOR] != 'function') hide(IteratorPrototype, ITERATOR, returnThis);
+    }
+  }
+  // fix Array#{values, @@iterator}.name in V8 / FF
+  if (DEF_VALUES && $native && $native.name !== VALUES) {
+    VALUES_BUG = true;
+    $default = function values() { return $native.call(this); };
+  }
+  // Define iterator
+  if ((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])) {
+    hide(proto, ITERATOR, $default);
+  }
+  // Plug for library
+  Iterators[NAME] = $default;
+  Iterators[TAG] = returnThis;
+  if (DEFAULT) {
+    methods = {
+      values: DEF_VALUES ? $default : getMethod(VALUES),
+      keys: IS_SET ? $default : getMethod(KEYS),
+      entries: $entries
+    };
+    if (FORCED) for (key in methods) {
+      if (!(key in proto)) redefine(proto, key, methods[key]);
+    } else $export($export.P + $export.F * (BUGGY || VALUES_BUG), NAME, methods);
+  }
+  return methods;
+};
+
+
+/***/ }),
+
 /***/ "0a49":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -216,18 +293,47 @@ module.exports = __webpack_require__("9e1e") ? Object.defineProperties : functio
 
 /***/ }),
 
-/***/ "1cda":
+/***/ "1c4c":
 /***/ (function(module, exports, __webpack_require__) {
 
-var escape = __webpack_require__("b041");
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
+"use strict";
 
+var ctx = __webpack_require__("9b43");
+var $export = __webpack_require__("5ca1");
+var toObject = __webpack_require__("4bf8");
+var call = __webpack_require__("1fa8");
+var isArrayIter = __webpack_require__("33a4");
+var toLength = __webpack_require__("9def");
+var createProperty = __webpack_require__("f1ae");
+var getIterFn = __webpack_require__("27ee");
 
-// module
-exports.push([module.i, "/* ========================================================================== */\n@font-face {\n  font-family: 'Oswald';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + escape(__webpack_require__("414c")) + ") format(\"woff2\");\n}\n\n/* ========================================================================== */\n:root {\n  font-size: 16px;\n  font-size: 2vw;\n}\n@media (max-width: 500px) {\n:root {\n      font-size: 10px;\n}\n}\n@media (min-width: 800px) {\n:root {\n      font-size: 16px;\n}\n}\n.container[data-v-4edd08f3] {\n  padding-top: 1em;\n  width: 95%;\n  margin: auto;\n}\n.drag-calendar[data-v-4edd08f3] {\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box;\n  clear: both;\n  height: 9.6rem;\n  overflow: hidden;\n  width: 100%;\n  position: relative;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  padding: 0;\n  line-height: 1;\n  background-color: transparent;\n}\n.drag-calendar .cal-cell[selected='true'][data-v-4edd08f3],\n  .drag-calendar .month-cell[selected='true'][data-v-4edd08f3] {\n    border-radius: 0.5em;\n    -webkit-transform: scale(1.1);\n            transform: scale(1.1);\n    -webkit-transition: -webkit-transform 0.3s ease;\n    transition: -webkit-transform 0.3s ease;\n    transition: transform 0.3s ease;\n    transition: transform 0.3s ease, -webkit-transform 0.3s ease;\n    padding: 1.25em;\n}\n.drag-calendar .cal-cell[selected='true'] .cell-content div[data-v-4edd08f3],\n    .drag-calendar .month-cell[selected='true'] .cell-content div[data-v-4edd08f3] {\n      -webkit-transform: scale(1.5);\n              transform: scale(1.5);\n      color: white;\n}\n.drag-calendar .cal-cell[selected='true'] .cell-content .day-number[data-v-4edd08f3],\n    .drag-calendar .month-cell[selected='true'] .cell-content .day-number[data-v-4edd08f3] {\n      margin-bottom: 4px;\n}\n.drag-calendar .month-cell[data-v-4edd08f3] {\n    padding: 0;\n}\n.arrow[data-v-4edd08f3] {\n  font-family: 'Oswald', Arial, sans-serif;\n  width: 2rem;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  position: absolute;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  z-index: 1000;\n  -webkit-transition: 0.2s all;\n  transition: 0.2s all;\n  background-color: white;\n  color: darkgrey;\n}\n.arrow[data-v-4edd08f3]:hover {\n    background-color: #f8f8ff;\n    -webkit-box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n            box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n    cursor: pointer;\n    color: black;\n}\n.arrow.bottom[data-v-4edd08f3] {\n    height: 5rem;\n    bottom: 1.1rem;\n    font-size: 3rem;\n}\n.arrow.top[data-v-4edd08f3] {\n    top: 0.25rem;\n    height: 2.5rem;\n    font-size: 2rem;\n}\n.arrow.left[data-v-4edd08f3] {\n    left: 0;\n}\n.arrow.left.top[data-v-4edd08f3]:before {\n      content: '<';\n      height: 2.5rem;\n}\n.arrow.left.bottom[data-v-4edd08f3]:before {\n      content: '<';\n      height: 4rem;\n}\n.arrow.right[data-v-4edd08f3] {\n    right: 0;\n}\n.arrow.right.top[data-v-4edd08f3]:before {\n      content: '>';\n      height: 2.5rem;\n}\n.arrow.right[data-v-4edd08f3]:before {\n      content: '>';\n      height: 4rem;\n}\n.arrow[data-v-4edd08f3]:active {\n    -webkit-transform: scale(0.8);\n            transform: scale(0.8);\n}\n.cell-content[data-v-4edd08f3],\n.date-formatted[data-v-4edd08f3] {\n  pointer-events: none;\n}\n.months .cell[selected='true'] .date-formatted[data-v-4edd08f3] {\n  opacity: 0.5;\n  color: white;\n  background-color: darkblue;\n  border-radius: 0.5em;\n  padding: 0.3em;\n  margin-top: -0.3em;\n  font-weight: 350;\n}\n.drag-calendar .days[data-v-4edd08f3] {\n  z-index: 1;\n  list-style: none;\n  float: left;\n  margin: 0;\n  padding: 0;\n  position: relative;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  height: 5rem;\n  -webkit-transition: all 1s ease;\n  transition: all 1s ease;\n}\n.drag-calendar .days .cell.cal-cell[selected='true'][data-v-4edd08f3] {\n    background-color: darkblue;\n}\n.drag-calendar .days > .cell[data-v-4edd08f3]:first-child {\n    color: red;\n    margin-left: 0.4em;\n}\n.drag-calendar .days > .cell:first-child .day-number[data-v-4edd08f3] {\n      text-decoration: underline;\n}\n.drag-calendar .days > .cell[data-v-4edd08f3]:last-child {\n    margin-right: 0.4em;\n}\n.drag-calendar .days .cal-cell[data-v-4edd08f3] {\n  float: left;\n  width: 4rem;\n  padding: 1.5rem 1.25rem;\n  margin: 0px;\n  border-right: 1px solid rgba(0, 0, 0, 0.03);\n  text-align: center;\n  position: relative;\n  color: #888;\n}\n.drag-calendar .days .cal-cell.first[data-v-4edd08f3] {\n    background-color: rgba(0, 0, 0, 0.02);\n    color: #666;\n}\n.drag-calendar .days .cal-cell.first .day[data-v-4edd08f3] {\n      font-weight: bold;\n}\n.drag-calendar .days .cal-cell.first .day-number[data-v-4edd08f3] {\n      font-size: 1.2em;\n}\n.drag-calendar .days .cell .day-number[data-v-4edd08f3] {\n  display: block;\n  clear: both;\n  font-weight: bold;\n  font-size: 1.2em;\n  z-index: 1;\n  position: relative;\n}\n.drag-calendar .days .cell .day[data-v-4edd08f3] {\n  display: block;\n  clear: both;\n  text-transform: uppercase;\n  width: 100%;\n  font-weight: 100;\n  font-size: 12px;\n  margin-top: 0px;\n  z-index: 1;\n  position: relative;\n}\n.drag-calendar .days .cell .month[data-v-4edd08f3] {\n  width: 100%;\n  font-size: 12px;\n  z-index: 1;\n  text-transform: uppercase;\n  position: absolute;\n  opacity: 1;\n  left: 0;\n  font-weight: bold;\n}\n.drag-calendar .months[data-v-4edd08f3] {\n  z-index: 1;\n  float: left;\n  margin: 0;\n  height: 2.5rem;\n  padding: 0;\n  position: relative;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  border-bottom: 0px solid ghostwhite;\n  margin: 0.25rem 0 0.75rem;\n  background-color: transparent;\n  -webkit-transition: all 1s ease;\n  transition: all 1s ease;\n}\n.drag-calendar .months .cell[data-v-4edd08f3] {\n  float: left;\n  width: 7rem;\n  padding: 0.6rem;\n  text-align: center;\n  position: relative;\n  color: #888;\n  border-right: 1px solid rgba(0, 0, 0, 0.03);\n  position: relative;\n}\n.drag-calendar .months .cell .month-name[data-v-4edd08f3] {\n  font-weight: bold;\n  font-size: 0.8em;\n  z-index: 1;\n  position: relative;\n  text-transform: uppercase;\n}\n.drag-calendar .months .cell .date-formatted[data-v-4edd08f3] {\n  font-weight: 200;\n  font-size: 1em;\n}\n.drag-calendar .ui-draggable[data-v-4edd08f3] {\n  cursor: move;\n  cursor: -webkit-grab;\n}\n.drag-calendar .months .cell.past[data-v-4edd08f3] {\n  background-color: rgba(222, 222, 222, 0.6);\n  color: lightgrey;\n  opacity: 0.8;\n  pointer-events: none;\n  border-right: solid 0.5px rgba(222, 222, 222, 0.8);\n}\n", ""]);
-
-// exports
+$export($export.S + $export.F * !__webpack_require__("5cc5")(function (iter) { Array.from(iter); }), 'Array', {
+  // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
+  from: function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
+    var O = toObject(arrayLike);
+    var C = typeof this == 'function' ? this : Array;
+    var aLen = arguments.length;
+    var mapfn = aLen > 1 ? arguments[1] : undefined;
+    var mapping = mapfn !== undefined;
+    var index = 0;
+    var iterFn = getIterFn(O);
+    var length, result, step, iterator;
+    if (mapping) mapfn = ctx(mapfn, aLen > 2 ? arguments[2] : undefined, 2);
+    // if object isn't iterable or it's array with default iterator - use simple case
+    if (iterFn != undefined && !(C == Array && isArrayIter(iterFn))) {
+      for (iterator = iterFn.call(O), result = new C(); !(step = iterator.next()).done; index++) {
+        createProperty(result, index, mapping ? call(iterator, mapfn, [step.value, index], true) : step.value);
+      }
+    } else {
+      length = toLength(O.length);
+      for (result = new C(length); length > index; index++) {
+        createProperty(result, index, mapping ? mapfn(O[index], index) : O[index]);
+      }
+    }
+    result.length = index;
+    return result;
+  }
+});
 
 
 /***/ }),
@@ -243,6 +349,25 @@ if (typeof window !== 'undefined') {
     __webpack_require__.p = i[1] // eslint-disable-line
   }
 }
+
+
+/***/ }),
+
+/***/ "1fa8":
+/***/ (function(module, exports, __webpack_require__) {
+
+// call something on iterator step with safe closing on error
+var anObject = __webpack_require__("cb7c");
+module.exports = function (iterator, fn, value, entries) {
+  try {
+    return entries ? fn(anObject(value)[0], value[1]) : fn(value);
+  // 7.4.6 IteratorClose(iterator, completion)
+  } catch (e) {
+    var ret = iterator['return'];
+    if (ret !== undefined) anObject(ret.call(iterator));
+    throw e;
+  }
+};
 
 
 /***/ }),
@@ -279,6 +404,22 @@ module.exports = function (KEY, length, exec) {
     );
   }
 };
+
+
+/***/ }),
+
+/***/ "22bb":
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__("b041");
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, "/* ========================================================================== */\n/* ========================================================================== */\n@font-face {\n  font-family: 'Oswald';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + escape(__webpack_require__("414c")) + ") format(\"woff2\");\n}\n:root {\n  font-size: 14px;\n  font-size: 1.75vw;\n}\n@media (max-width: 685.71429px) {\n:root {\n      font-size: 12px;\n}\n}\n@media (min-width: 914.28571px) {\n:root {\n      font-size: 16px;\n}\n}\n.container[data-v-6d92aafc] {\n  padding-top: 1em;\n  width: 95%;\n  margin: auto;\n}\n.drag-calendar[data-v-6d92aafc] {\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box;\n  clear: both;\n  overflow: hidden;\n  width: 100%;\n  position: relative;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  padding: 0;\n  line-height: 1;\n  background-color: transparent;\n}\n.drag-calendar .wrapper-flex[data-v-6d92aafc] {\n    display: -webkit-inline-box;\n    display: -ms-inline-flexbox;\n    display: inline-flex;\n    width: 100%;\n}\n.drag-calendar .ui-draggable[data-v-6d92aafc] {\n    cursor: move;\n    cursor: -webkit-grab;\n}\n.drag-calendar .ui-draggable .cell-content[data-v-6d92aafc] {\n      pointer-events: none;\n}\n.drag-calendar .cal-cell[selected='true'][data-v-6d92aafc],\n  .drag-calendar .month-cell[selected='true'][data-v-6d92aafc] {\n    border-radius: 0.5em;\n    -webkit-transform: scale(1.1);\n            transform: scale(1.1);\n    -webkit-transition: -webkit-transform 0.3s ease;\n    transition: -webkit-transform 0.3s ease;\n    transition: transform 0.3s ease;\n    transition: transform 0.3s ease, -webkit-transform 0.3s ease;\n    padding: 1.25em;\n}\n.drag-calendar .cal-cell[selected='true'] .cell-content div[data-v-6d92aafc],\n    .drag-calendar .month-cell[selected='true'] .cell-content div[data-v-6d92aafc] {\n      -webkit-transform: scale(1.5);\n              transform: scale(1.5);\n      color: white;\n}\n.drag-calendar .cal-cell[selected='true'] .cell-content .day-number[data-v-6d92aafc],\n    .drag-calendar .month-cell[selected='true'] .cell-content .day-number[data-v-6d92aafc] {\n      margin-bottom: 0.25rem;\n}\n.drag-calendar .arrow[data-v-6d92aafc] {\n    font-family: 'Oswald';\n    width: 2rem;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    position: absolute;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    z-index: 1000;\n    -webkit-transition: 0.2s all;\n    transition: 0.2s all;\n    background-color: white;\n    color: darkgrey;\n}\n.drag-calendar .arrow[data-v-6d92aafc]:hover {\n      background-color: #f8f8ff;\n      -webkit-box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n              box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n      cursor: pointer;\n      color: black;\n}\n.drag-calendar .arrow.bottom[data-v-6d92aafc] {\n      height: 5rem;\n      bottom: 1.1rem;\n      font-size: 3rem;\n}\n.drag-calendar .arrow.middle[data-v-6d92aafc] {\n      top: 3.25rem;\n      height: 2.5rem;\n      font-size: 2rem;\n}\n.drag-calendar .arrow.top[data-v-6d92aafc] {\n      top: 0.25rem;\n      height: 2.5rem;\n      font-size: 2rem;\n}\n.drag-calendar .arrow.left[data-v-6d92aafc] {\n      left: 0;\n}\n.drag-calendar .arrow.left.middle[data-v-6d92aafc]:before {\n        content: '<';\n        height: 2.5rem;\n}\n.drag-calendar .arrow.left.top[data-v-6d92aafc]:before {\n        content: '<';\n        height: 2.5rem;\n}\n.drag-calendar .arrow.left.bottom[data-v-6d92aafc]:before {\n        content: '<';\n        height: 4rem;\n}\n.drag-calendar .arrow.right[data-v-6d92aafc] {\n      right: 0;\n}\n.drag-calendar .arrow.right.middle[data-v-6d92aafc]:before {\n        content: '>';\n        height: 2.5rem;\n}\n.drag-calendar .arrow.right.top[data-v-6d92aafc]:before {\n        content: '>';\n        height: 2.5rem;\n}\n.drag-calendar .arrow.right[data-v-6d92aafc]:before {\n        content: '>';\n        height: 4rem;\n}\n.drag-calendar .arrow[data-v-6d92aafc]:active {\n      -webkit-transform: scale(0.8);\n              transform: scale(0.8);\n}\n.drag-calendar .days[data-v-6d92aafc] {\n    z-index: 1;\n    list-style: none;\n    float: left;\n    margin: 0;\n    padding: 0;\n    position: relative;\n    width: -webkit-max-content;\n    width: -moz-max-content;\n    width: max-content;\n    height: 5rem;\n    -webkit-transition: all 1s ease;\n    transition: all 1s ease;\n}\n.drag-calendar .days .cell[data-v-6d92aafc] {\n      float: left;\n      width: 4rem;\n      padding: 1.5rem 1.25rem;\n      margin: 0px;\n      border-right: 1px solid rgba(0, 0, 0, 0.03);\n      text-align: center;\n      position: relative;\n      color: #888;\n}\n.drag-calendar .days .cell[data-v-6d92aafc]:first-child {\n        margin-left: 0.4em;\n}\n.drag-calendar .days .cell[data-v-6d92aafc]:last-child {\n        margin-right: 0.4em;\n}\n.drag-calendar .days .cell[selected='true'][data-v-6d92aafc] {\n        background-color: darkblue;\n}\n.drag-calendar .days .cell.next[data-v-6d92aafc], .drag-calendar .days .cell.prev[data-v-6d92aafc] {\n        background-color: rgba(0, 0, 0, 0.02);\n        margin-right: 0.4rem;\n        opacity: 0.5;\n}\n.drag-calendar .days .cell.next .hover[data-v-6d92aafc], .drag-calendar .days .cell.prev .hover[data-v-6d92aafc] {\n          position: absolute;\n          opacity: 0;\n          top: 50%;\n          left: 50%;\n          -webkit-transform: translate(-50%, -50%);\n                  transform: translate(-50%, -50%);\n          font-weight: bold;\n}\n.drag-calendar .days .cell.next[data-v-6d92aafc]:hover, .drag-calendar .days .cell.prev[data-v-6d92aafc]:hover {\n          opacity: 1;\n}\n.drag-calendar .days .cell.next:hover .hover[data-v-6d92aafc], .drag-calendar .days .cell.prev:hover .hover[data-v-6d92aafc] {\n            -webkit-transition: all 1s ease;\n            transition: all 1s ease;\n            pointer-events: none;\n            opacity: 1;\n}\n.drag-calendar .days .cell.next:hover .cell-content[data-v-6d92aafc], .drag-calendar .days .cell.prev:hover .cell-content[data-v-6d92aafc] {\n            pointer-events: none;\n            -webkit-transition: all 1s ease;\n            transition: all 1s ease;\n            opacity: 0;\n}\n.drag-calendar .days .cell.today .day-number[data-v-6d92aafc] {\n        color: red;\n        text-decoration: underline;\n}\n.drag-calendar .days .cell .day-number[data-v-6d92aafc] {\n        display: block;\n        clear: both;\n        font-weight: bold;\n        font-size: 1.2em;\n        z-index: 1;\n        position: relative;\n}\n.drag-calendar .days .cell .day[data-v-6d92aafc] {\n        display: block;\n        clear: both;\n        text-transform: uppercase;\n        width: 100%;\n        font-weight: 100;\n        font-size: 12px;\n        margin-top: 0px;\n        z-index: 1;\n        position: relative;\n}\n.drag-calendar .days .cell.first[data-v-6d92aafc] {\n        background-color: rgba(0, 0, 0, 0.02);\n        color: #666;\n}\n.drag-calendar .days .cell.first .day[data-v-6d92aafc] {\n          font-weight: bold;\n}\n.drag-calendar .days .cell.first .day-number[data-v-6d92aafc] {\n          font-size: 1.2em;\n}\n.drag-calendar .months[data-v-6d92aafc] {\n    z-index: 1;\n    float: left;\n    margin: 0;\n    height: 2.5rem;\n    padding: 0;\n    padding-left: 0.6rem;\n    position: relative;\n    width: -webkit-max-content;\n    width: -moz-max-content;\n    width: max-content;\n    border-bottom: 0px solid ghostwhite;\n    margin: 0.25rem 0 0.75rem;\n    background-color: transparent;\n    -webkit-transition: all 1s ease;\n    transition: all 1s ease;\n    display: -webkit-inline-box;\n    display: -ms-inline-flexbox;\n    display: inline-flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.drag-calendar .months .cell[data-v-6d92aafc] {\n      float: left;\n      width: 8rem;\n      padding: 0.6rem;\n      text-align: center;\n      position: relative;\n      color: #888;\n      border-right: 1px solid rgba(0, 0, 0, 0.03);\n      position: relative;\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1;\n}\n.drag-calendar .months .cell.past[data-v-6d92aafc] {\n        background-color: rgba(222, 222, 222, 0.6);\n        color: lightgrey;\n        opacity: 0.8;\n        pointer-events: none;\n        border-right: solid 0.5px rgba(222, 222, 222, 0.8);\n}\n.drag-calendar .months .cell.next[data-v-6d92aafc], .drag-calendar .months .cell.prev[data-v-6d92aafc] {\n        background-color: rgba(0, 0, 0, 0.02);\n        margin-right: 0.4rem;\n        opacity: 0.5;\n}\n.drag-calendar .months .cell.next[data-v-6d92aafc]:hover, .drag-calendar .months .cell.prev[data-v-6d92aafc]:hover {\n          opacity: 1;\n}\n.drag-calendar .months .cell.next:hover .hover[data-v-6d92aafc], .drag-calendar .months .cell.prev:hover .hover[data-v-6d92aafc] {\n            -webkit-transition: all 1s ease;\n            transition: all 1s ease;\n            opacity: 1;\n            pointer-events: none;\n}\n.drag-calendar .months .cell.next:hover .month-name[data-v-6d92aafc], .drag-calendar .months .cell.prev:hover .month-name[data-v-6d92aafc] {\n            -webkit-transition: all 1s ease;\n            transition: all 1s ease;\n            opacity: 0;\n}\n.drag-calendar .months .cell.next .hover[data-v-6d92aafc], .drag-calendar .months .cell.prev .hover[data-v-6d92aafc] {\n          position: absolute;\n          opacity: 0;\n          top: 50%;\n          left: 50%;\n          -webkit-transform: translate(-50%, -50%);\n                  transform: translate(-50%, -50%);\n}\n.drag-calendar .months .cell.next .cell-content[data-v-6d92aafc], .drag-calendar .months .cell.prev .cell-content[data-v-6d92aafc] {\n          pointer-events: none;\n          opacity: 0.5;\n          color: black;\n          font-weight: bold;\n          font-size: 1rem;\n}\n.drag-calendar .months .cell[selected='true'] .cell-content[data-v-6d92aafc] {\n        opacity: 0.5;\n        color: white;\n        background-color: darkblue;\n        border-radius: 0.5em;\n        padding: 0.3em;\n        margin-top: -0.3em;\n        font-weight: 350;\n}\n.drag-calendar .months .cell.next[data-v-6d92aafc] {\n        -webkit-box-flex: 0.5;\n            -ms-flex: 0.5;\n                flex: 0.5;\n}\n.drag-calendar .months .cell .cell-content[data-v-6d92aafc] {\n        font-weight: 200;\n        font-size: 1em;\n}\n.drag-calendar .months .cell .cell-content .month-name[data-v-6d92aafc] {\n          opacity: 1;\n          font-weight: bold;\n          font-size: 0.9rem;\n          z-index: 1;\n          position: relative;\n          text-transform: uppercase;\n}\n.drag-calendar .years[data-v-6d92aafc] {\n    z-index: 1;\n    float: left;\n    margin: 0;\n    height: 2.5rem;\n    padding: 0;\n    position: relative;\n    width: -webkit-max-content;\n    width: -moz-max-content;\n    width: max-content;\n    border-bottom: 0px solid ghostwhite;\n    margin: 0.25rem 0 0.25rem;\n    background-color: transparent;\n    -webkit-transition: all 1s ease;\n    transition: all 1s ease;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.drag-calendar .years .cell[data-v-6d92aafc] {\n      float: left;\n      width: 16rem;\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1;\n      padding: 0.6rem;\n      text-align: center;\n      position: relative;\n      color: #888;\n      border-right: 1px solid rgba(0, 0, 0, 0.03);\n      position: relative;\n}\n.drag-calendar .years .cell .cell-content[data-v-6d92aafc] {\n        font-weight: 600;\n        font-size: 1rem;\n}\n.drag-calendar .years .cell .cell-content .month-name[data-v-6d92aafc] {\n          font-weight: bold;\n          font-size: 1rem;\n          z-index: 1;\n          position: relative;\n          text-transform: uppercase;\n}\n.drag-calendar .years .cell[selected='true'] .cell-content[data-v-6d92aafc] {\n        opacity: 0.25;\n        color: white;\n        background-color: darkblue;\n        border-radius: 0.5rem;\n        padding: 0.3rem;\n        margin-top: -0.3rem;\n}\n.drag-calendar .years .cell[selected='true'] .cell-content .year[data-v-6d92aafc] {\n          font-weight: 600;\n          opacity: 1;\n}\n", ""]);
+
+// exports
 
 
 /***/ }),
@@ -376,6 +517,51 @@ function toComment(sourceMap) {
 
 	return '/*# ' + data + ' */';
 }
+
+
+/***/ }),
+
+/***/ "23c6":
+/***/ (function(module, exports, __webpack_require__) {
+
+// getting tag from 19.1.3.6 Object.prototype.toString()
+var cof = __webpack_require__("2d95");
+var TAG = __webpack_require__("2b4c")('toStringTag');
+// ES3 wrong here
+var ARG = cof(function () { return arguments; }()) == 'Arguments';
+
+// fallback for IE11 Script Access Denied error
+var tryGet = function (it, key) {
+  try {
+    return it[key];
+  } catch (e) { /* empty */ }
+};
+
+module.exports = function (it) {
+  var O, T, B;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+    // @@toStringTag case
+    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
+    // builtinTag case
+    : ARG ? cof(O)
+    // ES3 arguments fallback
+    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+};
+
+
+/***/ }),
+
+/***/ "27ee":
+/***/ (function(module, exports, __webpack_require__) {
+
+var classof = __webpack_require__("23c6");
+var ITERATOR = __webpack_require__("2b4c")('iterator');
+var Iterators = __webpack_require__("84f2");
+module.exports = __webpack_require__("8378").getIteratorMethod = function (it) {
+  if (it != undefined) return it[ITERATOR]
+    || it['@@iterator']
+    || Iterators[classof(it)];
+};
 
 
 /***/ }),
@@ -519,10 +705,82 @@ module.exports = __webpack_require__("9e1e") ? function (object, key, value) {
 
 /***/ }),
 
+/***/ "33a4":
+/***/ (function(module, exports, __webpack_require__) {
+
+// check on default Array iterator
+var Iterators = __webpack_require__("84f2");
+var ITERATOR = __webpack_require__("2b4c")('iterator');
+var ArrayProto = Array.prototype;
+
+module.exports = function (it) {
+  return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
+};
+
+
+/***/ }),
+
+/***/ "38fd":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
+var has = __webpack_require__("69a8");
+var toObject = __webpack_require__("4bf8");
+var IE_PROTO = __webpack_require__("613b")('IE_PROTO');
+var ObjectProto = Object.prototype;
+
+module.exports = Object.getPrototypeOf || function (O) {
+  O = toObject(O);
+  if (has(O, IE_PROTO)) return O[IE_PROTO];
+  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
+    return O.constructor.prototype;
+  } return O instanceof Object ? ObjectProto : null;
+};
+
+
+/***/ }),
+
 /***/ "414c":
 /***/ (function(module, exports) {
 
 module.exports = "data:font/woff2;base64,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"
+
+/***/ }),
+
+/***/ "41a0":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var create = __webpack_require__("2aeb");
+var descriptor = __webpack_require__("4630");
+var setToStringTag = __webpack_require__("7f20");
+var IteratorPrototype = {};
+
+// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+__webpack_require__("32e9")(IteratorPrototype, __webpack_require__("2b4c")('iterator'), function () { return this; });
+
+module.exports = function (Constructor, NAME, next) {
+  Constructor.prototype = create(IteratorPrototype, { next: descriptor(1, next) });
+  setToStringTag(Constructor, NAME + ' Iterator');
+};
+
+
+/***/ }),
+
+/***/ "456d":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 Object.keys(O)
+var toObject = __webpack_require__("4bf8");
+var $keys = __webpack_require__("0d58");
+
+__webpack_require__("5eda")('keys', function () {
+  return function keys(it) {
+    return $keys(toObject(it));
+  };
+});
+
 
 /***/ }),
 
@@ -873,17 +1131,6 @@ var store = global[SHARED] || (global[SHARED] = {});
 
 /***/ }),
 
-/***/ "5ad9":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_4edd08f3_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("72b2");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_4edd08f3_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_4edd08f3_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_4edd08f3_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
 /***/ "5ca1":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -934,6 +1181,35 @@ module.exports = $export;
 
 /***/ }),
 
+/***/ "5cc5":
+/***/ (function(module, exports, __webpack_require__) {
+
+var ITERATOR = __webpack_require__("2b4c")('iterator');
+var SAFE_CLOSING = false;
+
+try {
+  var riter = [7][ITERATOR]();
+  riter['return'] = function () { SAFE_CLOSING = true; };
+  // eslint-disable-next-line no-throw-literal
+  Array.from(riter, function () { throw 2; });
+} catch (e) { /* empty */ }
+
+module.exports = function (exec, skipClosing) {
+  if (!skipClosing && !SAFE_CLOSING) return false;
+  var safe = false;
+  try {
+    var arr = [7];
+    var iter = arr[ITERATOR]();
+    iter.next = function () { return { done: safe = true }; };
+    arr[ITERATOR] = function () { return iter; };
+    exec(arr);
+  } catch (e) { /* empty */ }
+  return safe;
+};
+
+
+/***/ }),
+
 /***/ "5dbc":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -945,6 +1221,23 @@ module.exports = function (that, target, C) {
   if (S !== C && typeof S == 'function' && (P = S.prototype) !== C.prototype && isObject(P) && setPrototypeOf) {
     setPrototypeOf(that, P);
   } return that;
+};
+
+
+/***/ }),
+
+/***/ "5eda":
+/***/ (function(module, exports, __webpack_require__) {
+
+// most Object methods by ES6 should accept primitives
+var $export = __webpack_require__("5ca1");
+var core = __webpack_require__("8378");
+var fails = __webpack_require__("79e5");
+module.exports = function (KEY, exec) {
+  var fn = (core.Object || {})[KEY] || Object[KEY];
+  var exp = {};
+  exp[KEY] = exec(fn);
+  $export($export.S + $export.F * fails(function () { fn(1); }), 'Object', exp);
 };
 
 
@@ -1018,21 +1311,6 @@ module.exports = function (it, S) {
 
 /***/ }),
 
-/***/ "72b2":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("1cda");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("0caf3db6", content, true, {"sourceMap":false,"shadowMode":false});
-
-/***/ }),
-
 /***/ "7514":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1096,11 +1374,33 @@ module.exports = function (exec) {
 
 /***/ }),
 
+/***/ "7f20":
+/***/ (function(module, exports, __webpack_require__) {
+
+var def = __webpack_require__("86cc").f;
+var has = __webpack_require__("69a8");
+var TAG = __webpack_require__("2b4c")('toStringTag');
+
+module.exports = function (it, tag, stat) {
+  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
+};
+
+
+/***/ }),
+
 /***/ "8378":
 /***/ (function(module, exports) {
 
 var core = module.exports = { version: '2.5.7' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
+
+
+/***/ }),
+
+/***/ "84f2":
+/***/ (function(module, exports) {
+
+module.exports = {};
 
 
 /***/ }),
@@ -1276,6 +1576,71 @@ module.exports = exporter;
 
 /***/ }),
 
+/***/ "ac6a":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $iterators = __webpack_require__("cadf");
+var getKeys = __webpack_require__("0d58");
+var redefine = __webpack_require__("2aba");
+var global = __webpack_require__("7726");
+var hide = __webpack_require__("32e9");
+var Iterators = __webpack_require__("84f2");
+var wks = __webpack_require__("2b4c");
+var ITERATOR = wks('iterator');
+var TO_STRING_TAG = wks('toStringTag');
+var ArrayValues = Iterators.Array;
+
+var DOMIterables = {
+  CSSRuleList: true, // TODO: Not spec compliant, should be false.
+  CSSStyleDeclaration: false,
+  CSSValueList: false,
+  ClientRectList: false,
+  DOMRectList: false,
+  DOMStringList: false,
+  DOMTokenList: true,
+  DataTransferItemList: false,
+  FileList: false,
+  HTMLAllCollection: false,
+  HTMLCollection: false,
+  HTMLFormElement: false,
+  HTMLSelectElement: false,
+  MediaList: true, // TODO: Not spec compliant, should be false.
+  MimeTypeArray: false,
+  NamedNodeMap: false,
+  NodeList: true,
+  PaintRequestList: false,
+  Plugin: false,
+  PluginArray: false,
+  SVGLengthList: false,
+  SVGNumberList: false,
+  SVGPathSegList: false,
+  SVGPointList: false,
+  SVGStringList: false,
+  SVGTransformList: false,
+  SourceBufferList: false,
+  StyleSheetList: true, // TODO: Not spec compliant, should be false.
+  TextTrackCueList: false,
+  TextTrackList: false,
+  TouchList: false
+};
+
+for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++) {
+  var NAME = collections[i];
+  var explicit = DOMIterables[NAME];
+  var Collection = global[NAME];
+  var proto = Collection && Collection.prototype;
+  var key;
+  if (proto) {
+    if (!proto[ITERATOR]) hide(proto, ITERATOR, ArrayValues);
+    if (!proto[TO_STRING_TAG]) hide(proto, TO_STRING_TAG, NAME);
+    Iterators[NAME] = ArrayValues;
+    if (explicit) for (key in $iterators) if (!proto[key]) redefine(proto, key, $iterators[key], true);
+  }
+}
+
+
+/***/ }),
+
 /***/ "b041":
 /***/ (function(module, exports) {
 
@@ -1296,6 +1661,17 @@ module.exports = function escape(url) {
     return url
 }
 
+
+/***/ }),
+
+/***/ "ba6e":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_6d92aafc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("e73c");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_6d92aafc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_6d92aafc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_6d92aafc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -1440,6 +1816,48 @@ module.exports = function (key) {
 
 /***/ }),
 
+/***/ "cadf":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var addToUnscopables = __webpack_require__("9c6c");
+var step = __webpack_require__("d53b");
+var Iterators = __webpack_require__("84f2");
+var toIObject = __webpack_require__("6821");
+
+// 22.1.3.4 Array.prototype.entries()
+// 22.1.3.13 Array.prototype.keys()
+// 22.1.3.29 Array.prototype.values()
+// 22.1.3.30 Array.prototype[@@iterator]()
+module.exports = __webpack_require__("01f9")(Array, 'Array', function (iterated, kind) {
+  this._t = toIObject(iterated); // target
+  this._i = 0;                   // next index
+  this._k = kind;                // kind
+// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
+}, function () {
+  var O = this._t;
+  var kind = this._k;
+  var index = this._i++;
+  if (!O || index >= O.length) {
+    this._t = undefined;
+    return step(1);
+  }
+  if (kind == 'keys') return step(0, index);
+  if (kind == 'values') return step(0, O[index]);
+  return step(0, [index, O[index]]);
+}, 'values');
+
+// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
+Iterators.Arguments = Iterators.Array;
+
+addToUnscopables('keys');
+addToUnscopables('values');
+addToUnscopables('entries');
+
+
+/***/ }),
+
 /***/ "cb7c":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1499,6 +1917,16 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "d53b":
+/***/ (function(module, exports) {
+
+module.exports = function (done, value) {
+  return { value: value, done: !!done };
+};
+
+
+/***/ }),
+
 /***/ "d8e8":
 /***/ (function(module, exports) {
 
@@ -1518,6 +1946,21 @@ module.exports = (
   'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
 ).split(',');
 
+
+/***/ }),
+
+/***/ "e73c":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("22bb");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("10b5ca98", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -1544,6 +1987,22 @@ module.exports = function (original) {
 
 /***/ }),
 
+/***/ "f1ae":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $defineProperty = __webpack_require__("86cc");
+var createDesc = __webpack_require__("4630");
+
+module.exports = function (object, index, value) {
+  if (index in object) $defineProperty.f(object, index, createDesc(0, value));
+  else object[index] = value;
+};
+
+
+/***/ }),
+
 /***/ "fab2":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1562,13 +2021,57 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 var setPublicPath = __webpack_require__("1eb2");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"47426207-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=template&id=4edd08f3&scoped=true&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"container"},[_c('div',{staticClass:"drag-calendar",staticStyle:{"display":"block background-color: 'transparent'"}},[_c('div',{staticClass:"wrapper"},[_c('div',{ref:"monthly",staticClass:"months ui-draggable",staticStyle:{"left":"0px"},style:(_vm.monthly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"monthly"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.months),function(month){return _c('div',{staticClass:"month-cell cell",class:month.past ? 'past' : '',attrs:{"month-id":((month.fullYear) + "-" + (month.monthNumber))},on:{"click":function($event){_vm.toggleSelectMonth($event, month)}}},[_c('div',{staticClass:"date-formatted"},[_c('span',{staticClass:"cell-content month-name"},[_vm._v(_vm._s(_vm._f("abr")(_vm.MONTHS[month.monthNumber])))]),_vm._v(" "+_vm._s(month.fullYear%1000)+"\n          ")])])}))]),_c('div',{staticClass:"arrow top left",style:({visibility: _vm.monthly.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'monthly')}}}),_c('div',{staticClass:"arrow top right",style:({visibility: _vm.monthly.realOffset <= _vm.monthly.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'monthly')}}}),_c('div',{staticClass:"wrapper"},[_c('div',{ref:"daily",staticClass:"days ui-draggable",staticStyle:{"left":"0px"},style:(_vm.daily.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"daily"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.days),function(day){return _c('div',{key:((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),staticClass:"cal-cell cell",class:day.day === 1 ? 'first' : '',attrs:{"date":((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),"month":day.monthNumber,"year":day.fullYear},on:{"click":function($event){_vm.toggleSelect($event, day)}}},[_c('div',{staticClass:"cell-content"},[_c('div',{staticClass:"day-number"},[_vm._v("\n              "+_vm._s(day.day)+"\n            ")]),_c('div',{staticClass:"day"},[_vm._v("\n              "+_vm._s(_vm._f("abr")(_vm.DAYS[day.dayOfTheWeek]))+"\n            ")])])])}))]),_c('div',{staticClass:"arrow bottom left",style:({visibility: _vm.daily.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'daily')}}}),_c('div',{staticClass:"arrow bottom right",style:({visibility: _vm.daily.realOffset <= _vm.daily.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'daily')}}})])])}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"47426207-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=template&id=6d92aafc&scoped=true&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"container"},[_c('div',{staticClass:"drag-calendar",staticStyle:{"display":"block background-color: 'transparent'"},style:({height: _vm.NUMBER_OF_YEARS ? '12.6rem' : '9.6rem'})},[(_vm.NUMBER_OF_YEARS)?_c('div',{class:_vm.yearly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'},[_c('div',{ref:"yearly",staticClass:"years ui-draggable",staticStyle:{"left":"0px"},style:(_vm.yearly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"yearly"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.years),function(year){return _c('div',{key:year,staticClass:"year-cell cell",attrs:{"year-id":year},on:{"click":function($event){_vm.toggleSelectYear($event, year)}}},[_c('div',{staticClass:"cell-content"},[_c('span',{staticClass:"year"},[_vm._v(_vm._s(year))])])])}))]):_vm._e(),_c('div',{staticClass:"arrow top left",style:({visibility: _vm.yearly.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'yearly')}}}),_c('div',{staticClass:"arrow top right",style:({visibility: _vm.yearly.realOffset <= _vm.yearly.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'yearly')}}}),_c('div',{class:_vm.monthly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'},[_c('div',{ref:"monthly",staticClass:"months ui-draggable",staticStyle:{"left":"0px"},style:(_vm.monthly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"monthly"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.months),function(month){return (month)?_c('div',{key:((month.fullYear) + "-" + (month.monthNumber)),staticClass:"month-cell cell",class:{prev: month.prev, next: month.next, past: month.past},attrs:{"month-id":((month.fullYear) + "-" + (month.monthNumber)),"year-id":month.fullYear},on:{"click":function($event){_vm.toggleSelectMonth($event, month)}}},[_c('div',{staticClass:"cell-content"},[_c('span',{staticClass:"cell-content month-name"},[_vm._v(_vm._s(_vm._f("abr")(_vm.MONTHS[month.monthNumber]))+" ")]),(month.next)?_c('div',{staticClass:"hover"},[_vm._v(" "+_vm._s(month.fullYear))]):_vm._e(),(month.prev)?_c('div',{staticClass:"hover"},[_vm._v(" "+_vm._s(month.fullYear))]):_vm._e(),(!_vm.NUMBER_OF_YEARS)?_c('span',[_vm._v(" "+_vm._s(month.fullYear%1000))]):_vm._e()])]):_vm._e()}))]),_c('div',{staticClass:"arrow left",class:_vm.NUMBER_OF_YEARS ? 'middle' : 'top',style:({visibility: _vm.monthly.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'monthly')}}}),_c('div',{staticClass:"arrow right",class:_vm.NUMBER_OF_YEARS ? 'middle' : 'top',style:({visibility: _vm.monthly.realOffset <= _vm.monthly.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'monthly')}}}),_c('div',{staticClass:"wrapper"},[_c('div',{ref:"daily",staticClass:"days ui-draggable",staticStyle:{"left":"0px"},style:(_vm.daily.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"daily"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.days),function(day){return _c('div',{key:((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),staticClass:"cal-cell cell",class:{first: day.day == 1, next: day.next, prev: day.prev, today: day.today},attrs:{"date":((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),"month-id":day.monthNumber,"year-id":day.fullYear,"day-id":day.day},on:{"click":function($event){_vm.toggleSelect($event, day)}}},[(day.next)?_c('div',{staticClass:"hover"},[_vm._v(" "+_vm._s(day.fullYear))]):_vm._e(),(day.prev)?_c('div',{staticClass:"hover"},[_vm._v(" "+_vm._s(day.fullYear))]):_vm._e(),_c('div',{staticClass:"cell-content"},[_c('div',{staticClass:"day-number"},[_vm._v("\n              "+_vm._s(day.day)+"\n            ")]),_c('div',{staticClass:"day"},[_vm._v("\n              "+_vm._s(_vm._f("abr")(_vm.DAYS[day.dayOfTheWeek]))+"\n            ")])])])}))]),_c('div',{staticClass:"arrow bottom left",style:({visibility: _vm.daily.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'daily')}}}),_c('div',{staticClass:"arrow bottom right",style:({visibility: _vm.daily.realOffset <= _vm.daily.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'daily')}}})])])}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=4edd08f3&scoped=true&
+// CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=6d92aafc&scoped=true&
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom.iterable.js
+var web_dom_iterable = __webpack_require__("ac6a");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.iterator.js
+var es6_array_iterator = __webpack_require__("cadf");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.keys.js
+var es6_object_keys = __webpack_require__("456d");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/defineProperty.js
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/objectSpread.js
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
+
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
+
+    ownKeys.forEach(function (key) {
+      _defineProperty(target, key, source[key]);
+    });
+  }
+
+  return target;
+}
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/arrayWithoutHoles.js
 function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) {
@@ -1619,7 +2122,11 @@ var language = {
     MONTHS: ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER']
   }
 };
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.from.js
+var es6_array_from = __webpack_require__("1c4c");
+
 // CONCATENATED MODULE: ./src/utils/buildCalendar.js
+
 
 var TODAY = new Date();
 var gWeekDay = function gWeekDay(date) {
@@ -1634,30 +2141,35 @@ var gMonth = function gMonth(date) {
 var gYear = function gYear(date) {
   return date.getFullYear();
 };
+
+function splitDate(date) {
+  return {
+    dayOfTheWeek: gWeekDay(date),
+    day: gDay(date),
+    monthNumber: gMonth(date),
+    fullYear: gYear(date)
+  };
+}
+
 function computeMonthFromDays(NUMBER_OF_DAYS) {
   var date = new Date(gYear(TODAY), gMonth(TODAY), gDay(TODAY) + NUMBER_OF_DAYS);
   var NUMBER_OF_MONTHS = (gYear(date) - gYear(TODAY)) * 12 + gMonth(date) - gMonth(TODAY);
   return NUMBER_OF_MONTHS;
 }
+
 function computeDaysFromMonths(NUMBER_OF_MONTH) {
   var NUMBER_OF_DAYS = (Date.UTC(gYear(TODAY), gMonth(TODAY) + NUMBER_OF_MONTH) - Date.UTC(gYear(TODAY), gMonth(TODAY))) / (1000 * 60 * 60 * 24);
   return NUMBER_OF_DAYS;
 }
+
 function createDaysArray(NUMBER_OF_DAYS, fullMonths) {
+  if (NUMBER_OF_DAYS <= 0) return [];
   var currentConstructorDate = new Date();
   var days = [];
 
-  var splitDate = function splitDate(date) {
-    return {
-      dayOfTheWeek: gWeekDay(date),
-      day: gDay(date),
-      monthNumber: gMonth(date),
-      fullYear: gYear(date)
-    };
-  };
-
   for (var i = 0; i < NUMBER_OF_DAYS; i++) {
     var date = splitDate(currentConstructorDate);
+    if (i === 0) date.today = true;
     days.push(date);
     currentConstructorDate = new Date(date.fullYear, date.monthNumber, date.day + 1);
   }
@@ -1673,7 +2185,9 @@ function createDaysArray(NUMBER_OF_DAYS, fullMonths) {
 
   return days;
 }
+
 function createMonthsArray(NUMBER_OF_MONTHS) {
+  if (NUMBER_OF_MONTHS <= 0) return [];
   var currentConstructorMonth = new Date();
   var months = [];
 
@@ -1692,6 +2206,7 @@ function createMonthsArray(NUMBER_OF_MONTHS) {
 
   return months;
 }
+
 function createPrependArray(PREPEND_MONTHS) {
   var prepended = [{
     fullYear: gYear(TODAY),
@@ -1716,6 +2231,51 @@ function createPrependArray(PREPEND_MONTHS) {
 
   prepended.pop();
   return prepended;
+}
+
+function buildYear(year) {
+  var currentConstructorDate = new Date(Date.UTC(year, 0, 1));
+  var isLeap = year % 4 === 0 ? 1 : 0;
+  var entireYear = {
+    fullYear: year,
+    months: Array.from(Array(12), function (el, i) {
+      return {
+        monthNumber: i,
+        fullYear: year
+      };
+    }),
+    days: []
+  };
+
+  for (var i = 0; i < 365 + isLeap; i++) {
+    var date = splitDate(currentConstructorDate);
+    entireYear.days.push(date);
+    currentConstructorDate = new Date(date.fullYear, date.monthNumber, date.day + 1);
+  }
+
+  return entireYear;
+}
+
+function buildEntireCalendar(NUMBER_OF_YEARS) {
+  var entireCalendar = {};
+
+  for (var i = gYear(TODAY); i < gYear(TODAY) + NUMBER_OF_YEARS; i++) {
+    entireCalendar[i] = buildYear(i);
+  }
+
+  var c = {
+    m: gMonth(TODAY),
+    d: gDay(TODAY),
+    y: gYear(TODAY)
+  };
+  entireCalendar[c.y].months = entireCalendar[c.y].months.filter(function (el) {
+    return el.monthNumber >= c.m;
+  });
+  entireCalendar[c.y].days = entireCalendar[c.y].days.filter(function (el) {
+    return el.monthNumber > c.m || el.monthNumber === c.m && el.day >= c.d;
+  });
+  entireCalendar[c.y].days[0].today = true;
+  return entireCalendar;
 }
 function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMonths) {
   if (NUMBER_OF_MONTHS !== 12) NUMBER_OF_DAYS = computeDaysFromMonths(NUMBER_OF_MONTHS);else if (NUMBER_OF_DAYS !== 365) NUMBER_OF_MONTHS = computeMonthFromDays(NUMBER_OF_DAYS);
@@ -1745,6 +2305,10 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
     type: Number,
     default: 1
   },
+  years: {
+    type: Number,
+    default: 0
+  },
   selected: {
     type: Object,
     default: null
@@ -1759,6 +2323,28 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
 
 
 
+
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1810,11 +2396,11 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
     currentMonth: function currentMonth() {
       var past = this.daily.pastBreakPoints;
       var future = this.daily.monthBreakPoints;
-      var off = Math.abs(this.daily.realOffset) + this.$refs.monthly.parentNode.clientWidth / 2;
+      var off = -this.daily.realOffset + this.$refs.monthly.parentNode.clientWidth / 2;
       if (this.daily.realOffset === 0) off = 1;
       var changed = false;
 
-      while (off <= past[past.length - 1].offset) {
+      while (past.length > 0 && off <= past[past.length - 1].offset) {
         future.unshift(past.pop());
         changed = true;
       }
@@ -1824,7 +2410,7 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
         changed = true;
       }
 
-      if (changed) this.toggleSelectMonth(null, past[past.length - 1]);
+      if (changed && past.length > 0) this.toggleSelectMonth(null, past[past.length - 1]);
       return past[past.length - 1];
     }
   },
@@ -1832,6 +2418,8 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
     return {
       NUMBER_OF_DAYS: this.days,
       NUMBER_OF_MONTHS: this.months,
+      NUMBER_OF_YEARS: this.years,
+      START_YEAR: this.startYear || gYear(new Date()),
       PREPEND_MONTHS: this.prepended,
       DAYS: language[this.lang].DAYS,
       MONTHS: language[this.lang].MONTHS,
@@ -1840,6 +2428,15 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
       calendar: {
         months: [],
         days: []
+      },
+      entireCalendar: {},
+      yearly: {
+        phase: 'sleep',
+        startX: 0,
+        currentOffset: 0,
+        initLeft: 0,
+        realOffset: 0,
+        maxOffset: 0
       },
       monthly: {
         phase: 'sleep',
@@ -1851,11 +2448,7 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
       },
       daily: {
         monthBreakPoints: [],
-        pastBreakPoints: [{
-          offset: 0,
-          monthNumber: "".concat(new Date().getMonth()),
-          fullYear: "".concat(new Date().getFullYear())
-        }],
+        pastBreakPoints: [],
         phase: 'sleep',
         startX: 0,
         currentOffset: 0,
@@ -1889,10 +2482,11 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
         document.body.removeEventListener('touchmove', this.handleDrag, false);
         this.daily.phase = 'sleep';
         this.monthly.phase = 'sleep';
+        this.yearly.phase = 'sleep';
         return true;
       }
 
-      if (this.daily.phase !== 'sleep') state = this.daily;else if (this.monthly.phase !== 'sleep') state = this.monthly;else {
+      if (this.daily.phase !== 'sleep') state = this.daily;else if (this.monthly.phase !== 'sleep') state = this.monthly;else if (this.yearly.phase !== 'sleep') state = this.yearly;else {
         state = this["".concat(e.path.find(function (el) {
           return el.classList.contains('ui-draggable');
         }).getAttribute('state'))];
@@ -1910,29 +2504,41 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
         state.phase = 'dragging';
         state.currentOffset = (e.screenX || e.touches[0].screenX) - state.startX;
         state.realOffset = state.initLeft + state.currentOffset;
-
-        if (Math.abs(state.realOffset) > Math.abs(state.maxOffset)) {
-          state.realOffset = state.maxOffset;
-        }
-
+        if (state.realOffset < state.maxOffset) state.realOffset = state.maxOffset;
         state.style.left = state.realOffset <= 0 ? "".concat(state.realOffset, "px") : '0px';
         this.currentMonth;
       }
     },
     toggleSelectMonth: function toggleSelectMonth(e, month) {
+      if (e && /next|prev/g.test(e.target.className)) {
+        this.$refs.yearly.querySelector("[year-id=\"".concat(e.target.getAttribute('year-id'), "\"]")).click();
+        return;
+      }
+
       var exist = this.$refs.monthly.querySelector('.month-cell[selected="true"]');
       if (exist) exist.setAttribute('selected', false);
       this.$refs.monthly.querySelector("[month-id=\"".concat(month.fullYear, "-").concat(month.monthNumber, "\"]")).setAttribute('selected', true);
       this.selectedMonth = "".concat(month.fullYear, "-").concat(month.monthNumber);
 
       if (e) {
-        var id = "[year=\"".concat(month.fullYear, "\"][month=\"").concat(month.monthNumber, "\"].cal-cell");
+        var id = "[year-id=\"".concat(month.fullYear, "\"][month-id=\"").concat(month.monthNumber, "\"].cal-cell");
         this.scrollIntoView(this.$refs.daily.querySelector(id));
       }
 
       this.checkMonthIsInView();
     },
+    toggleSelectYear: function toggleSelectYear(e, year) {
+      var exist = this.$refs.yearly.querySelector('.year-cell[selected="true"]');
+      if (exist) exist.setAttribute('selected', false);
+      e.target.setAttribute('selected', true);
+      this.appendYear(year);
+    },
     toggleSelect: function toggleSelect(e, day) {
+      if (e && /next|prev/g.test(e.target.className)) {
+        this.$refs.yearly.querySelector("[year-id=\"".concat(e.target.getAttribute('year-id'), "\"]")).click();
+        return;
+      }
+
       var exist = this.$refs.daily.querySelector('.cal-cell[selected="true"]');
 
       if (exist) {
@@ -1967,10 +2573,12 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
 
       this.daily.phase = 'dragging';
       this.monthly.phase = 'dragging';
+      this.yearly.phase = 'dragging';
       this.maxOffsets();
       setTimeout(function () {
         _this.daily.phase = 'sleep';
         _this.monthly.phase = 'sleep';
+        _this.yearly.phase = 'sleep';
       }, 200);
     },
     maxOffsets: function maxOffsets() {
@@ -1982,6 +2590,52 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
       if (m.maxOffset > 0) m.maxOffset = 0;
       if (d.style.left.slice(0, -2) < d.maxOffset) d.style.left = "".concat(d.maxOffset, "px");
       if (m.style.left.slice(0, -2) < m.maxOffset) m.style.left = "".concat(m.maxOffset, "px");
+    },
+    computeBreakPoints: function computeBreakPoints() {
+      var first = this.$refs.monthly.querySelector('div:not(.past):not(.prev).month-cell.cell');
+      if (first) first.click();
+      this.daily.pastBreakPoints = [];
+      this.daily.monthBreakPoints = [this.$refs.daily.querySelector('.cal-cell.today')].concat(_toConsumableArray(this.$refs.daily.querySelectorAll('.cal-cell:not(.past):not(.prev):not(.next)[day-id="1"]'))).filter(Boolean).map(function (el, i) {
+        return {
+          offset: i === 0 ? 0 : el.offsetLeft,
+          monthNumber: el.getAttribute('month-id'),
+          fullYear: el.getAttribute('year-id')
+        };
+      });
+    },
+    appendYear: function appendYear(year) {
+      var _this2 = this;
+
+      var ec = this.entireCalendar;
+      var m = this.calendar.months;
+      var d = this.calendar.days;
+      year = Number(year);
+      this.monthly.realOffset = 0;
+      this.daily.realOffset = 0;
+      m.splice(0, 14);
+      d.splice(0, 368);
+      m.push.apply(m, _toConsumableArray(ec[year].months));
+      d.push.apply(d, _toConsumableArray(ec[year].days));
+
+      if (ec[year + 1]) {
+        m[m.push(_objectSpread({}, ec[year + 1].months[0])) - 1].next = true;
+        d[d.push(_objectSpread({}, ec[year + 1].days[0])) - 1].next = true;
+      }
+
+      if (ec[year - 1]) {
+        m.unshift(_objectSpread({}, ec[year - 1].months[ec[year - 1].months.length - 1]));
+        d.unshift(_objectSpread({}, ec[year - 1].days[ec[year - 1].days.length - 1]));
+        m[0].prev = true;
+        d[0].prev = true;
+      }
+
+      this.$nextTick(function () {
+        _this2.maxOffsets();
+
+        _this2.computeBreakPoints();
+
+        _this2.$refs.monthly.style.left = '0px';
+      });
     },
     checkMonthIsInView: function checkMonthIsInView() {
       var sel = this.$refs.monthly.querySelector('[selected="true"]');
@@ -2005,39 +2659,38 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
-    this.calendar = buildCalendar(this.NUMBER_OF_DAYS, this.NUMBER_OF_MONTHS, this.PREPEND_MONTHS, this.fullMonths);
+    if (this.NUMBER_OF_YEARS) {
+      this.entireCalendar = buildEntireCalendar(this.NUMBER_OF_YEARS);
+      this.calendar.years = Object.keys(this.entireCalendar);
+      this.appendYear(this.calendar.years[0]);
+    } else this.calendar = buildCalendar(this.NUMBER_OF_DAYS, this.NUMBER_OF_MONTHS, this.PREPEND_MONTHS, this.fullMonths);
+
     document.body.addEventListener('mouseup', function (e) {
-      return _this2.handleDrag(e);
+      return _this3.handleDrag(e);
     }, false);
     document.body.addEventListener('mouseleave', function (e) {
-      return _this2.handleDrag(e);
+      return _this3.handleDrag(e);
     }, false);
     document.body.addEventListener('touchend', function (e) {
-      return _this2.handleDrag(e);
+      return _this3.handleDrag(e);
     }, false);
     window.addEventListener('resize', function (e) {
-      return _this2.handleResize();
+      return _this3.handleResize();
     }, false);
   },
   mounted: function mounted() {
-    this.$refs.monthly.querySelector('div:not(.past).month-cell.cell').click();
-
-    if (this.selected) {
-      this.$refs.daily.querySelector("[date=\"".concat(this.selected.fullYear, "-").concat(this.selected.monthNumber, "-").concat(this.selected.day, "\"]")).setAttribute('selected', true);
-      this.scrollIntoView();
+    if (this.NUMBER_OF_YEARS) {
+      var y = this.yearly;
+      y.style = this.$refs.yearly.style;
+      this.$refs.yearly.firstChild.setAttribute('selected', true);
+      y.maxOffset = this.$refs.yearly.parentNode.clientWidth - this.$refs.yearly.clientWidth;
+      if (y.maxOffset > 0) y.maxOffset = 0;
+      if (y.style.left.slice(0, -2) < y.maxOffset) y.style.left = "".concat(y.maxOffset, "px");
     }
 
-    this.daily.monthBreakPoints = _toConsumableArray(this.$refs.daily.querySelectorAll('.cal-cell')).filter(function (cell) {
-      return /-1$/g.test(cell.getAttribute('date'));
-    }).map(function (el) {
-      return {
-        offset: el.offsetLeft,
-        monthNumber: el.getAttribute('month'),
-        fullYear: el.getAttribute('year')
-      };
-    });
+    this.computeBreakPoints();
     this.daily.style = this.$refs.daily.style;
     this.monthly.style = this.$refs.monthly.style;
     this.maxOffsets();
@@ -2046,23 +2699,26 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
     this.currentMonth;
   },
   beforeDestroy: function beforeDestroy() {
-    var _this3 = this;
+    var _this4 = this;
 
     document.body.removeEventListener('mouseup', function (e) {
-      return _this3.handleDrag(e);
+      return _this4.handleDrag(e);
     }, false);
     document.body.removeEventListener('mouseleave', function (e) {
-      return _this3.handleDrag(e);
+      return _this4.handleDrag(e);
     }, false);
     document.body.removeEventListener('touchend', function (e) {
-      return _this3.handleDrag(e);
+      return _this4.handleDrag(e);
+    }, false);
+    window.removeEventListener('resize', function (e) {
+      return _this4.handleResize();
     }, false);
   }
 });
 // CONCATENATED MODULE: ./src/App.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_Appvue_type_script_lang_js_ = (Appvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/App.vue?vue&type=style&index=0&id=4edd08f3&lang=scss&scoped=true&
-var Appvue_type_style_index_0_id_4edd08f3_lang_scss_scoped_true_ = __webpack_require__("5ad9");
+// EXTERNAL MODULE: ./src/App.vue?vue&type=style&index=0&id=6d92aafc&lang=scss&scoped=true&
+var Appvue_type_style_index_0_id_6d92aafc_lang_scss_scoped_true_ = __webpack_require__("ba6e");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -2174,7 +2830,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "4edd08f3",
+  "6d92aafc",
   null
   
 )
