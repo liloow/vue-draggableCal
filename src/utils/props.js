@@ -28,4 +28,8 @@ export default {
     type: Boolean,
     default: false,
   },
+  accentColor: {
+    type: String,
+    default: '#00008b',
+  },
 };

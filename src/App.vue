@@ -3,8 +3,8 @@
     <div class="drag-calendar" style="display: block background-color: 'transparent'" :style="{height: NUMBER_OF_YEARS ? '12.6rem' : '9.6rem'}">
       <div v-if="NUMBER_OF_YEARS" :class="yearly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'">
         <div ref="yearly" state="yearly" class="years ui-draggable" style="left: 0px;" @mousedown="handleDrag($event)" @touchstart="handleDrag($event)" :style="yearly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} ">
-          <div v-for="year in calendar.years" :key="year" class="year-cell cell" @click="toggleSelectYear($event, year)" :year-id="year">
-            <div class="cell-content">
+          <div v-for="year in calendar.years" :accent-color="accentColor" :key="year" class="year-cell cell" @click="toggleSelectYear($event, year)" :year-id="year" :selected="isSelected(null,null,year)">
+            <div class="cell-content" :style="{backgroundColor: `${isSelected(null, null, year) ? accentColor : ''}` }">
               <span class="year">{{year}}</span>
             </div>
           </div>
@@ -16,8 +16,8 @@
       </div>
       <div :class="monthly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'">
         <div ref="monthly" state="monthly" class="months ui-draggable" style="left: 0px;" @mousedown="handleDrag($event)" @touchstart="handleDrag($event)" :style="monthly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} ">
-          <div v-for="month in calendar.months" :key="`${month.fullYear}-${month.monthNumber}`" v-if="month" class="month-cell cell" :class="{prev: month.prev, next: month.next, past: month.past}" @click="toggleSelectMonth($event, month)" :month-id="`${month.fullYear}-${month.monthNumber}`" :year-id="month.fullYear">
-            <div class="cell-content">
+          <div v-for="month in calendar.months" :accent-color="accentColor" :key="`${month.fullYear}-${month.monthNumber}`" v-if="month" class="month-cell cell" :class="{prev: month.prev, next: month.next, past: month.past}" @click="toggleSelectMonth($event, month)" :month-id="`${month.fullYear}-${month.monthNumber}`" :year-id="month.fullYear" :selected="isSelected(null, month, null)">
+            <div class="cell-content" :style="{backgroundColor: `${isSelected(null, month, null) ? accentColor : ''}` }">
               <span class="cell-content month-name">{{MONTHS[month.monthNumber] | abr}} </span>
               <div class="hover" v-if="month.next"> {{month.fullYear}}</div>
               <div class="hover" v-if="month.prev"> {{month.fullYear}}</div>
@@ -32,7 +32,7 @@
       </div>
       <div class="wrapper">
         <div ref="daily" state="daily" class="days ui-draggable" :style="daily.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} " style="left: 0px;" @mousedown="handleDrag($event)" @touchstart="handleDrag($event)">
-          <div v-for="day in calendar.days" :key="`${day.fullYear}-${day.monthNumber}-${day.day}`" :date="`${day.fullYear}-${day.monthNumber}-${day.day}`" class="cal-cell cell" :class="{first: day.day == 1, next: day.next, prev: day.prev, today: day.today}" :month-id="day.monthNumber" :year-id="day.fullYear" :day-id="day.day" @click="toggleSelect($event, day)">
+          <div v-for="day in calendar.days" :accent-color="accentColor" :key="`${day.fullYear}-${day.monthNumber}-${day.day}`" :date="`${day.fullYear}-${day.monthNumber}-${day.day}`" class="cal-cell cell" :class="{first: day.day == 1, next: day.next, prev: day.prev, today: day.today}" :month-id="day.monthNumber" :year-id="day.fullYear" :day-id="day.day" @click="toggleSelect($event, day)" :selected="isSelected(day, null, null)" :style="{backgroundColor: `${isSelected(day, null, null) ? accentColor : ''}` }">
             <div class="hover" v-if="day.next"> {{day.fullYear}}</div>
             <div class="hover" v-if="day.prev"> {{day.fullYear}}</div>
             <div class="cell-content">
@@ -66,6 +66,7 @@ export default {
     currentMonth() {
       let past = this.daily.pastBreakPoints;
       let future = this.daily.monthBreakPoints;
+      if (!this.$refs.monthly) return past[past.length - 1];
       let off = -this.daily.realOffset + this.$refs.monthly.parentNode.clientWidth / 2;
       if (this.daily.realOffset === 0) off = 1;
       let changed = false;
@@ -90,8 +91,7 @@ export default {
       PREPEND_MONTHS: this.prepended,
       DAYS: language[this.lang].DAYS,
       MONTHS: language[this.lang].MONTHS,
-      selectedDate: this.selected,
-      selectedMonth: null,
+      selectedDate: this.selected || {},
       calendar: {
         months: [],
         days: [],
@@ -126,20 +126,42 @@ export default {
     };
   },
   methods: {
+    isSelected(day, month, year) {
+      const d = this.selectedDate;
+      const cm = this.currentMonth;
+      if (day) {
+        return d.day == day.day && d.monthNumber == day.monthNumber && d.fullYear == day.fullYear;
+      }
+      if (month) {
+        return [
+          !d.monthNumber &&
+            cm &&
+            cm.monthNumber == month.monthNumber &&
+            cm.fullYear == month.fullYear,
+          d.monthNumber == month.monthNumber && d.fullYear == month.fullYear,
+        ].some(Boolean);
+      }
+      if (year) {
+        return cm && cm.fullYear == year;
+      }
+      return false;
+    },
     goLeft(e, state) {
       if (this[state].realOffset >= 0) return;
-      let elem = e.target.parentNode.querySelector('.ui-draggable');
-      let cell = elem.firstChild.firstChild;
+      let elem = e.target.parentNode.querySelector(`[state="${state}"`);
+      let cell = elem.firstChild;
       this[state].realOffset =
-        this[state].realOffset + Math.floor(elem.clientWidth / cell.clientWidth) * cell.clientWidth;
+        this[state].realOffset +
+        Math.floor(elem.parentNode.clientWidth / cell.clientWidth) * cell.clientWidth;
       if (this[state].realOffset > 0) this[state].realOffset = 0;
       this.$refs[state].style.left = `${this[state].realOffset}px`;
     },
     goRight(e, state) {
-      let elem = e.target.parentNode.querySelector('.ui-draggable');
-      let cell = elem.firstChild.firstChild;
+      let elem = e.target.parentNode.querySelector(`[state="${state}"`);
+      let cell = elem.firstChild;
       this[state].realOffset =
-        this[state].realOffset - Math.floor(elem.clientWidth / cell.clientWidth) * cell.clientWidth;
+        this[state].realOffset -
+        Math.floor(elem.parentNode.clientWidth / cell.clientWidth) * cell.clientWidth;
       if (this[state].realOffset < this[state].maxOffset)
         this[state].realOffset = this[state].maxOffset;
       this.$refs[state].style.left = `${this[state].realOffset}px`;
@@ -170,7 +192,7 @@ export default {
         document.body.addEventListener('touchmove', this.handleDrag, false);
         state.phase = 'listen';
         state.startX = e.screenX || e.touches[0].screenX;
-        state.initLeft = Number(state.style.left.match(/-?[0-9]+/g)[0]);
+        state.initLeft = Number(state.style.left.slice(0, -2));
       }
 
       if (e.type === 'mousemove' || e.type === 'touchmove') {
@@ -179,7 +201,6 @@ export default {
         state.realOffset = state.initLeft + state.currentOffset;
         if (state.realOffset < state.maxOffset) state.realOffset = state.maxOffset;
         state.style.left = state.realOffset <= 0 ? `${state.realOffset}px` : '0px';
-        this.currentMonth;
       }
     },
     toggleSelectMonth(e, month) {
@@ -187,12 +208,6 @@ export default {
         this.$refs.yearly.querySelector(`[year-id="${e.target.getAttribute('year-id')}"]`).click();
         return;
       }
-      let exist = this.$refs.monthly.querySelector('.month-cell[selected="true"]');
-      if (exist) exist.setAttribute('selected', false);
-      this.$refs.monthly
-        .querySelector(`[month-id="${month.fullYear}-${month.monthNumber}"]`)
-        .setAttribute('selected', true);
-      this.selectedMonth = `${month.fullYear}-${month.monthNumber}`;
       if (e) {
         const id = `[year-id="${month.fullYear}"][month-id="${month.monthNumber}"].cal-cell`;
         this.scrollIntoView(this.$refs.daily.querySelector(id));
@@ -200,9 +215,6 @@ export default {
       this.checkMonthIsInView();
     },
     toggleSelectYear(e, year) {
-      let exist = this.$refs.yearly.querySelector('.year-cell[selected="true"]');
-      if (exist) exist.setAttribute('selected', false);
-      e.target.setAttribute('selected', true);
       this.appendYear(year);
     },
     toggleSelect(e, day) {
@@ -210,29 +222,22 @@ export default {
         this.$refs.yearly.querySelector(`[year-id="${e.target.getAttribute('year-id')}"]`).click();
         return;
       }
-      let exist = this.$refs.daily.querySelector('.cal-cell[selected="true"]');
-      if (exist) {
-        exist.setAttribute('selected', false);
-        if (e.target === exist) {
-          this.selectedDate = null;
-          this.selectedMonth = null;
-          return this.$emit('dateCleared');
-        }
+      if (e.target.getAttribute('selected')) {
+        this.selectedDate = {};
+        return this.$emit('dateCleared');
       }
-      this.selectedDate = day;
-      this.selectedMonth = `${day.fullYear}-${day.monthNumber}`;
       this.toggleSelectMonth(null, day);
-      e.target.setAttribute('selected', true);
       this.dateSelected(day);
     },
     scrollIntoView(element) {
       let cal = element;
-      if (!element) cal = this.$refs.daily.querySelector(`[selected=true].cal-cell`);
+      if (!element) cal = this.$refs.daily.querySelector(`[selected="selected"].cal-cell`);
       let offset = cal.offsetLeft - cal.parentNode.parentNode.clientWidth * 0.3 - cal.clientWidth;
       this.daily.realOffset = offset > 0 ? -offset : 0;
       this.$refs.daily.style.left = `${this.daily.realOffset}px`;
     },
     dateSelected(date) {
+      this.selectedDate = date;
       const formattedDate = new Date(Date.UTC(date.fullYear, date.monthNumber, date.day));
       this.$emit('dateSelected', formattedDate);
     },
@@ -241,6 +246,7 @@ export default {
       this.monthly.phase = 'dragging';
       this.yearly.phase = 'dragging';
       this.maxOffsets();
+      this.computeBreakPoints();
       setTimeout(() => {
         this.daily.phase = 'sleep';
         this.monthly.phase = 'sleep';
@@ -250,22 +256,24 @@ export default {
     maxOffsets() {
       const d = this.daily;
       const m = this.monthly;
+      const y = this.yearly;
       d.maxOffset = this.$refs.daily.parentNode.clientWidth - this.$refs.daily.clientWidth;
       m.maxOffset = this.$refs.monthly.parentNode.clientWidth - this.$refs.monthly.clientWidth;
       if (d.maxOffset > 0) d.maxOffset = 0;
       if (m.maxOffset > 0) m.maxOffset = 0;
       if (d.style.left.slice(0, -2) < d.maxOffset) d.style.left = `${d.maxOffset}px`;
       if (m.style.left.slice(0, -2) < m.maxOffset) m.style.left = `${m.maxOffset}px`;
+      if (this.NUMBER_OF_YEARS) {
+        y.maxOffset = this.$refs.yearly.parentNode.clientWidth - this.$refs.yearly.clientWidth;
+        if (y.maxOffset > 0) y.maxOffset = 0;
+        if (y.style.left.slice(0, -2) < y.maxOffset) y.style.left = `${y.maxOffset}px`;
+      }
     },
     computeBreakPoints() {
-      const first = this.$refs.monthly.querySelector('div:not(.past):not(.prev).month-cell.cell');
-      if (first) first.click();
       this.daily.pastBreakPoints = [];
       this.daily.monthBreakPoints = [
         this.$refs.daily.querySelector('.cal-cell.today'),
-        ...this.$refs.daily.querySelectorAll(
-          '.cal-cell:not(.past):not(.prev):not(.next)[day-id="1"]'
-        ),
+        ...this.$refs.daily.querySelectorAll('.cal-cell:not(.next)[day-id="1"]'),
       ]
         .filter(Boolean)
         .map((el, i) => ({
@@ -299,24 +307,47 @@ export default {
         this.maxOffsets();
         this.computeBreakPoints();
         this.$refs.monthly.style.left = '0px';
+        this.$refs.daily.style.left = '0px';
+        this.checkYearIsInView();
       });
     },
     checkMonthIsInView() {
-      const sel = this.$refs.monthly.querySelector('[selected="true"]');
-      if (sel) {
-        const cw = sel.parentNode.parentNode.clientWidth;
-        const m = this.monthly;
-        if (sel.offsetLeft > -m.realOffset - sel.clientWidth + cw) {
-          m.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
-          if (m.realOffset < m.maxOffset) m.realOffset = m.maxOffset;
-          m.style.left = `${m.realOffset}px`;
+      this.$nextTick(() => {
+        const sel = this.$refs.monthly.querySelector('[selected="selected"]');
+        if (sel) {
+          const cw = sel.parentNode.parentNode.clientWidth;
+          const m = this.monthly;
+          if (sel.offsetLeft > -m.realOffset - sel.clientWidth + cw) {
+            m.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
+            if (m.realOffset < m.maxOffset) m.realOffset = m.maxOffset;
+            m.style.left = `${m.realOffset}px`;
+          }
+          if (-sel.offsetLeft > m.realOffset) {
+            m.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
+            if (m.realOffset > 0) m.realOffset = 0;
+            m.style.left = `${m.realOffset}px`;
+          }
         }
-        if (-sel.offsetLeft > m.realOffset) {
-          m.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
-          if (m.realOffset > 0) m.realOffset = 0;
-          m.style.left = `${m.realOffset}px`;
+      });
+    },
+    checkYearIsInView() {
+      this.$nextTick(() => {
+        const sel = this.$refs.yearly.querySelector('[selected="selected"]');
+        if (sel) {
+          const cw = sel.parentNode.parentNode.clientWidth;
+          const y = this.yearly;
+          if (sel.offsetLeft > y.realOffset - sel.clientWidth + cw) {
+            y.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
+            if (y.realOffset < y.maxOffset) y.realOffset = y.maxOffset;
+            y.style.left = `${y.realOffset}px`;
+          }
+          if (-sel.offsetLeft > y.realOffset) {
+            y.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
+            if (y.realOffset > 0) y.realOffset = 0;
+            y.style.left = `${y.realOffset}px`;
+          }
         }
-      }
+      });
     },
   },
   created() {
@@ -338,12 +369,7 @@ export default {
   },
   mounted() {
     if (this.NUMBER_OF_YEARS) {
-      const y = this.yearly;
-      y.style = this.$refs.yearly.style;
-      this.$refs.yearly.firstChild.setAttribute('selected', true);
-      y.maxOffset = this.$refs.yearly.parentNode.clientWidth - this.$refs.yearly.clientWidth;
-      if (y.maxOffset > 0) y.maxOffset = 0;
-      if (y.style.left.slice(0, -2) < y.maxOffset) y.style.left = `${y.maxOffset}px`;
+      this.yearly.style = this.$refs.yearly.style;
     }
     this.computeBreakPoints();
     this.daily.style = this.$refs.daily.style;
@@ -433,8 +459,8 @@ export default {
       pointer-events: none;
     }
   }
-  .cal-cell[selected='true'],
-  .month-cell[selected='true'] {
+  .cal-cell[selected='selected'],
+  .month-cell[selected='selected'] {
     border-radius: 0.5em;
     transform: scale(1.1);
     transition: transform 0.3s ease;
@@ -539,9 +565,6 @@ export default {
       }
       &:last-child {
         margin-right: 0.4em;
-      }
-      &[selected='true'] {
-        background-color: darkblue;
       }
       &.next,
       &.prev {
@@ -671,15 +694,18 @@ export default {
           font-size: 1rem;
         }
       }
-      &[selected='true'] {
+      &[selected='selected'] {
         .cell-content {
           opacity: 0.5;
           color: white;
-          background-color: darkblue;
           border-radius: 0.5em;
           padding: 0.3em;
           margin-top: -0.3em;
           font-weight: 350;
+          .month-name {
+            font-size: 0.9rem;
+            padding: 0;
+          }
         }
       }
       &.next {
@@ -734,11 +760,10 @@ export default {
           text-transform: uppercase;
         }
       }
-      &[selected='true'] {
+      &[selected='selected'] {
         .cell-content {
           opacity: 0.25;
           color: white;
-          background-color: darkblue;
           border-radius: 0.5rem;
           padding: 0.3rem;
           margin-top: -0.3rem;

@@ -18,12 +18,12 @@ To view demo examples locally clone the repo and run `npm i && npm serve --open 
 
 ## What the future holds
 
-I am planning to add a few more customizations props in the near future, but I don't let my lack of imagination/creativity stop yours ! I strongly encourage you ton open Issues or pull requests if you have any ideas/needs that you'd like to see added to the component ! 
+I am planning to add a few more customizations props in the near future, but I don't let my lack of imagination/creativity stop yours ! I strongly encourage you ton open Issues or pull requests if you have any ideas/needs that you'd like to see added to the component !
 
 - [ ] Add more languages
 - [ ] Add props for easy custom styling
 - [ ] Add the possibility to append years as well
-- [ ] Optimize the Array of days rendered 
+- [ ] Optimize the Array of days rendered
 
 ## Install
 
@@ -56,7 +56,7 @@ Or use directly from a CDN
   <DraggableCal />
 </div>
 <script src="https://unpkg.com/vue"></script>
-<script src="https://unpkg.com/vue-draggable-call"></script>
+<script src="https://unpkg.com/vue-draggable-cal"></script>
 <script>
 new Vue({
   el: '#app',
@@ -81,12 +81,14 @@ Emits events
 
 ## Available props
 
-| Prop       | Type    | Default | Description                                                                                                           |
-| :--------- | :------ | :------ | :-------------------------------------------------------------------------------------------------------------------- |
-| days       | Number  | 365     | Number of days to append                                                                                              |
-| months     | Number  | 12      | Numbers of months to append (has precedence over `days` if custom set)                                                |
-| lang       | String  | EN      | Language (see available in [Transations](#Translation))                                                               |  |
-| fullMonths | Boolean | false   | Weither or not to always use complete months (i.e. `days=1` if set to `true` the whole month is going to be appended) |
+| Prop        | Type    | Default | Description                                                                                                           |
+| :---------- | :------ | :------ | :-------------------------------------------------------------------------------------------------------------------- |
+| days        | Number  | 365     | Number of days to append                                                                                              |
+| months      | Number  | 12      | Numbers of months to append (has precedence over `days` if custom set)                                                |
+| years       | Number  | 0       | Number of years to append and enable year mode                                                                        |
+| fullMonths  | Boolean | false   | Weither or not to always use complete months (i.e. `days=1` if set to `true` the whole month is going to be appended) |
+| accentColor | String  | #00008b | Set the accent color (`HEX` or `CSS color names`)                                                                     |
+| lang        | String  | EN      | Language (see available in [Transations](#Translation))                                                               |
 
 ## Events
 
@@ -105,6 +107,7 @@ These events are emitted on actions in the datepicker
 | FR   | French   |           |
 
 ## License
+
 MIT
 
 ## Thanks
