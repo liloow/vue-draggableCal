@@ -10,7 +10,7 @@ A datepicker Vue component. Compatible with Vue 2.x
 
 ## Demo
 
-To view a demo online: [demo](https://liloow.github.io/vue-draggableCal/dist/demo)
+To view a demo online: [demo](https://liloow.github.io/vue-draggableCal/demo/)
 
 To view demo examples locally clone the repo and run `npm i && npm serve --open App.vue`
 
