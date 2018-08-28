@@ -157,7 +157,6 @@ export default {
       this.$refs[state].style.left = `${this[state].realOffset}px`;
     },
     goRight(e, state) {
-      console.log(state);
       let elem = e.target.parentNode.querySelector(`[state="${state}"`);
       let cell = elem.firstChild;
       this[state].realOffset =
