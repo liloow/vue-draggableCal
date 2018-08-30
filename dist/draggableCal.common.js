@@ -164,57 +164,6 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
 
 /***/ }),
 
-/***/ "0a49":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 0 -> Array#forEach
-// 1 -> Array#map
-// 2 -> Array#filter
-// 3 -> Array#some
-// 4 -> Array#every
-// 5 -> Array#find
-// 6 -> Array#findIndex
-var ctx = __webpack_require__("9b43");
-var IObject = __webpack_require__("626a");
-var toObject = __webpack_require__("4bf8");
-var toLength = __webpack_require__("9def");
-var asc = __webpack_require__("cd1c");
-module.exports = function (TYPE, $create) {
-  var IS_MAP = TYPE == 1;
-  var IS_FILTER = TYPE == 2;
-  var IS_SOME = TYPE == 3;
-  var IS_EVERY = TYPE == 4;
-  var IS_FIND_INDEX = TYPE == 6;
-  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
-  var create = $create || asc;
-  return function ($this, callbackfn, that) {
-    var O = toObject($this);
-    var self = IObject(O);
-    var f = ctx(callbackfn, that, 3);
-    var length = toLength(self.length);
-    var index = 0;
-    var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
-    var val, res;
-    for (;length > index; index++) if (NO_HOLES || index in self) {
-      val = self[index];
-      res = f(val, index, O);
-      if (TYPE) {
-        if (IS_MAP) result[index] = res;   // map
-        else if (res) switch (TYPE) {
-          case 3: return true;             // some
-          case 5: return val;              // find
-          case 6: return index;            // findIndex
-          case 2: result.push(val);        // filter
-        } else if (IS_EVERY) return false; // every
-      }
-    }
-    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
-  };
-};
-
-
-/***/ }),
-
 /***/ "0d58":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -224,18 +173,6 @@ var enumBugKeys = __webpack_require__("e11e");
 
 module.exports = Object.keys || function keys(O) {
   return $keys(O, enumBugKeys);
-};
-
-
-/***/ }),
-
-/***/ "1169":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.2.2 IsArray(argument)
-var cof = __webpack_require__("2d95");
-module.exports = Array.isArray || function isArray(arg) {
-  return cof(arg) == 'Array';
 };
 
 
@@ -1190,17 +1127,6 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 /***/ }),
 
-/***/ "67ee":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_3c6b989b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("7575");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_3c6b989b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_3c6b989b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_3c6b989b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
 /***/ "6821":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1241,43 +1167,6 @@ module.exports = function (it, S) {
   throw TypeError("Can't convert object to primitive value");
 };
 
-
-/***/ }),
-
-/***/ "7514":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// 22.1.3.8 Array.prototype.find(predicate, thisArg = undefined)
-var $export = __webpack_require__("5ca1");
-var $find = __webpack_require__("0a49")(5);
-var KEY = 'find';
-var forced = true;
-// Shouldn't skip holes
-if (KEY in []) Array(1)[KEY](function () { forced = false; });
-$export($export.P + $export.F * forced, 'Array', {
-  find: function find(callbackfn /* , that = undefined */) {
-    return $find(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-__webpack_require__("9c6c")(KEY);
-
-
-/***/ }),
-
-/***/ "7575":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("b1d7");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("ed2cf750", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -1612,22 +1501,6 @@ module.exports = function escape(url) {
 
 /***/ }),
 
-/***/ "b1d7":
-/***/ (function(module, exports, __webpack_require__) {
-
-var escape = __webpack_require__("b041");
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, "/* ========================================================================== */\n/* ========================================================================== */\n@font-face {\n  font-family: 'Oswald';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + escape(__webpack_require__("414c")) + ") format(\"woff2\");\n}\n:root {\n  font-size: 14px;\n  font-size: 1.75vw;\n}\n@media (max-width: 685.71429px) {\n:root {\n      font-size: 12px;\n}\n}\n@media (min-width: 914.28571px) {\n:root {\n      font-size: 16px;\n}\n}\n.container[data-v-3c6b989b] {\n  padding-top: 1em;\n  width: 95%;\n  margin: auto;\n}\n.drag-calendar[data-v-3c6b989b] {\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box;\n  clear: both;\n  overflow: hidden;\n  width: 100%;\n  position: relative;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  padding: 0;\n  line-height: 1;\n  background-color: transparent;\n}\n.drag-calendar .wrapper-flex[data-v-3c6b989b] {\n    display: -webkit-inline-box;\n    display: -ms-inline-flexbox;\n    display: inline-flex;\n    width: 100%;\n}\n.drag-calendar .ui-draggable[data-v-3c6b989b] {\n    cursor: move;\n    cursor: -webkit-grab;\n}\n.drag-calendar .ui-draggable .cell-content[data-v-3c6b989b] {\n      pointer-events: none;\n}\n.drag-calendar .cal-cell[selected='selected'][data-v-3c6b989b],\n  .drag-calendar .month-cell[selected='selected'][data-v-3c6b989b] {\n    border-radius: 0.5em;\n    -webkit-transform: scale(1.1);\n            transform: scale(1.1);\n    -webkit-transition: -webkit-transform 0.3s ease;\n    transition: -webkit-transform 0.3s ease;\n    transition: transform 0.3s ease;\n    transition: transform 0.3s ease, -webkit-transform 0.3s ease;\n    padding: 1.25em;\n}\n.drag-calendar .cal-cell[selected='selected'] .cell-content div[data-v-3c6b989b],\n    .drag-calendar .month-cell[selected='selected'] .cell-content div[data-v-3c6b989b] {\n      -webkit-transform: scale(1.5);\n              transform: scale(1.5);\n      color: white;\n}\n.drag-calendar .cal-cell[selected='selected'] .cell-content .day-number[data-v-3c6b989b],\n    .drag-calendar .month-cell[selected='selected'] .cell-content .day-number[data-v-3c6b989b] {\n      margin-bottom: 0.25rem;\n}\n.drag-calendar .arrow[data-v-3c6b989b] {\n    font-family: 'Oswald';\n    width: 2rem;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    position: absolute;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    z-index: 1000;\n    -webkit-transition: 0.2s all;\n    transition: 0.2s all;\n    background-color: white;\n    color: darkgrey;\n}\n.drag-calendar .arrow[data-v-3c6b989b]:hover {\n      background-color: #f8f8ff;\n      -webkit-box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n              box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n      cursor: pointer;\n      color: black;\n}\n.drag-calendar .arrow.bottom[data-v-3c6b989b] {\n      height: 5rem;\n      bottom: 1.1rem;\n      font-size: 3rem;\n}\n.drag-calendar .arrow.middle[data-v-3c6b989b] {\n      top: 3.25rem;\n      height: 2.5rem;\n      font-size: 2rem;\n}\n.drag-calendar .arrow.top[data-v-3c6b989b] {\n      top: 0.25rem;\n      height: 2.5rem;\n      font-size: 2rem;\n}\n.drag-calendar .arrow.left[data-v-3c6b989b] {\n      left: 0;\n}\n.drag-calendar .arrow.left.middle[data-v-3c6b989b]:before {\n        content: '<';\n        height: 2.5rem;\n}\n.drag-calendar .arrow.left.top[data-v-3c6b989b]:before {\n        content: '<';\n        height: 2.5rem;\n}\n.drag-calendar .arrow.left.bottom[data-v-3c6b989b]:before {\n        content: '<';\n        height: 4rem;\n}\n.drag-calendar .arrow.right[data-v-3c6b989b] {\n      right: 0;\n}\n.drag-calendar .arrow.right.middle[data-v-3c6b989b]:before {\n        content: '>';\n        height: 2.5rem;\n}\n.drag-calendar .arrow.right.top[data-v-3c6b989b]:before {\n        content: '>';\n        height: 2.5rem;\n}\n.drag-calendar .arrow.right[data-v-3c6b989b]:before {\n        content: '>';\n        height: 4rem;\n}\n.drag-calendar .arrow[data-v-3c6b989b]:active {\n      -webkit-transform: scale(0.8);\n              transform: scale(0.8);\n}\n.drag-calendar .days[data-v-3c6b989b] {\n    z-index: 1;\n    list-style: none;\n    float: left;\n    margin: 0;\n    padding: 0;\n    position: relative;\n    width: -webkit-max-content;\n    width: -moz-max-content;\n    width: max-content;\n    height: 5rem;\n    -webkit-transition: all 1s ease;\n    transition: all 1s ease;\n}\n.drag-calendar .days .cell[data-v-3c6b989b] {\n      float: left;\n      width: 4rem;\n      padding: 1.5rem 1.25rem;\n      margin: 0px;\n      border-right: 1px solid rgba(0, 0, 0, 0.03);\n      text-align: center;\n      position: relative;\n      color: #888;\n}\n.drag-calendar .days .cell[data-v-3c6b989b]:first-child {\n        margin-left: 0.4em;\n}\n.drag-calendar .days .cell[data-v-3c6b989b]:last-child {\n        margin-right: 0.4em;\n}\n.drag-calendar .days .cell.next[data-v-3c6b989b], .drag-calendar .days .cell.prev[data-v-3c6b989b] {\n        background-color: rgba(0, 0, 0, 0.02);\n        margin-right: 0.4rem;\n        opacity: 0.5;\n}\n.drag-calendar .days .cell.next .hover[data-v-3c6b989b], .drag-calendar .days .cell.prev .hover[data-v-3c6b989b] {\n          position: absolute;\n          opacity: 0;\n          top: 50%;\n          left: 50%;\n          -webkit-transform: translate(-50%, -50%);\n                  transform: translate(-50%, -50%);\n          font-weight: bold;\n}\n.drag-calendar .days .cell.next[data-v-3c6b989b]:hover, .drag-calendar .days .cell.prev[data-v-3c6b989b]:hover {\n          opacity: 1;\n}\n.drag-calendar .days .cell.next:hover .hover[data-v-3c6b989b], .drag-calendar .days .cell.prev:hover .hover[data-v-3c6b989b] {\n            -webkit-transition: all 1s ease;\n            transition: all 1s ease;\n            pointer-events: none;\n            opacity: 1;\n}\n.drag-calendar .days .cell.next:hover .cell-content[data-v-3c6b989b], .drag-calendar .days .cell.prev:hover .cell-content[data-v-3c6b989b] {\n            pointer-events: none;\n            -webkit-transition: all 1s ease;\n            transition: all 1s ease;\n            opacity: 0;\n}\n.drag-calendar .days .cell.today .day-number[data-v-3c6b989b] {\n        color: red;\n        text-decoration: underline;\n}\n.drag-calendar .days .cell .day-number[data-v-3c6b989b] {\n        display: block;\n        clear: both;\n        font-weight: bold;\n        font-size: 1.2em;\n        z-index: 1;\n        position: relative;\n}\n.drag-calendar .days .cell .day[data-v-3c6b989b] {\n        display: block;\n        clear: both;\n        text-transform: uppercase;\n        width: 100%;\n        font-weight: 100;\n        font-size: 12px;\n        margin-top: 0px;\n        z-index: 1;\n        position: relative;\n}\n.drag-calendar .days .cell.first[data-v-3c6b989b] {\n        background-color: rgba(0, 0, 0, 0.02);\n        color: #666;\n}\n.drag-calendar .days .cell.first .day[data-v-3c6b989b] {\n          font-weight: bold;\n}\n.drag-calendar .days .cell.first .day-number[data-v-3c6b989b] {\n          font-size: 1.2em;\n}\n.drag-calendar .months[data-v-3c6b989b] {\n    z-index: 1;\n    float: left;\n    margin: 0;\n    height: 2.5rem;\n    padding: 0;\n    padding-left: 0.6rem;\n    position: relative;\n    width: -webkit-max-content;\n    width: -moz-max-content;\n    width: max-content;\n    border-bottom: 0px solid ghostwhite;\n    margin: 0.25rem 0 0.75rem;\n    background-color: transparent;\n    -webkit-transition: all 1s ease;\n    transition: all 1s ease;\n    display: -webkit-inline-box;\n    display: -ms-inline-flexbox;\n    display: inline-flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.drag-calendar .months .cell[data-v-3c6b989b] {\n      float: left;\n      width: 8rem;\n      padding: 0.6rem;\n      text-align: center;\n      position: relative;\n      color: #888;\n      border-right: 1px solid rgba(0, 0, 0, 0.03);\n      position: relative;\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1;\n}\n.drag-calendar .months .cell.past[data-v-3c6b989b] {\n        background-color: rgba(222, 222, 222, 0.6);\n        color: lightgrey;\n        opacity: 0.8;\n        pointer-events: none;\n        border-right: solid 0.5px rgba(222, 222, 222, 0.8);\n}\n.drag-calendar .months .cell.next[data-v-3c6b989b], .drag-calendar .months .cell.prev[data-v-3c6b989b] {\n        background-color: rgba(0, 0, 0, 0.02);\n        margin-right: 0.4rem;\n        opacity: 0.5;\n}\n.drag-calendar .months .cell.next[data-v-3c6b989b]:hover, .drag-calendar .months .cell.prev[data-v-3c6b989b]:hover {\n          opacity: 1;\n}\n.drag-calendar .months .cell.next:hover .hover[data-v-3c6b989b], .drag-calendar .months .cell.prev:hover .hover[data-v-3c6b989b] {\n            -webkit-transition: all 1s ease;\n            transition: all 1s ease;\n            opacity: 1;\n            pointer-events: none;\n}\n.drag-calendar .months .cell.next:hover .month-name[data-v-3c6b989b], .drag-calendar .months .cell.prev:hover .month-name[data-v-3c6b989b] {\n            -webkit-transition: all 1s ease;\n            transition: all 1s ease;\n            opacity: 0;\n}\n.drag-calendar .months .cell.next .hover[data-v-3c6b989b], .drag-calendar .months .cell.prev .hover[data-v-3c6b989b] {\n          position: absolute;\n          opacity: 0;\n          top: 50%;\n          left: 50%;\n          -webkit-transform: translate(-50%, -50%);\n                  transform: translate(-50%, -50%);\n}\n.drag-calendar .months .cell.next .cell-content[data-v-3c6b989b], .drag-calendar .months .cell.prev .cell-content[data-v-3c6b989b] {\n          pointer-events: none;\n          opacity: 0.5;\n          color: black;\n          font-weight: bold;\n          font-size: 1rem;\n}\n.drag-calendar .months .cell[selected='selected'] .cell-content[data-v-3c6b989b] {\n        opacity: 0.5;\n        color: white;\n        border-radius: 0.5em;\n        padding: 0.3em;\n        margin-top: -0.3em;\n        font-weight: 350;\n}\n.drag-calendar .months .cell[selected='selected'] .cell-content .month-name[data-v-3c6b989b] {\n          font-size: 0.9rem;\n          padding: 0;\n}\n.drag-calendar .months .cell.next[data-v-3c6b989b] {\n        -webkit-box-flex: 0.5;\n            -ms-flex: 0.5;\n                flex: 0.5;\n}\n.drag-calendar .months .cell .cell-content[data-v-3c6b989b] {\n        font-weight: 200;\n        font-size: 1em;\n}\n.drag-calendar .months .cell .cell-content .month-name[data-v-3c6b989b] {\n          opacity: 1;\n          font-weight: bold;\n          font-size: 0.9rem;\n          z-index: 1;\n          position: relative;\n          text-transform: uppercase;\n}\n.drag-calendar .years[data-v-3c6b989b] {\n    z-index: 1;\n    float: left;\n    margin: 0;\n    height: 2.5rem;\n    padding: 0;\n    position: relative;\n    width: -webkit-max-content;\n    width: -moz-max-content;\n    width: max-content;\n    border-bottom: 0px solid ghostwhite;\n    margin: 0.25rem 0 0.25rem;\n    background-color: transparent;\n    -webkit-transition: all 1s ease;\n    transition: all 1s ease;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.drag-calendar .years .cell[data-v-3c6b989b] {\n      float: left;\n      width: 16rem;\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1;\n      padding: 0.6rem;\n      text-align: center;\n      position: relative;\n      color: #888;\n      border-right: 1px solid rgba(0, 0, 0, 0.03);\n      position: relative;\n}\n.drag-calendar .years .cell .cell-content[data-v-3c6b989b] {\n        font-weight: 600;\n        font-size: 1rem;\n}\n.drag-calendar .years .cell .cell-content .month-name[data-v-3c6b989b] {\n          font-weight: bold;\n          font-size: 1rem;\n          z-index: 1;\n          position: relative;\n          text-transform: uppercase;\n}\n.drag-calendar .years .cell[selected='selected'] .cell-content[data-v-3c6b989b] {\n        opacity: 0.25;\n        color: white;\n        border-radius: 0.5rem;\n        padding: 0.3rem;\n        margin-top: -0.3rem;\n}\n.drag-calendar .years .cell[selected='selected'] .cell-content .year[data-v-3c6b989b] {\n          font-weight: 600;\n          opacity: 1;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "be13":
 /***/ (function(module, exports) {
 
@@ -1823,16 +1696,18 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "cd1c":
+/***/ "cbf4":
 /***/ (function(module, exports, __webpack_require__) {
 
-// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-var speciesConstructor = __webpack_require__("e853");
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
-module.exports = function (original, length) {
-  return new (speciesConstructor(original))(length);
-};
-
+// load the styles
+var content = __webpack_require__("f42b");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("91cf3de8", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -1902,29 +1777,6 @@ module.exports = (
 
 /***/ }),
 
-/***/ "e853":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("d3f4");
-var isArray = __webpack_require__("1169");
-var SPECIES = __webpack_require__("2b4c")('species');
-
-module.exports = function (original) {
-  var C;
-  if (isArray(original)) {
-    C = original.constructor;
-    // cross-realm fallback
-    if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
-    if (isObject(C)) {
-      C = C[SPECIES];
-      if (C === null) C = undefined;
-    }
-  } return C === undefined ? Array : C;
-};
-
-
-/***/ }),
-
 /***/ "f1ae":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1937,6 +1789,22 @@ module.exports = function (object, index, value) {
   if (index in object) $defineProperty.f(object, index, createDesc(0, value));
   else object[index] = value;
 };
+
+
+/***/ }),
+
+/***/ "f42b":
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__("b041");
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, "/* ========================================================================== */\n/* ========================================================================== */\n@font-face {\n  font-family: 'Oswald';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + escape(__webpack_require__("414c")) + ") format(\"woff2\");\n}\n:root {\n  font-size: 14px;\n  font-size: 1.75vw;\n}\n@media (max-width: 685.71429px) {\n:root {\n      font-size: 12px;\n}\n}\n@media (min-width: 914.28571px) {\n:root {\n      font-size: 16px;\n}\n}\n.container[data-v-7507d186] {\n  padding-top: 1em;\n  width: 95%;\n  margin: auto;\n}\n.drag-calendar[data-v-7507d186] {\n  -webkit-box-sizing: content-box;\n          box-sizing: content-box;\n  clear: both;\n  overflow: hidden;\n  width: 100%;\n  position: relative;\n  padding: 0;\n  line-height: 1;\n  background-color: transparent;\n}\n.drag-calendar .wrapper-flex[data-v-7507d186] {\n    display: -webkit-inline-box;\n    display: -ms-inline-flexbox;\n    display: inline-flex;\n    width: 100%;\n}\n.drag-calendar .ui-draggable[data-v-7507d186] {\n    cursor: move;\n    cursor: -webkit-grab;\n}\n.drag-calendar .ui-draggable .cell-content[data-v-7507d186] {\n      pointer-events: none;\n}\n.drag-calendar .cal-cell[selected='selected'][data-v-7507d186],\n  .drag-calendar .month-cell[selected='selected'][data-v-7507d186] {\n    border-radius: 0.5em;\n    -webkit-transform: scale(1.1);\n            transform: scale(1.1);\n    -webkit-transition: -webkit-transform 0.3s ease;\n    transition: -webkit-transform 0.3s ease;\n    transition: transform 0.3s ease;\n    transition: transform 0.3s ease, -webkit-transform 0.3s ease;\n    padding: 1.25em;\n}\n.drag-calendar .cal-cell[selected='selected'] .cell-content div[data-v-7507d186],\n    .drag-calendar .month-cell[selected='selected'] .cell-content div[data-v-7507d186] {\n      -webkit-transform: scale(1.5);\n              transform: scale(1.5);\n      color: white;\n}\n.drag-calendar .cal-cell[selected='selected'] .cell-content .day-number[data-v-7507d186],\n    .drag-calendar .month-cell[selected='selected'] .cell-content .day-number[data-v-7507d186] {\n      margin-bottom: 0.25rem;\n}\n.drag-calendar .arrow[data-v-7507d186] {\n    font-family: 'Oswald';\n    width: 2rem;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    position: absolute;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    z-index: 1000;\n    -webkit-transition: 0.2s all;\n    transition: 0.2s all;\n    background-color: white;\n    color: darkgrey;\n}\n.drag-calendar .arrow[data-v-7507d186]:hover {\n      background-color: #f8f8ff;\n      -webkit-box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n              box-shadow: inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1), inset 0px 0px 5px 1px rgba(0, 0, 0, 0.1);\n      cursor: pointer;\n      color: black;\n}\n.drag-calendar .arrow.bottom[data-v-7507d186] {\n      height: 5rem;\n      bottom: 1.1rem;\n      font-size: 3rem;\n}\n.drag-calendar .arrow.middle[data-v-7507d186] {\n      top: 3.25rem;\n      height: 2.5rem;\n      font-size: 2rem;\n}\n.drag-calendar .arrow.top[data-v-7507d186] {\n      top: 0.25rem;\n      height: 2.5rem;\n      font-size: 2rem;\n}\n.drag-calendar .arrow.left[data-v-7507d186] {\n      left: 0;\n}\n.drag-calendar .arrow.left.middle[data-v-7507d186]:before {\n        content: '<';\n        height: 2.5rem;\n}\n.drag-calendar .arrow.left.top[data-v-7507d186]:before {\n        content: '<';\n        height: 2.5rem;\n}\n.drag-calendar .arrow.left.bottom[data-v-7507d186]:before {\n        content: '<';\n        height: 4rem;\n}\n.drag-calendar .arrow.right[data-v-7507d186] {\n      right: 0;\n}\n.drag-calendar .arrow.right.middle[data-v-7507d186]:before {\n        content: '>';\n        height: 2.5rem;\n}\n.drag-calendar .arrow.right.top[data-v-7507d186]:before {\n        content: '>';\n        height: 2.5rem;\n}\n.drag-calendar .arrow.right[data-v-7507d186]:before {\n        content: '>';\n        height: 4rem;\n}\n.drag-calendar .arrow[data-v-7507d186]:active {\n      -webkit-transform: scale(0.8);\n              transform: scale(0.8);\n}\n.drag-calendar .days[data-v-7507d186] {\n    z-index: 1;\n    float: left;\n    margin: 0;\n    padding: 0;\n    position: relative;\n    width: -webkit-max-content;\n    width: -moz-max-content;\n    width: max-content;\n    height: 5rem;\n    -webkit-transition: all 1s ease;\n    transition: all 1s ease;\n}\n.drag-calendar .days .cell[data-v-7507d186] {\n      float: left;\n      width: 4rem;\n      padding: 1.5rem 1.25rem;\n      margin: 0;\n      border-right: 1px solid rgba(0, 0, 0, 0.03);\n      text-align: center;\n      position: relative;\n      color: #888;\n}\n.drag-calendar .days .cell[data-v-7507d186]:first-child {\n        margin-left: 0.4em;\n}\n.drag-calendar .days .cell[data-v-7507d186]:last-child {\n        margin-right: 0.4em;\n}\n.drag-calendar .days .cell.next[data-v-7507d186], .drag-calendar .days .cell.prev[data-v-7507d186] {\n        background-color: rgba(0, 0, 0, 0.02);\n        margin-right: 0.4rem;\n        opacity: 0.5;\n}\n.drag-calendar .days .cell.next .hover[data-v-7507d186], .drag-calendar .days .cell.prev .hover[data-v-7507d186] {\n          position: absolute;\n          opacity: 0;\n          top: 50%;\n          left: 50%;\n          -webkit-transform: translate(-50%, -50%);\n                  transform: translate(-50%, -50%);\n          font-weight: bold;\n}\n.drag-calendar .days .cell.next[data-v-7507d186]:hover, .drag-calendar .days .cell.prev[data-v-7507d186]:hover {\n          opacity: 1;\n}\n.drag-calendar .days .cell.next:hover .hover[data-v-7507d186], .drag-calendar .days .cell.prev:hover .hover[data-v-7507d186] {\n            -webkit-transition: all 1s ease;\n            transition: all 1s ease;\n            pointer-events: none;\n            opacity: 1;\n}\n.drag-calendar .days .cell.next:hover .cell-content[data-v-7507d186], .drag-calendar .days .cell.prev:hover .cell-content[data-v-7507d186] {\n            pointer-events: none;\n            -webkit-transition: all 1s ease;\n            transition: all 1s ease;\n            opacity: 0;\n}\n.drag-calendar .days .cell.today .day-number[data-v-7507d186] {\n        color: red;\n        text-decoration: underline;\n}\n.drag-calendar .days .cell .day-number[data-v-7507d186] {\n        display: block;\n        clear: both;\n        font-weight: bold;\n        font-size: 1.2em;\n        z-index: 1;\n        position: relative;\n}\n.drag-calendar .days .cell .day[data-v-7507d186] {\n        display: block;\n        clear: both;\n        text-transform: uppercase;\n        width: 100%;\n        font-weight: 100;\n        font-size: 12px;\n        margin-top: 0px;\n        z-index: 1;\n        position: relative;\n}\n.drag-calendar .days .cell.first[data-v-7507d186] {\n        background-color: rgba(0, 0, 0, 0.02);\n        color: #666;\n}\n.drag-calendar .days .cell.first .day[data-v-7507d186] {\n          font-weight: bold;\n}\n.drag-calendar .days .cell.first .day-number[data-v-7507d186] {\n          font-size: 1.2em;\n}\n.drag-calendar .months[data-v-7507d186] {\n    z-index: 1;\n    float: left;\n    margin: 0;\n    height: 2.5rem;\n    padding: 0;\n    padding-left: 0.6rem;\n    position: relative;\n    width: -webkit-max-content;\n    width: -moz-max-content;\n    width: max-content;\n    margin: 0.25rem 0 0.75rem;\n    background-color: transparent;\n    -webkit-transition: all 1s ease;\n    transition: all 1s ease;\n    display: -webkit-inline-box;\n    display: -ms-inline-flexbox;\n    display: inline-flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.drag-calendar .months .cell[data-v-7507d186] {\n      float: left;\n      width: 8rem;\n      padding: 0.6rem;\n      text-align: center;\n      position: relative;\n      color: #888;\n      border-right: 1px solid rgba(0, 0, 0, 0.03);\n      position: relative;\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1;\n}\n.drag-calendar .months .cell:not([selected='selected']) .cell-content[selected='selected'][data-v-7507d186] {\n        opacity: 1;\n        color: white;\n        width: -webkit-fit-content;\n        width: -moz-fit-content;\n        width: fit-content;\n        margin-left: auto;\n        margin-right: auto;\n        padding: 0.4rem;\n        margin-top: -0.4rem;\n        border-radius: 0.5rem;\n        pointer-events: auto;\n        cursor: pointer;\n        z-index: 3;\n}\n.drag-calendar .months .cell.past[data-v-7507d186] {\n        background-color: rgba(222, 222, 222, 0.6);\n        color: lightgrey;\n        opacity: 0.8;\n        pointer-events: none;\n        border-right: solid 0.5px rgba(222, 222, 222, 0.8);\n}\n.drag-calendar .months .cell.next[data-v-7507d186], .drag-calendar .months .cell.prev[data-v-7507d186] {\n        background-color: rgba(0, 0, 0, 0.02);\n        margin-right: 0.4rem;\n        opacity: 0.5;\n}\n.drag-calendar .months .cell.next[data-v-7507d186]:hover, .drag-calendar .months .cell.prev[data-v-7507d186]:hover {\n          opacity: 1;\n}\n.drag-calendar .months .cell.next:hover .hover[data-v-7507d186], .drag-calendar .months .cell.prev:hover .hover[data-v-7507d186] {\n            -webkit-transition: all 1s ease;\n            transition: all 1s ease;\n            opacity: 1;\n            pointer-events: none;\n}\n.drag-calendar .months .cell.next:hover .month-name[data-v-7507d186], .drag-calendar .months .cell.prev:hover .month-name[data-v-7507d186] {\n            -webkit-transition: all 1s ease;\n            transition: all 1s ease;\n            opacity: 0;\n}\n.drag-calendar .months .cell.next .hover[data-v-7507d186], .drag-calendar .months .cell.prev .hover[data-v-7507d186] {\n          position: absolute;\n          opacity: 0;\n          top: 50%;\n          left: 50%;\n          -webkit-transform: translate(-50%, -50%);\n                  transform: translate(-50%, -50%);\n}\n.drag-calendar .months .cell.next .cell-content[data-v-7507d186], .drag-calendar .months .cell.prev .cell-content[data-v-7507d186] {\n          pointer-events: none;\n          opacity: 0.5;\n          color: black;\n          font-weight: bold;\n          font-size: 1rem;\n}\n.drag-calendar .months .cell[selected='selected'] .cell-content[data-v-7507d186] {\n        opacity: 0.5;\n        color: white;\n        border-radius: 0.5rem;\n        padding: 0.3em;\n        margin-top: -0.3rem;\n        font-weight: 350;\n}\n.drag-calendar .months .cell[selected='selected'] .cell-content .month-name[data-v-7507d186] {\n          font-size: 0.9rem;\n          padding: 0;\n}\n.drag-calendar .months .cell.next[data-v-7507d186] {\n        -webkit-box-flex: 0.5;\n            -ms-flex: 0.5;\n                flex: 0.5;\n}\n.drag-calendar .months .cell .cell-content[data-v-7507d186] {\n        font-weight: 200;\n        font-size: 1em;\n}\n.drag-calendar .months .cell .cell-content .month-name[data-v-7507d186] {\n          opacity: 1;\n          font-weight: bold;\n          font-size: 0.9rem;\n          z-index: 1;\n          position: relative;\n          text-transform: uppercase;\n}\n.drag-calendar .years[data-v-7507d186] {\n    z-index: 1;\n    float: left;\n    margin: 0;\n    height: 2.5rem;\n    padding: 0;\n    position: relative;\n    width: -webkit-max-content;\n    width: -moz-max-content;\n    width: max-content;\n    border-bottom: 0px solid ghostwhite;\n    margin: 0.25rem 0 0.25rem;\n    background-color: transparent;\n    -webkit-transition: all 1s ease;\n    transition: all 1s ease;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.drag-calendar .years .cell[data-v-7507d186] {\n      float: left;\n      width: 16rem;\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1;\n      padding: 0.6rem;\n      text-align: center;\n      position: relative;\n      color: #888;\n      border-right: 1px solid rgba(0, 0, 0, 0.03);\n      position: relative;\n}\n.drag-calendar .years .cell .cell-content[data-v-7507d186] {\n        font-weight: 600;\n        font-size: 1rem;\n}\n.drag-calendar .years .cell .cell-content .month-name[data-v-7507d186] {\n          font-weight: bold;\n          font-size: 1rem;\n          z-index: 1;\n          position: relative;\n          text-transform: uppercase;\n}\n.drag-calendar .years .cell[selected='selected'] .cell-content[data-v-7507d186] {\n        opacity: 0.25;\n        color: white;\n        border-radius: 0.5rem;\n        padding: 0.3rem;\n        margin-top: -0.3rem;\n}\n.drag-calendar .years .cell[selected='selected'] .cell-content .year[data-v-7507d186] {\n          font-weight: 600;\n          opacity: 1;\n}\n", ""]);
+
+// exports
 
 
 /***/ }),
@@ -1959,12 +1827,12 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 var setPublicPath = __webpack_require__("1eb2");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"47426207-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=template&id=3c6b989b&scoped=true&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"container"},[_c('div',{staticClass:"drag-calendar",staticStyle:{"display":"block background-color: 'transparent'"},style:({height: _vm.NUMBER_OF_YEARS ? '12.6rem' : '9.6rem'})},[(_vm.NUMBER_OF_YEARS)?_c('div',{class:_vm.yearly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'},[_c('div',{ref:"yearly",staticClass:"years ui-draggable",staticStyle:{"left":"0px"},style:(_vm.yearly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"yearly"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.years),function(year){return _c('div',{key:year,staticClass:"year-cell cell",attrs:{"accent-color":_vm.accentColor,"year-id":year,"selected":_vm.isSelected(null,null,year)},on:{"click":function($event){_vm.toggleSelectYear($event, year)}}},[_c('div',{staticClass:"cell-content",style:({backgroundColor: ("" + (_vm.isSelected(null, null, year) ? _vm.accentColor : '')) })},[_c('span',{staticClass:"year"},[_vm._v(_vm._s(year))])])])}))]):_vm._e(),(_vm.NUMBER_OF_YEARS)?_c('div',{staticClass:"arrow top left",style:({visibility: _vm.yearly.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'yearly')}}}):_vm._e(),(_vm.NUMBER_OF_YEARS)?_c('div',{staticClass:"arrow top right",style:({visibility: _vm.yearly.realOffset <= _vm.yearly.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'yearly')}}}):_vm._e(),_c('div',{class:_vm.monthly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'},[_c('div',{ref:"monthly",staticClass:"months ui-draggable",staticStyle:{"left":"0px"},style:(_vm.monthly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"monthly"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.months),function(month){return (month)?_c('div',{key:((month.fullYear) + "-" + (month.monthNumber)),staticClass:"month-cell cell",class:{prev: month.prev, next: month.next, past: month.past},attrs:{"accent-color":_vm.accentColor,"month-id":((month.fullYear) + "-" + (month.monthNumber)),"year-id":month.fullYear,"selected":_vm.isSelected(null, month, null)},on:{"click":function($event){_vm.toggleSelectMonth($event, month)}}},[_c('div',{staticClass:"cell-content",style:({backgroundColor: ("" + (_vm.isSelected(null, month, null) ? _vm.accentColor : '')) })},[_c('span',{staticClass:"cell-content month-name"},[_vm._v(_vm._s(_vm._f("abr")(_vm.MONTHS[month.monthNumber]))+" ")]),(month.next)?_c('div',{staticClass:"hover"},[_vm._v(" "+_vm._s(month.fullYear))]):_vm._e(),(month.prev)?_c('div',{staticClass:"hover"},[_vm._v(" "+_vm._s(month.fullYear))]):_vm._e(),(!_vm.NUMBER_OF_YEARS)?_c('span',[_vm._v(" "+_vm._s(month.fullYear%1000))]):_vm._e()])]):_vm._e()}))]),_c('div',{staticClass:"arrow left",class:_vm.NUMBER_OF_YEARS ? 'middle' : 'top',style:({visibility: _vm.monthly.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'monthly')}}}),_c('div',{staticClass:"arrow right",class:_vm.NUMBER_OF_YEARS ? 'middle' : 'top',style:({visibility: _vm.monthly.realOffset <= _vm.monthly.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'monthly')}}}),_c('div',{staticClass:"wrapper"},[_c('div',{ref:"daily",staticClass:"days ui-draggable",staticStyle:{"left":"0px"},style:(_vm.daily.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"daily"},on:{"mousedown":function($event){_vm.handleDrag($event)},"touchstart":function($event){_vm.handleDrag($event)}}},_vm._l((_vm.calendar.days),function(day){return _c('div',{key:((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),staticClass:"cal-cell cell",class:{first: day.day == 1, next: day.next, prev: day.prev, today: day.today},style:({backgroundColor: ("" + (_vm.isSelected(day, null, null) ? _vm.accentColor : '')) }),attrs:{"accent-color":_vm.accentColor,"date":((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),"month-id":day.monthNumber,"year-id":day.fullYear,"day-id":day.day,"selected":_vm.isSelected(day, null, null)},on:{"click":function($event){_vm.toggleSelect($event, day)}}},[(day.next)?_c('div',{staticClass:"hover"},[_vm._v(" "+_vm._s(day.fullYear))]):_vm._e(),(day.prev)?_c('div',{staticClass:"hover"},[_vm._v(" "+_vm._s(day.fullYear))]):_vm._e(),_c('div',{staticClass:"cell-content"},[_c('div',{staticClass:"day-number"},[_vm._v("\n              "+_vm._s(day.day)+"\n            ")]),_c('div',{staticClass:"day"},[_vm._v("\n              "+_vm._s(_vm._f("abr")(_vm.DAYS[day.dayOfTheWeek]))+"\n            ")])])])}))]),_c('div',{staticClass:"arrow bottom left",style:({visibility: _vm.daily.realOffset === 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goLeft($event, 'daily')}}}),_c('div',{staticClass:"arrow bottom right",style:({visibility: _vm.daily.realOffset <= _vm.daily.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goRight($event, 'daily')}}})])])}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"47426207-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=template&id=7507d186&scoped=true&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"container"},[_c('div',{staticClass:"drag-calendar",staticStyle:{"display":"block background-color: 'transparent'"},style:({height: _vm.NUMBER_OF_YEARS ? '12.6rem' : '9.6rem'})},[(_vm.NUMBER_OF_YEARS)?_c('div',{class:_vm.yearly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'},[_c('div',{ref:"yearly",staticClass:"years ui-draggable",staticStyle:{"left":"0px"},style:(_vm.yearly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"yearly"},on:{"mousedown":function($event){_vm.initDrag($event, _vm.yearly)},"touchstart":function($event){_vm.initDrag($event, _vm.yearly)}}},_vm._l((_vm.calendar.years),function(year){return _c('div',{key:year,staticClass:"year-cell cell",attrs:{"year-id":year,"selected":_vm.isSelected(null,null,year)},on:{"click":function($event){_vm.toggleSelectYear($event, year)}}},[_c('div',{staticClass:"cell-content",style:({backgroundColor: ("" + (_vm.isSelected(null, null, year) ? _vm.accentColor : '')) })},[_c('span',{staticClass:"year"},[_vm._v(_vm._s(year))])])])}))]):_vm._e(),(_vm.NUMBER_OF_YEARS)?_c('div',{staticClass:"arrow top left",style:({visibility: _vm.yearly.realOffset >= 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goTo($event, _vm.yearly, -1)}}}):_vm._e(),(_vm.NUMBER_OF_YEARS)?_c('div',{staticClass:"arrow top right",style:({visibility: _vm.yearly.realOffset <= _vm.yearly.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goTo($event, _vm.yearly, 1)}}}):_vm._e(),_c('div',{class:_vm.monthly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'},[_c('div',{ref:"monthly",staticClass:"months ui-draggable",staticStyle:{"left":"0px"},style:(_vm.monthly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"monthly"},on:{"mousedown":function($event){_vm.initDrag($event, _vm.monthly)},"touchstart":function($event){_vm.initDrag($event, _vm.monthly)}}},_vm._l((_vm.calendar.months),function(month){return (month)?_c('div',{key:((month.fullYear) + "-" + (month.monthNumber)),staticClass:"month-cell cell",class:{prev: month.prev, next: month.next, past: month.past},attrs:{"month-id":((month.fullYear) + "-" + (month.monthNumber)),"year-id":month.fullYear,"selected":_vm.isSelected(null, month, null)},on:{"click":function($event){_vm.toggleSelectMonth($event, month)}}},[_c('div',{staticClass:"cell-content",style:({backgroundColor: ("" + (_vm.isSelected(null, month, null) || (_vm.selectedDate.monthNumber == month.monthNumber && _vm.selectedDate.fullYear == month.fullYear) ? _vm.accentColor : '')) }),attrs:{"selected":_vm.selectedDate.monthNumber == month.monthNumber && _vm.selectedDate.fullYear == month.fullYear},on:{"click":function($event){$event.stopPropagation();_vm.scrollDayIntoView()}}},[_c('span',{staticClass:"cell-content month-name"},[_vm._v(_vm._s(_vm._f("abr")(_vm.MONTHS[month.monthNumber]))+" ")]),(month.next)?_c('div',{staticClass:"hover"},[_vm._v(" "+_vm._s(month.fullYear))]):_vm._e(),(month.prev)?_c('div',{staticClass:"hover"},[_vm._v(" "+_vm._s(month.fullYear))]):_vm._e(),(!_vm.NUMBER_OF_YEARS)?_c('span',[_vm._v(" "+_vm._s(month.fullYear%1000))]):_vm._e()])]):_vm._e()}))]),_c('div',{staticClass:"arrow left",class:_vm.NUMBER_OF_YEARS ? 'middle' : 'top',style:({visibility: _vm.monthly.realOffset >= 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goTo($event, _vm.monthly, -1)}}}),_c('div',{staticClass:"arrow right",class:_vm.NUMBER_OF_YEARS ? 'middle' : 'top',style:({visibility: _vm.monthly.realOffset <= _vm.monthly.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goTo($event, _vm.monthly, 1)}}}),_c('div',{staticClass:"wrapper"},[_c('div',{ref:"daily",staticClass:"days ui-draggable",staticStyle:{"left":"0px"},style:(_vm.daily.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {}),attrs:{"state":"daily"},on:{"mousedown":function($event){_vm.initDrag($event, _vm.daily)},"touchstart":function($event){_vm.initDrag($event, _vm.daily)}}},_vm._l((_vm.calendar.days),function(day){return _c('div',{key:((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),staticClass:"cal-cell cell",class:{first: day.day == 1, next: day.next, prev: day.prev, today: day.today},style:({backgroundColor: ("" + (_vm.isSelected(day, null, null) ? _vm.accentColor : '')) }),attrs:{"date":((day.fullYear) + "-" + (day.monthNumber) + "-" + (day.day)),"month-id":day.monthNumber,"year-id":day.fullYear,"day-id":day.day,"selected":_vm.isSelected(day, null, null)},on:{"click":function($event){_vm.toggleSelect($event, day)}}},[(day.next)?_c('div',{staticClass:"hover"},[_vm._v(" "+_vm._s(day.fullYear))]):_vm._e(),(day.prev)?_c('div',{staticClass:"hover"},[_vm._v(" "+_vm._s(day.fullYear))]):_vm._e(),_c('div',{staticClass:"cell-content"},[_c('div',{staticClass:"day-number"},[_vm._v("\n              "+_vm._s(day.day)+"\n            ")]),_c('div',{staticClass:"day"},[_vm._v("\n              "+_vm._s(_vm._f("abr")(_vm.DAYS[day.dayOfTheWeek]))+"\n            ")])])])}))]),_c('div',{staticClass:"arrow bottom left",style:({visibility: _vm.daily.realOffset >= 0 ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goTo($event, _vm.daily, -1)}}}),_c('div',{staticClass:"arrow bottom right",style:({visibility: _vm.daily.realOffset <= _vm.daily.maxOffset ? 'hidden' : 'visible'}),on:{"click":function($event){_vm.goTo($event, _vm.daily, 1)}}})])])}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=3c6b989b&scoped=true&
+// CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=7507d186&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom.iterable.js
 var web_dom_iterable = __webpack_require__("ac6a");
@@ -2038,24 +1906,10 @@ function _toConsumableArray(arr) {
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.number.constructor.js
 var es6_number_constructor = __webpack_require__("c5f6");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.find.js
-var es6_array_find = __webpack_require__("7514");
-
 // CONCATENATED MODULE: ./src/utils/filters.js
 var abr = function abr(value) {
   if (!value) return '';
   return "".concat(value.slice(0, 3).toUpperCase());
-};
-// CONCATENATED MODULE: ./src/utils/CONSTANTS.js
-var language = {
-  FR: {
-    DAYS: ['DIMANCHE', 'LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI', 'SAMEDI'],
-    MONTHS: ['JANVIER', 'FÉVRIER', 'MARS', 'AVRIL', 'MAI', 'JUIN', 'JUILLET', 'AOÛT', 'SEPTEMBRE', 'OCTOBRE', 'NOVEMBRE', 'DÉCEMBRE']
-  },
-  EN: {
-    DAYS: ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'],
-    MONTHS: ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER']
-  }
 };
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.from.js
 var es6_array_from = __webpack_require__("1c4c");
@@ -2091,10 +1945,12 @@ function computeMonthsFromDays(NUMBER_OF_DAYS) {
   var NUMBER_OF_MONTHS = (gYear(date) - gYear(TODAY)) * 12 + gMonth(date) - gMonth(TODAY);
   return NUMBER_OF_MONTHS;
 }
+
 function computeDaysFromMonths(NUMBER_OF_MONTH) {
   var NUMBER_OF_DAYS = (Date.UTC(gYear(TODAY), gMonth(TODAY) + NUMBER_OF_MONTH) - Date.UTC(gYear(TODAY), gMonth(TODAY))) / (1000 * 60 * 60 * 24);
   return NUMBER_OF_DAYS;
 }
+
 function createDaysArray(NUMBER_OF_DAYS, fullMonths) {
   if (NUMBER_OF_DAYS <= 0) return [];
   var currentConstructorDate = new Date();
@@ -2118,6 +1974,7 @@ function createDaysArray(NUMBER_OF_DAYS, fullMonths) {
 
   return days;
 }
+
 function createMonthsArray(NUMBER_OF_MONTHS) {
   if (NUMBER_OF_MONTHS <= 0) return [];
   var currentConstructorMonth = new Date();
@@ -2138,6 +1995,7 @@ function createMonthsArray(NUMBER_OF_MONTHS) {
 
   return months;
 }
+
 function createPrependArray(PREPEND_MONTHS) {
   var prepended = [{
     fullYear: gYear(TODAY),
@@ -2163,6 +2021,7 @@ function createPrependArray(PREPEND_MONTHS) {
   prepended.pop();
   return prepended;
 }
+
 function buildYear(year) {
   var currentConstructorDate = new Date(Date.UTC(year, 0, 1));
   var isLeap = year % 4 === 0 ? 1 : 0;
@@ -2185,6 +2044,7 @@ function buildYear(year) {
 
   return entireYear;
 }
+
 function buildEntireCalendar(NUMBER_OF_YEARS) {
   var entireCalendar = {};
 
@@ -2240,7 +2100,13 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
   },
   selected: {
     type: Object,
-    default: null
+    default: function _default() {
+      return {};
+    }
+  },
+  startYear: {
+    type: Number,
+    default: new Date().getFullYear()
   },
   fullMonths: {
     type: Boolean,
@@ -2251,8 +2117,18 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
     default: '#00008b'
   }
 });
+// CONCATENATED MODULE: ./src/utils/CONSTANTS.js
+/* harmony default export */ var CONSTANTS = ({
+  FR: {
+    DAYS: ['DIMANCHE', 'LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI', 'SAMEDI'],
+    MONTHS: ['JANVIER', 'FÉVRIER', 'MARS', 'AVRIL', 'MAI', 'JUIN', 'JUILLET', 'AOÛT', 'SEPTEMBRE', 'OCTOBRE', 'NOVEMBRE', 'DÉCEMBRE']
+  },
+  EN: {
+    DAYS: ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'],
+    MONTHS: ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER']
+  }
+});
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=script&lang=js&
-
 
 
 
@@ -2328,23 +2204,24 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
     currentMonth: function currentMonth() {
       var past = this.daily.pastBreakPoints;
       var future = this.daily.monthBreakPoints;
-      if (!this.$refs.monthly) return past[past.length - 1];
-      var off = -this.daily.realOffset + this.$refs.monthly.parentNode.clientWidth / 2;
+      if (!this.$refs.daily) return past[past.length - 1];
+      var off = -this.daily.realOffset + this.$refs.daily.parentNode.clientWidth / 2;
       if (this.daily.realOffset === 0) off = 1;
-      var changed = false;
 
       while (past.length > 0 && off <= past[past.length - 1].offset) {
         future.unshift(past.pop());
-        changed = true;
       }
 
       while (future.length > 0 && off >= future[0].offset) {
         past.push(future.shift());
-        changed = true;
       }
 
-      if (changed && past.length > 0) this.toggleSelectMonth(null, past[past.length - 1]);
       return past[past.length - 1];
+    },
+    currentState: function currentState() {
+      return [this.daily, this.monthly, this.yearly].filter(function (el) {
+        return el.phase !== 'sleep';
+      })[0];
     }
   },
   data: function data() {
@@ -2352,17 +2229,18 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
       NUMBER_OF_DAYS: this.days,
       NUMBER_OF_MONTHS: this.months,
       NUMBER_OF_YEARS: this.years,
-      START_YEAR: this.startYear || gYear(new Date()),
+      START_YEAR: this.startYear,
       PREPEND_MONTHS: this.prepended,
-      DAYS: language[this.lang].DAYS,
-      MONTHS: language[this.lang].MONTHS,
-      selectedDate: this.selected || {},
+      DAYS: CONSTANTS[this.lang].DAYS,
+      MONTHS: CONSTANTS[this.lang].MONTHS,
+      selectedDate: this.selected,
       calendar: {
         months: [],
         days: []
       },
       entireCalendar: {},
       yearly: {
+        id: 'yearly',
         phase: 'sleep',
         startX: 0,
         currentOffset: 0,
@@ -2371,6 +2249,7 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
         maxOffset: 0
       },
       monthly: {
+        id: 'monthly',
         phase: 'sleep',
         startX: 0,
         currentOffset: 0,
@@ -2379,6 +2258,7 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
         maxOffset: 0
       },
       daily: {
+        id: 'daily',
         monthBreakPoints: [],
         pastBreakPoints: [],
         phase: 'sleep',
@@ -2391,6 +2271,40 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
     };
   },
   methods: {
+    goTo: function goTo(e, state, coef) {
+      if (state.realOffset > 0 || state.realOffset <= state.maxOffset) return false;
+      var elem = this.$refs["".concat(state.id)];
+      var cell = elem.firstChild.clientWidth;
+      state.realOffset -= Math.floor(elem.parentNode.clientWidth / cell) * cell * coef;
+      if (state.realOffset > 0) state.realOffset = 0;
+      if (state.realOffset < state.maxOffset) state.realOffset = state.maxOffset;
+      elem.style.left = "".concat(state.realOffset, "px");
+      return true;
+    },
+    initDrag: function initDrag(e, state) {
+      document.body.addEventListener('mousemove', this.handleDrag, false);
+      document.body.addEventListener('touchmove', this.handleDrag, false);
+      state.phase = 'listen';
+      state.startX = e.screenX || e.touches[0].screenX;
+      state.initLeft = Number(state.style.left.slice(0, -2));
+      return true;
+    },
+    handleDrag: function handleDrag(e) {
+      var state = this.currentState;
+      state.phase = 'dragging';
+      state.currentOffset = (e.screenX || e.touches[0].screenX) - state.startX;
+      state.realOffset = state.initLeft + state.currentOffset;
+      if (state.realOffset < state.maxOffset) state.realOffset = state.maxOffset;
+      state.style.left = state.realOffset <= 0 ? "".concat(state.realOffset, "px") : '0px';
+      return true;
+    },
+    endDrag: function endDrag(e) {
+      if (!this.currentState) return false;
+      this.currentState.phase = 'sleep';
+      document.body.removeEventListener('mousemove', this.handleDrag, false);
+      document.body.removeEventListener('touchmove', this.handleDrag, false);
+      return true;
+    },
     isSelected: function isSelected(day, month, year) {
       var d = this.selectedDate;
       var cm = this.currentMonth;
@@ -2400,7 +2314,7 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
       }
 
       if (month) {
-        return [!d.monthNumber && cm && cm.monthNumber == month.monthNumber && cm.fullYear == month.fullYear, d.monthNumber == month.monthNumber && d.fullYear == month.fullYear].some(Boolean);
+        return cm && cm.monthNumber == month.monthNumber && cm.fullYear == month.fullYear;
       }
 
       if (year) {
@@ -2409,67 +2323,15 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
 
       return false;
     },
-    goLeft: function goLeft(e, state) {
-      if (this[state].realOffset >= 0) return;
-      var elem = e.target.parentNode.querySelector("[state=\"".concat(state, "\""));
-      var cell = elem.firstChild;
-      this[state].realOffset = this[state].realOffset + Math.floor(elem.parentNode.clientWidth / cell.clientWidth) * cell.clientWidth;
-      if (this[state].realOffset > 0) this[state].realOffset = 0;
-      this.$refs[state].style.left = "".concat(this[state].realOffset, "px");
-    },
-    goRight: function goRight(e, state) {
-      var elem = e.target.parentNode.querySelector("[state=\"".concat(state, "\""));
-      var cell = elem.firstChild;
-      this[state].realOffset = this[state].realOffset - Math.floor(elem.parentNode.clientWidth / cell.clientWidth) * cell.clientWidth;
-      if (this[state].realOffset < this[state].maxOffset) this[state].realOffset = this[state].maxOffset;
-      this.$refs[state].style.left = "".concat(this[state].realOffset, "px");
-    },
-    handleDrag: function handleDrag(e) {
-      var state;
-
-      if (e.type === 'mouseup' || e.type === 'mouseleave' || e.type === 'touchend') {
-        document.body.removeEventListener('mousemove', this.handleDrag, false);
-        document.body.removeEventListener('touchmove', this.handleDrag, false);
-        this.daily.phase = 'sleep';
-        this.monthly.phase = 'sleep';
-        this.yearly.phase = 'sleep';
+    toggleSelectMonth: function toggleSelectMonth(e, month) {
+      if (/next|prev/g.test(e.target.className)) {
+        this.$refs.yearly.querySelector("[year-id=\"".concat(e.target.getAttribute('year-id'), "\"]")).click();
         return true;
       }
 
-      if (this.daily.phase !== 'sleep') state = this.daily;else if (this.monthly.phase !== 'sleep') state = this.monthly;else if (this.yearly.phase !== 'sleep') state = this.yearly;else {
-        state = this["".concat(e.path.find(function (el) {
-          return el.classList.contains('ui-draggable');
-        }).getAttribute('state'))];
-      }
-
-      if (e.type === 'mousedown' && e.button === 0 || e.type === 'touchstart') {
-        document.body.addEventListener('mousemove', this.handleDrag, false);
-        document.body.addEventListener('touchmove', this.handleDrag, false);
-        state.phase = 'listen';
-        state.startX = e.screenX || e.touches[0].screenX;
-        state.initLeft = Number(state.style.left.slice(0, -2));
-      }
-
-      if (e.type === 'mousemove' || e.type === 'touchmove') {
-        state.phase = 'dragging';
-        state.currentOffset = (e.screenX || e.touches[0].screenX) - state.startX;
-        state.realOffset = state.initLeft + state.currentOffset;
-        if (state.realOffset < state.maxOffset) state.realOffset = state.maxOffset;
-        state.style.left = state.realOffset <= 0 ? "".concat(state.realOffset, "px") : '0px';
-      }
-    },
-    toggleSelectMonth: function toggleSelectMonth(e, month) {
-      if (e && /next|prev/g.test(e.target.className)) {
-        this.$refs.yearly.querySelector("[year-id=\"".concat(e.target.getAttribute('year-id'), "\"]")).click();
-        return;
-      }
-
-      if (e) {
-        var id = "[year-id=\"".concat(month.fullYear, "\"][month-id=\"").concat(month.monthNumber, "\"].cal-cell");
-        this.scrollIntoView(this.$refs.daily.querySelector(id));
-      }
-
-      this.checkMonthIsInView();
+      var id = "[year-id=\"".concat(month.fullYear, "\"][month-id=\"").concat(month.monthNumber, "\"].cal-cell");
+      this.scrollDayIntoView(this.$refs.daily.querySelector(id));
+      this.checkElementIsInView(this.monthly);
     },
     toggleSelectYear: function toggleSelectYear(e, year) {
       this.appendYear(year);
@@ -2485,15 +2347,7 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
         return this.$emit('dateCleared');
       }
 
-      this.toggleSelectMonth(null, day);
       this.dateSelected(day);
-    },
-    scrollIntoView: function scrollIntoView(element) {
-      var cal = element;
-      if (!element) cal = this.$refs.daily.querySelector("[selected=\"selected\"].cal-cell");
-      var offset = cal.offsetLeft - cal.parentNode.parentNode.clientWidth * 0.3 - cal.clientWidth;
-      this.daily.realOffset = offset > 0 ? -offset : 0;
-      this.$refs.daily.style.left = "".concat(this.daily.realOffset, "px");
     },
     dateSelected: function dateSelected(date) {
       this.selectedDate = date;
@@ -2567,128 +2421,89 @@ function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMon
       }
 
       if (ec[year - 1]) {
-        m.unshift(_objectSpread({}, ec[year - 1].months[ec[year - 1].months.length - 1]));
-        d.unshift(_objectSpread({}, ec[year - 1].days[ec[year - 1].days.length - 1]));
-        m[0].prev = true;
-        d[0].prev = true;
+        m.unshift(_objectSpread({}, ec[year - 1].months[ec[year - 1].months.length - 1], {
+          prev: true
+        }));
+        d.unshift(_objectSpread({}, ec[year - 1].days[ec[year - 1].days.length - 1], {
+          prev: true
+        }));
       }
 
       this.$nextTick(function () {
         _this2.maxOffsets();
 
-        _this2.computeBreakPoints();
-
         _this2.$refs.monthly.style.left = '0px';
         _this2.$refs.daily.style.left = '0px';
 
-        _this2.checkYearIsInView();
+        _this2.computeBreakPoints();
+
+        _this2.checkElementIsInView(_this2.yearly);
       });
     },
-    checkMonthIsInView: function checkMonthIsInView() {
-      var _this3 = this;
-
-      this.$nextTick(function () {
-        var sel = _this3.$refs.monthly.querySelector('[selected="selected"]');
-
-        if (sel) {
-          var cw = sel.parentNode.parentNode.clientWidth;
-          var m = _this3.monthly;
-
-          if (sel.offsetLeft > -m.realOffset - sel.clientWidth + cw) {
-            m.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
-            if (m.realOffset < m.maxOffset) m.realOffset = m.maxOffset;
-            m.style.left = "".concat(m.realOffset, "px");
-          }
-
-          if (-sel.offsetLeft > m.realOffset) {
-            m.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
-            if (m.realOffset > 0) m.realOffset = 0;
-            m.style.left = "".concat(m.realOffset, "px");
-          }
-        }
-      });
+    scrollDayIntoView: function scrollDayIntoView(el) {
+      if (!el) el = this.$refs.daily.querySelector("[selected=\"selected\"]");
+      var offset = -el.offsetLeft + el.parentNode.parentNode.clientWidth / 2 - el.clientWidth / 2;
+      this.daily.realOffset = offset < 0 ? offset : 0;
+      this.$refs.daily.style.left = "".concat(this.daily.realOffset, "px");
     },
-    checkYearIsInView: function checkYearIsInView() {
-      var _this4 = this;
+    checkElementIsInView: function checkElementIsInView(state) {
+      var sel = this.$refs["".concat(state.id)].querySelector('[selected="selected"]');
 
-      this.$nextTick(function () {
-        var sel = _this4.$refs.yearly.querySelector('[selected="selected"]');
+      if (sel) {
+        var cw = sel.parentNode.parentNode.clientWidth;
 
-        if (sel) {
-          var cw = sel.parentNode.parentNode.clientWidth;
-          var y = _this4.yearly;
-
-          if (sel.offsetLeft > y.realOffset - sel.clientWidth + cw) {
-            y.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
-            if (y.realOffset < y.maxOffset) y.realOffset = y.maxOffset;
-            y.style.left = "".concat(y.realOffset, "px");
-          }
-
-          if (-sel.offsetLeft > y.realOffset) {
-            y.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
-            if (y.realOffset > 0) y.realOffset = 0;
-            y.style.left = "".concat(y.realOffset, "px");
-          }
+        if (sel.offsetLeft > -state.realOffset - sel.clientWidth + cw) {
+          state.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
+          if (state.realOffset < state.maxOffset) state.realOffset = state.maxOffset;
+          state.style.left = "".concat(state.realOffset, "px");
         }
-      });
+
+        if (-sel.offsetLeft > state.realOffset) {
+          state.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
+          if (state.realOffset > 0) state.realOffset = 0;
+          state.style.left = "".concat(state.realOffset, "px");
+        }
+      }
     }
   },
   created: function created() {
-    var _this5 = this;
-
     if (this.NUMBER_OF_YEARS) {
       this.entireCalendar = buildEntireCalendar(this.NUMBER_OF_YEARS);
       this.calendar.years = Object.keys(this.entireCalendar);
       this.appendYear(this.calendar.years[0]);
-    } else this.calendar = buildCalendar(this.NUMBER_OF_DAYS, this.NUMBER_OF_MONTHS, this.PREPEND_MONTHS, this.fullMonths);
+    } else {
+      this.calendar = buildCalendar(this.NUMBER_OF_DAYS, this.NUMBER_OF_MONTHS, this.PREPEND_MONTHS, this.fullMonths);
+    }
 
-    document.body.addEventListener('mouseup', function (e) {
-      return _this5.handleDrag(e);
-    }, false);
-    document.body.addEventListener('mouseleave', function (e) {
-      return _this5.handleDrag(e);
-    }, false);
-    document.body.addEventListener('touchend', function (e) {
-      return _this5.handleDrag(e);
-    }, false);
-    window.addEventListener('resize', function (e) {
-      return _this5.handleResize();
-    }, false);
+    document.body.addEventListener('mouseup', this.endDrag, false);
+    document.body.addEventListener('mouseleave', this.endDrag, false);
+    document.body.addEventListener('touchend', this.endDrag, false);
+    window.addEventListener('resize', this.handleResize, false);
   },
   mounted: function mounted() {
     if (this.NUMBER_OF_YEARS) {
       this.yearly.style = this.$refs.yearly.style;
     }
 
-    this.computeBreakPoints();
     this.daily.style = this.$refs.daily.style;
     this.monthly.style = this.$refs.monthly.style;
     this.maxOffsets();
+    this.computeBreakPoints();
   },
   updated: function updated() {
     this.currentMonth;
   },
   beforeDestroy: function beforeDestroy() {
-    var _this6 = this;
-
-    document.body.removeEventListener('mouseup', function (e) {
-      return _this6.handleDrag(e);
-    }, false);
-    document.body.removeEventListener('mouseleave', function (e) {
-      return _this6.handleDrag(e);
-    }, false);
-    document.body.removeEventListener('touchend', function (e) {
-      return _this6.handleDrag(e);
-    }, false);
-    window.removeEventListener('resize', function (e) {
-      return _this6.handleResize();
-    }, false);
+    document.body.removeEventListener('mouseup', this.endDrag, false);
+    document.body.removeEventListener('mouseleave', this.endDrag, false);
+    document.body.removeEventListener('touchend', this.endDrag, false);
+    window.removeEventListener('resize', this.handleResize, false);
   }
 });
 // CONCATENATED MODULE: ./src/App.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_Appvue_type_script_lang_js_ = (Appvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/App.vue?vue&type=style&index=0&id=3c6b989b&lang=scss&scoped=true&
-var Appvue_type_style_index_0_id_3c6b989b_lang_scss_scoped_true_ = __webpack_require__("67ee");
+// EXTERNAL MODULE: ./src/App.vue?vue&type=style&index=0&id=7507d186&lang=scss&scoped=true&
+var Appvue_type_style_index_0_id_7507d186_lang_scss_scoped_true_ = __webpack_require__("fcd9");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -2800,7 +2615,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "3c6b989b",
+  "7507d186",
   null
   
 )
@@ -2813,6 +2628,17 @@ component.options.__file = "App.vue"
 /* harmony default export */ var entry_lib = __webpack_exports__["default"] = (App);
 
 
+
+/***/ }),
+
+/***/ "fcd9":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_7507d186_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("cbf4");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_7507d186_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_7507d186_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_7507d186_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

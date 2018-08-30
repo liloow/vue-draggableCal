@@ -22,7 +22,11 @@ export default {
   },
   selected: {
     type: Object,
-    default: null,
+    default: () => ({}),
+  },
+  startYear: {
+    type: Number,
+    default: new Date().getFullYear(),
   },
   fullMonths: {
     type: Boolean,

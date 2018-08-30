@@ -1,4 +1,4 @@
-export const language = {
+export default {
   FR: {
     DAYS: ['DIMANCHE', 'LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI', 'SAMEDI'],
     MONTHS: [
