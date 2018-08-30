@@ -78,21 +78,21 @@ describe('VueCal', () => {
 
   it('should build year', async () => {
     years.vm.$refs.yearly.childNodes[2].click();
-    noyear.vm.$nextTick(() =>
+    years.vm.$nextTick(() =>
       expect(years.vm.$refs.yearly.childNodes[2].getAttribute('selected')).toBe('selected')
     );
 
     years.element.querySelector('.arrow.top.right').click();
-    noyear.vm.$nextTick(() => expect(Number(years.vm.yearly.realOffset)).toBeLessThan(0));
+    years.vm.$nextTick(() => expect(Number(years.vm.yearly.realOffset)).toBeLessThan(0));
 
     years.element.querySelector('.arrow.middle.right').click();
-    noyear.vm.$nextTick(() => expect(Number(years.vm.monthly.realOffset)).toBeLessThan(0));
+    years.vm.$nextTick(() => expect(Number(years.vm.monthly.realOffset)).toBeLessThan(0));
 
     years.element.querySelector('.arrow.bottom.right').click();
-    noyear.vm.$nextTick(() => expect(Number(years.vm.daily.realOffset)).toBeLessThan(0));
+    years.vm.$nextTick(() => expect(Number(years.vm.daily.realOffset)).toBeLessThan(0));
 
     years.vm.$refs.monthly.childNodes[2].click();
-    noyear.vm.$nextTick(() =>
+    years.vm.$nextTick(() =>
       expect(years.vm.$refs.monthly.childNodes[2].getAttribute('selected')).toBe('selected')
     );
 

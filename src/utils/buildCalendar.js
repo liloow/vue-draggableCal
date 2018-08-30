@@ -12,12 +12,12 @@ function splitDate(date) {
   };
 }
 
-function computeMonthsFromDays(NUMBER_OF_DAYS) {
+export function computeMonthsFromDays(NUMBER_OF_DAYS) {
   const date = new Date(gYear(TODAY), gMonth(TODAY), gDay(TODAY) + NUMBER_OF_DAYS);
   const NUMBER_OF_MONTHS = (gYear(date) - gYear(TODAY)) * 12 + gMonth(date) - gMonth(TODAY);
   return NUMBER_OF_MONTHS;
 }
-function computeDaysFromMonths(NUMBER_OF_MONTH) {
+export function computeDaysFromMonths(NUMBER_OF_MONTH) {
   const NUMBER_OF_DAYS =
     (Date.UTC(gYear(TODAY), gMonth(TODAY) + NUMBER_OF_MONTH) -
       Date.UTC(gYear(TODAY), gMonth(TODAY))) /
@@ -25,7 +25,7 @@ function computeDaysFromMonths(NUMBER_OF_MONTH) {
   return NUMBER_OF_DAYS;
 }
 
-function createDaysArray(NUMBER_OF_DAYS, fullMonths) {
+export function createDaysArray(NUMBER_OF_DAYS, fullMonths) {
   if (NUMBER_OF_DAYS <= 0) return [];
   let currentConstructorDate = new Date();
   const days = [];
@@ -47,7 +47,7 @@ function createDaysArray(NUMBER_OF_DAYS, fullMonths) {
   return days;
 }
 
-function createMonthsArray(NUMBER_OF_MONTHS) {
+export function createMonthsArray(NUMBER_OF_MONTHS) {
   if (NUMBER_OF_MONTHS <= 0) return [];
   let currentConstructorMonth = new Date();
   const months = [];
@@ -67,7 +67,7 @@ function createMonthsArray(NUMBER_OF_MONTHS) {
   return months;
 }
 
-function createPrependArray(PREPEND_MONTHS) {
+export function createPrependArray(PREPEND_MONTHS) {
   const prepended = [{fullYear: gYear(TODAY), monthNumber: gMonth(TODAY)}];
   for (let i = 0; i < PREPEND_MONTHS; i++) {
     let year = prepended[0].fullYear;
@@ -82,7 +82,7 @@ function createPrependArray(PREPEND_MONTHS) {
   return prepended;
 }
 
-function buildYear(year) {
+export function buildYear(year) {
   let currentConstructorDate = new Date(Date.UTC(year, 0, 1));
   const isLeap = year % 4 === 0 ? 1 : 0;
   const entireYear = {
