@@ -69,12 +69,16 @@ export default {
       if (!this.$refs.daily) return past[past.length - 1];
       let off = -this.daily.realOffset + this.$refs.daily.parentNode.clientWidth / 2;
       if (this.daily.realOffset === 0) off = 1;
+      let modified = false;
       while (past.length > 0 && off <= past[past.length - 1].offset) {
+        modified = true;
         future.unshift(past.pop());
       }
       while (future.length > 0 && off >= future[0].offset) {
+        modified = true;
         past.push(future.shift());
       }
+      if (modified) this.checkElementIsInView(this.monthly);
       return past[past.length - 1];
     },
     currentState() {
@@ -283,8 +287,9 @@ export default {
       this.$refs.daily.style.left = `${this.daily.realOffset}px`;
     },
     checkElementIsInView(state) {
-      const sel = this.$refs[`${state.id}`].querySelector('[selected="selected"]');
-      if (sel) {
+      this.$nextTick(() => {
+        const sel = this.$refs[`${state.id}`].querySelector('[selected="selected"]');
+        if (!sel) return false;
         const cw = sel.parentNode.parentNode.clientWidth;
         if (sel.offsetLeft > -state.realOffset - sel.clientWidth + cw) {
           state.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
@@ -296,7 +301,7 @@ export default {
           if (state.realOffset > 0) state.realOffset = 0;
           state.style.left = `${state.realOffset}px`;
         }
-      }
+      });
     },
   },
   created() {
