@@ -378,7 +378,7 @@ export default {
   src: url('public/font.woff2') format('woff2');
 }
 :root {
-  @include responsive-font(1.75vw, 12px, 16px, 14px);
+  @include responsive-font(1.75vw, 13px, 16px, 14px);
 }
 
 .container {

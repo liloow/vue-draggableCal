@@ -1,6 +1,6 @@
 import {shallowMount, mount} from '@vue/test-utils';
 import App from '@/App.vue';
-import {gWeekDay, gDay, gMonth, gYear} from '@/utils/buildCalendar';
+import {gDay, gMonth, gYear} from '@/utils/buildCalendar';
 
 describe('VueCal', () => {
   it('should build without props', () => {
@@ -38,8 +38,7 @@ describe('VueCal', () => {
     attachToDocument: true,
     propsData: {
       selected: {
-        dayOfTheWeek: gWeekDay(new Date()),
-        day: gDay(new Date()),
+        day: gDay(new Date()) + 100,
         monthNumber: gMonth(new Date()),
         fullYear: gYear(new Date()),
       },
