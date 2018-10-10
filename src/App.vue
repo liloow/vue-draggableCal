@@ -63,7 +63,7 @@ export default {
   filters: {abr},
   props: props,
   computed: {
-    currentMonth() {
+    computeMonth() {
       let past = this.daily.pastBreakPoints;
       let future = this.daily.monthBreakPoints;
       if (!this.$refs.daily) return past[past.length - 1];
@@ -331,8 +331,10 @@ export default {
     this.maxOffsets();
     this.computeBreakPoints();
   },
-  updated() {
-    this.currentMonth;
+  watch: {
+    currentMonth() {
+      return this.computeMonth;
+    },
   },
   beforeDestroy() {
     document.body.removeEventListener('mouseup', this.endDrag, false);
