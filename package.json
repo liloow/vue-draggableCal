@@ -8,7 +8,7 @@
     "./sfc": "src/draggableCal.vue"
   },
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve ",
     "build": "vue-cli-service build",
     "bundle": "vue-cli-service build --target lib --name draggableCal",
     "lint": "vue-cli-service lint",
