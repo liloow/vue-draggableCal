@@ -1,7 +1,7 @@
 module.exports = {
   baseUrl: '.',
   configureWebpack: () => ({
-    entry: './src/App.vue',
+    entry: process.env.NODE_ENV === 'production' ? './src/App.vue' : './src/main.js',
     devtool: false,
   }),
   lintOnSave: true,
