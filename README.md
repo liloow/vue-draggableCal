@@ -6,8 +6,8 @@ A datepicker Vue component. Compatible with Vue 2.x
 - [Install](#install)
 - [Usage](#usage)
 - [Available Languages](#available-languages)
-  [Dev & Build](#dev-&-build)
-  [Licence](#licence)
+- [Dev & Build](#dev-&-build)
+- [Licence](#licence)
 - [Thanks](#thanks)
 
 ## Demo
