@@ -6,6 +6,8 @@ A datepicker Vue component. Compatible with Vue 2.x
 - [Install](#install)
 - [Usage](#usage)
 - [Available Languages](#available-languages)
+  [Dev & Build](#dev-&-build)
+  [Licence](#licence)
 - [Thanks](#thanks)
 
 ## Demo
@@ -115,15 +117,17 @@ These events are emitted on actions in the datepicker
 
 ## Dev & Build
 
-### Dev server
+**Dev server**
 ```bash
   yarn serve # Or npm run serve
 ```
-### Build App
+
+**Build App**
 ```bash
   yarn build # Or npm run build
 ```
-### Build Lib
+
+**Build Lib**
 ```bash
   yarn bundle # Or npm run bundle
 ```
