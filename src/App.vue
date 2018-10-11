@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <div class="drag-calendar" style="display: block background-color: 'transparent'" :style="{height: NUMBER_OF_YEARS ? '12.6rem' : '9.6rem'}">
+    <div class="drag-calendar" style="display: block; background-color: 'transparent'" :style="{height: NUMBER_OF_YEARS ? '12.6rem' : '9.6rem'}">
       <div v-if="NUMBER_OF_YEARS" :class="yearly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'">
         <div ref="yearly" state="yearly" class="years ui-draggable" style="left: 0px;" @mousedown="initDrag($event, yearly)" @touchstart="initDrag($event, yearly)" :style="yearly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} ">
           <div v-for="year in calendar.years" :key="year" class="year-cell cell" @click="toggleSelectYear($event, year)" :year-id="year" :selected="isSelected(null,null,year)">
@@ -314,7 +314,7 @@ export default {
         this.NUMBER_OF_DAYS,
         this.NUMBER_OF_MONTHS,
         this.PREPEND_MONTHS,
-        this.fullMonths
+        {fullMonths: this.fullMonths, pastIsDisabled: this.pastIsDisabled}
       );
     }
     document.body.addEventListener('mouseup', this.endDrag, false);

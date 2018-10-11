@@ -16,6 +16,10 @@ export default {
     type: Number,
     default: 1,
   },
+  pastIsDisabled: {
+    type: Boolean,
+    default: true,
+  },
   years: {
     type: Number,
     default: 0,

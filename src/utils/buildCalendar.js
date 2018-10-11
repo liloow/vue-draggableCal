@@ -67,7 +67,7 @@ export function createMonthsArray(NUMBER_OF_MONTHS) {
   return months;
 }
 
-export function createPrependArray(PREPEND_MONTHS) {
+export function createPrependArray(PREPEND_MONTHS, pastIsDisabled = true) {
   const prepended = [{fullYear: gYear(TODAY), monthNumber: gMonth(TODAY)}];
   for (let i = 0; i < PREPEND_MONTHS; i++) {
     let year = prepended[0].fullYear;
@@ -76,10 +76,24 @@ export function createPrependArray(PREPEND_MONTHS) {
       index = 11;
       year--;
     }
-    prepended.unshift({monthNumber: index, fullYear: year, past: true});
+    prepended.unshift({monthNumber: index, fullYear: year, past: pastIsDisabled});
   }
   prepended.pop();
   return prepended;
+}
+
+export function createPastDaysArray(PREPEND_MONTHS, pastIsDisabled = true) {
+  if (pastIsDisabled) return [];
+  let currentConstructorDate = new Date(Date.UTC(gYear(TODAY), gMonth(TODAY) - PREPEND_MONTHS, 1));
+  const days = [];
+
+  while (TODAY - 86400000 - currentConstructorDate > 0) {
+    let date = splitDate(currentConstructorDate);
+    days.push(date);
+    currentConstructorDate = new Date(date.fullYear, date.monthNumber, date.day + 1);
+  }
+  console.log(days);
+  return days;
 }
 
 export function buildYear(year) {
@@ -98,6 +112,7 @@ export function buildYear(year) {
   }
   return entireYear;
 }
+
 export function buildEntireCalendar(NUMBER_OF_YEARS) {
   const entireCalendar = {};
   for (let i = gYear(TODAY); i < gYear(TODAY) + NUMBER_OF_YEARS; i++) {
@@ -111,13 +126,25 @@ export function buildEntireCalendar(NUMBER_OF_YEARS) {
   entireCalendar[c.y].days[0].today = true;
   return entireCalendar;
 }
-export function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, fullMonths) {
+
+export function buildCalendar(
+  NUMBER_OF_DAYS,
+  NUMBER_OF_MONTHS,
+  PREPEND_MONTHS,
+  {fullMonths, pastIsDisabled}
+) {
   if (NUMBER_OF_MONTHS !== 12) NUMBER_OF_DAYS = computeDaysFromMonths(NUMBER_OF_MONTHS);
   else if (NUMBER_OF_DAYS !== 365) NUMBER_OF_MONTHS = computeMonthsFromDays(NUMBER_OF_DAYS);
-
+  console.log(pastIsDisabled);
   const calendar = {
-    days: createDaysArray(NUMBER_OF_DAYS, fullMonths),
-    months: [...createPrependArray(PREPEND_MONTHS), ...createMonthsArray(NUMBER_OF_MONTHS)],
+    days: [
+      ...createPastDaysArray(PREPEND_MONTHS, pastIsDisabled),
+      ...createDaysArray(NUMBER_OF_DAYS, fullMonths),
+    ],
+    months: [
+      ...createPrependArray(PREPEND_MONTHS, pastIsDisabled),
+      ...createMonthsArray(NUMBER_OF_MONTHS),
+    ],
   };
 
   return calendar;
