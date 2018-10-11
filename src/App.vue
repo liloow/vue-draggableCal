@@ -91,6 +91,7 @@ export default {
       NUMBER_OF_MONTHS: this.months,
       NUMBER_OF_YEARS: this.years,
       START_YEAR: this.startYear,
+      PREPEND_YEARS: this.prependedYears,
       PREPEND_MONTHS: this.prepended,
       DAYS: languages[this.lang].DAYS,
       MONTHS: languages[this.lang].MONTHS,
@@ -309,7 +310,7 @@ export default {
   },
   created() {
     if (this.NUMBER_OF_YEARS) {
-      this.entireCalendar = buildEntireCalendar(this.NUMBER_OF_YEARS)
+      this.entireCalendar = buildEntireCalendar(this.NUMBER_OF_YEARS, this.PREPEND_YEARS)
       this.calendar.years = Object.keys(this.entireCalendar)
       this.appendYear(this.calendar.years[0])
     } else {

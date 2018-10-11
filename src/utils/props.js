@@ -24,6 +24,10 @@ export default {
     type: Number,
     default: 0,
   },
+  prependedYears: {
+    type: Number,
+    default: 0,
+  },
   selected: {
     type: Object,
     default: () => ({}),
@@ -40,4 +44,4 @@ export default {
     type: String,
     default: '#00008b',
   },
-};
+}
