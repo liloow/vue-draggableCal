@@ -2,24 +2,29 @@
 <title>draggableCal demo</title>
 <script src="https://unpkg.com/vue"></script>
 <script src="../dist/draggableCal.umd.min.js"></script>
-<style>
-  h1 {
-    margin: 2.5rem 0;
-  }
-</style>
+<link rel="stylesheet" href="style.css">
 
 <div id="app" style="width: 95%">
-  <h1> Classic version, all default</h1>
-  <noyear></noyear>
-  <h1> Custom version with 18 complete months </h1>
-  <noyearcustom :days=2 :months=18 :full-months=true accent-color="#dbde1b"></noyearcustom>
-  <h1> With years version, with 5 years</h1>
-  <year :years=5 accent-color="#f44336"></year>
-  <h1> With past months version, with 11 months</h1>
-  <pastenabled :prepended=11 :past-is-disabled=false accent-color="#8bc34a"></pastenabled>
-  <h1> With past years version, with 3 years back and 5 to come</h1>
-  <pastenabledyears :prependedYears=3 :years=5 :past-is-disabled=false accent-color="#372838"></pastenabledyears>
-
+  <h1 style="backgroundColor: #00008bb0;"> All default</h1>
+  <div class="container-fluid">
+    <noyear></noyear>
+  </div>
+  <h1 style="backgroundColor: #dbde1bb0;"> 18 Full Months </h1>
+  <div class="container-fluid">
+    <noyearcustom :days=2 :months=18 :full-months=true accent-color="#dbde1b"></noyearcustom>
+  </div>
+  <h1 style="backgroundColor: #f44336b0;"> Year Mode 5 Years </h1>
+  <div class="container-fluid">
+    <year :years=5 accent-color="#f44336"></year>
+  </div>
+  <h1 style="backgroundColor: #8bc34ab0;"> Past Dates 11 Months</h1>
+  <div class="container-fluid">
+    <pastenabled :prepended=11 :past-is-disabled=false accent-color="#8bc34a"></pastenabled>
+  </div>
+  <h1 style="backgroundColor: #372838b0;"> Past Dates + Year Mode 3 years back 5 ahead </h1>
+  <div class="container-fluid">
+    <pastenabledyears :prepended-years=3 :years=5 :past-is-disabled=false accent-color="#372838"></pastenabledyears>
+  </div>
 </div>
 
 <script>
