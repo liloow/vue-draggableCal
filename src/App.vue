@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <div class="drag-calendar" style="display: block background-color: 'transparent'" :style="{height: NUMBER_OF_YEARS ? '12.6rem' : '9.6rem'}">
+    <div class="drag-calendar" style="display: block; background-color: 'transparent'" :style="{height: NUMBER_OF_YEARS ? '12.6rem' : '9.6rem'}">
       <div v-if="NUMBER_OF_YEARS" :class="yearly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'">
         <div ref="yearly" state="yearly" class="years ui-draggable" style="left: 0px;" @mousedown="initDrag($event, yearly)" @touchstart="initDrag($event, yearly)" :style="yearly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} ">
           <div v-for="year in calendar.years" :key="year" class="year-cell cell" @click="toggleSelectYear($event, year)" :year-id="year" :selected="isSelected(null,null,year)">
@@ -54,35 +54,35 @@
   </section>
 </template>
 <script>
-import {abr} from '@/utils/filters';
-import {buildCalendar, buildEntireCalendar} from '@/utils/buildCalendar';
-import props from '@/utils/props';
-import languages from '@/utils/CONSTANTS';
+import {abr} from '@/utils/filters'
+import {buildCalendar, buildEntireCalendar} from '@/utils/buildCalendar'
+import props from '@/utils/props'
+import languages from '@/utils/CONSTANTS'
 export default {
   name: 'VueCal',
   filters: {abr},
   props: props,
   computed: {
     currentMonth() {
-      let past = this.daily.pastBreakPoints;
-      let future = this.daily.monthBreakPoints;
-      if (!this.$refs.daily) return past[past.length - 1];
-      let off = -this.daily.realOffset + this.$refs.daily.parentNode.clientWidth / 2;
-      if (this.daily.realOffset === 0) off = 1;
-      let modified = false;
+      let past = this.daily.pastBreakPoints
+      let future = this.daily.monthBreakPoints
+      if (!this.$refs.daily) return past[past.length - 1]
+      let off = -this.daily.realOffset + this.$refs.daily.parentNode.clientWidth / 2
+      if (this.daily.realOffset === 0) off = 1
+      let modified = false
       while (past.length > 0 && off <= past[past.length - 1].offset) {
-        modified = true;
-        future.unshift(past.pop());
+        modified = true
+        future.unshift(past.pop())
       }
       while (future.length > 0 && off >= future[0].offset) {
-        modified = true;
-        past.push(future.shift());
+        modified = true
+        past.push(future.shift())
       }
-      if (modified) this.checkElementIsInView(this.monthly);
-      return past[past.length - 1];
+      if (modified) this.checkElementIsInView(this.monthly)
+      return past[past.length - 1]
     },
     currentState() {
-      return [this.daily, this.monthly, this.yearly].filter(el => el.phase !== 'sleep')[0];
+      return [this.daily, this.monthly, this.yearly].filter(el => el.phase !== 'sleep')[0]
     },
   },
   data() {
@@ -91,6 +91,7 @@ export default {
       NUMBER_OF_MONTHS: this.months,
       NUMBER_OF_YEARS: this.years,
       START_YEAR: this.startYear,
+      PREPEND_YEARS: this.prependedYears,
       PREPEND_MONTHS: this.prepended,
       DAYS: languages[this.lang].DAYS,
       MONTHS: languages[this.lang].MONTHS,
@@ -129,115 +130,115 @@ export default {
         realOffset: 0,
         maxOffset: 0,
       },
-    };
+    }
   },
   methods: {
     goTo(e, state, coef) {
-      if (state.realOffset > 0 || state.realOffset <= state.maxOffset) return false;
-      let elem = this.$refs[`${state.id}`];
-      let cell = elem.firstChild.clientWidth;
-      state.realOffset -= Math.floor(elem.parentNode.clientWidth / cell) * cell * coef;
-      if (state.realOffset > 0) state.realOffset = 0;
-      if (state.realOffset < state.maxOffset) state.realOffset = state.maxOffset;
-      elem.style.left = `${state.realOffset}px`;
-      return true;
+      if (state.realOffset > 0 || state.realOffset <= state.maxOffset) return false
+      let elem = this.$refs[`${state.id}`]
+      let cell = elem.firstChild.clientWidth
+      state.realOffset -= Math.floor(elem.parentNode.clientWidth / cell) * cell * coef
+      if (state.realOffset > 0) state.realOffset = 0
+      if (state.realOffset < state.maxOffset) state.realOffset = state.maxOffset
+      elem.style.left = `${state.realOffset}px`
+      return true
     },
     initDrag(e, state) {
-      document.body.addEventListener('mousemove', this.handleDrag, false);
-      document.body.addEventListener('touchmove', this.handleDrag, false);
-      state.phase = 'listen';
-      state.startX = e.screenX || e.touches[0].screenX;
-      state.initLeft = Number(state.style.left.slice(0, -2));
-      return true;
+      document.body.addEventListener('mousemove', this.handleDrag, false)
+      document.body.addEventListener('touchmove', this.handleDrag, false)
+      state.phase = 'listen'
+      state.startX = e.screenX || e.touches[0].screenX
+      state.initLeft = Number(state.style.left.slice(0, -2))
+      return true
     },
     handleDrag(e) {
-      let state = this.currentState;
-      state.phase = 'dragging';
-      state.currentOffset = (e.screenX || e.touches[0].screenX) - state.startX;
-      state.realOffset = state.initLeft + state.currentOffset;
-      if (state.realOffset < state.maxOffset) state.realOffset = state.maxOffset;
-      state.style.left = state.realOffset <= 0 ? `${state.realOffset}px` : '0px';
-      return true;
+      let state = this.currentState
+      state.phase = 'dragging'
+      state.currentOffset = (e.screenX || e.touches[0].screenX) - state.startX
+      state.realOffset = state.initLeft + state.currentOffset
+      if (state.realOffset < state.maxOffset) state.realOffset = state.maxOffset
+      state.style.left = state.realOffset <= 0 ? `${state.realOffset}px` : '0px'
+      return true
     },
     endDrag(e) {
-      if (!this.currentState) return false;
-      this.currentState.phase = 'sleep';
-      document.body.removeEventListener('mousemove', this.handleDrag, false);
-      document.body.removeEventListener('touchmove', this.handleDrag, false);
-      return true;
+      if (!this.currentState) return false
+      this.currentState.phase = 'sleep'
+      document.body.removeEventListener('mousemove', this.handleDrag, false)
+      document.body.removeEventListener('touchmove', this.handleDrag, false)
+      return true
     },
     isSelected(day, month, year) {
-      const d = this.selectedDate;
-      const cm = this.currentMonth;
+      const d = this.selectedDate
+      const cm = this.currentMonth
       if (day) {
-        return d.day == day.day && d.monthNumber == day.monthNumber && d.fullYear == day.fullYear;
+        return d.day == day.day && d.monthNumber == day.monthNumber && d.fullYear == day.fullYear
       }
       if (month) {
-        return cm && cm.monthNumber == month.monthNumber && cm.fullYear == month.fullYear;
+        return cm && cm.monthNumber == month.monthNumber && cm.fullYear == month.fullYear
       }
       if (year) {
-        return cm && cm.fullYear == year;
+        return cm && cm.fullYear == year
       }
-      return false;
+      return false
     },
     toggleSelectMonth(e, month) {
       if (/next|prev/g.test(e.target.className)) {
-        this.$refs.yearly.querySelector(`[year-id="${e.target.getAttribute('year-id')}"]`).click();
-        return true;
+        this.$refs.yearly.querySelector(`[year-id="${e.target.getAttribute('year-id')}"]`).click()
+        return true
       }
-      const id = `[year-id="${month.fullYear}"][month-id="${month.monthNumber}"].cal-cell`;
-      this.scrollDayIntoView(this.$refs.daily.querySelector(id));
-      this.checkElementIsInView(this.monthly);
+      const id = `[year-id="${month.fullYear}"][month-id="${month.monthNumber}"].cal-cell`
+      this.scrollDayIntoView(this.$refs.daily.querySelector(id))
+      this.checkElementIsInView(this.monthly)
     },
     toggleSelectYear(e, year) {
-      this.appendYear(year);
+      this.appendYear(year)
     },
     toggleSelect(e, day) {
       if (e && /next|prev/g.test(e.target.className)) {
-        this.$refs.yearly.querySelector(`[year-id="${e.target.getAttribute('year-id')}"]`).click();
-        return;
+        this.$refs.yearly.querySelector(`[year-id="${e.target.getAttribute('year-id')}"]`).click()
+        return
       }
       if (e.target.getAttribute('selected')) {
-        this.selectedDate = {};
-        return this.$emit('dateCleared');
+        this.selectedDate = {}
+        return this.$emit('dateCleared')
       }
-      this.dateSelected(day);
+      this.dateSelected(day)
     },
     dateSelected(date) {
-      this.selectedDate = date;
-      const formattedDate = new Date(Date.UTC(date.fullYear, date.monthNumber, date.day));
-      this.$emit('dateSelected', formattedDate);
+      this.selectedDate = date
+      const formattedDate = new Date(Date.UTC(date.fullYear, date.monthNumber, date.day))
+      this.$emit('dateSelected', formattedDate)
     },
     handleResize() {
-      this.daily.phase = 'dragging';
-      this.monthly.phase = 'dragging';
-      this.yearly.phase = 'dragging';
-      this.maxOffsets();
-      this.computeBreakPoints();
+      this.daily.phase = 'dragging'
+      this.monthly.phase = 'dragging'
+      this.yearly.phase = 'dragging'
+      this.maxOffsets()
+      this.computeBreakPoints()
       setTimeout(() => {
-        this.daily.phase = 'sleep';
-        this.monthly.phase = 'sleep';
-        this.yearly.phase = 'sleep';
-      }, 200);
+        this.daily.phase = 'sleep'
+        this.monthly.phase = 'sleep'
+        this.yearly.phase = 'sleep'
+      }, 200)
     },
     maxOffsets() {
-      const d = this.daily;
-      const m = this.monthly;
-      const y = this.yearly;
-      d.maxOffset = this.$refs.daily.parentNode.clientWidth - this.$refs.daily.clientWidth;
-      m.maxOffset = this.$refs.monthly.parentNode.clientWidth - this.$refs.monthly.clientWidth;
-      if (d.maxOffset > 0) d.maxOffset = 0;
-      if (m.maxOffset > 0) m.maxOffset = 0;
-      if (d.style.left.slice(0, -2) < d.maxOffset) d.style.left = `${d.maxOffset}px`;
-      if (m.style.left.slice(0, -2) < m.maxOffset) m.style.left = `${m.maxOffset}px`;
+      const d = this.daily
+      const m = this.monthly
+      const y = this.yearly
+      d.maxOffset = this.$refs.daily.parentNode.clientWidth - this.$refs.daily.clientWidth
+      m.maxOffset = this.$refs.monthly.parentNode.clientWidth - this.$refs.monthly.clientWidth
+      if (d.maxOffset > 0) d.maxOffset = 0
+      if (m.maxOffset > 0) m.maxOffset = 0
+      if (d.style.left.slice(0, -2) < d.maxOffset) d.style.left = `${d.maxOffset}px`
+      if (m.style.left.slice(0, -2) < m.maxOffset) m.style.left = `${m.maxOffset}px`
       if (this.NUMBER_OF_YEARS) {
-        y.maxOffset = this.$refs.yearly.parentNode.clientWidth - this.$refs.yearly.clientWidth;
-        if (y.maxOffset > 0) y.maxOffset = 0;
-        if (y.style.left.slice(0, -2) < y.maxOffset) y.style.left = `${y.maxOffset}px`;
+        y.maxOffset = this.$refs.yearly.parentNode.clientWidth - this.$refs.yearly.clientWidth
+        if (y.maxOffset > 0) y.maxOffset = 0
+        if (y.style.left.slice(0, -2) < y.maxOffset) y.style.left = `${y.maxOffset}px`
       }
     },
     computeBreakPoints() {
-      this.daily.pastBreakPoints = [];
+      this.daily.pastBreakPoints = []
       this.daily.monthBreakPoints = [
         this.$refs.daily.querySelector('.cal-cell.today'),
         ...this.$refs.daily.querySelectorAll('.cal-cell:not(.next)[day-id="1"]'),
@@ -247,100 +248,98 @@ export default {
           offset: i === 0 ? 0 : el.offsetLeft,
           monthNumber: el.getAttribute('month-id'),
           fullYear: el.getAttribute('year-id'),
-        }));
+        }))
     },
     appendYear(year) {
-      const ec = this.entireCalendar;
-      let m = this.calendar.months;
-      let d = this.calendar.days;
-      year = Number(year);
+      const ec = this.entireCalendar
+      let m = this.calendar.months
+      let d = this.calendar.days
+      year = Number(year)
       if (this.selectedDate.day) {
-        this.selectedDate = {};
-        this.$emit('dateCleared');
+        this.selectedDate = {}
+        this.$emit('dateCleared')
       }
-      this.monthly.realOffset = 0;
-      this.daily.realOffset = 0;
-      m.splice(0, 14);
-      d.splice(0, 368);
-      m.push(...ec[year].months);
-      d.push(...ec[year].days);
+      this.monthly.realOffset = 0
+      this.daily.realOffset = 0
+      m.splice(0, 14)
+      d.splice(0, 368)
+      m.push(...ec[year].months)
+      d.push(...ec[year].days)
       if (ec[year + 1]) {
-        m[m.push({...ec[year + 1].months[0]}) - 1].next = true;
-        d[d.push({...ec[year + 1].days[0]}) - 1].next = true;
+        m[m.push({...ec[year + 1].months[0]}) - 1].next = true
+        d[d.push({...ec[year + 1].days[0]}) - 1].next = true
       }
       if (ec[year - 1]) {
-        m.unshift({...ec[year - 1].months[ec[year - 1].months.length - 1], prev: true});
-        d.unshift({...ec[year - 1].days[ec[year - 1].days.length - 1], prev: true});
+        m.unshift({...ec[year - 1].months[ec[year - 1].months.length - 1], prev: true})
+        d.unshift({...ec[year - 1].days[ec[year - 1].days.length - 1], prev: true})
       }
       this.$nextTick(() => {
-        this.maxOffsets();
-        this.$refs.monthly.style.left = '0px';
-        this.$refs.daily.style.left = '0px';
-        this.computeBreakPoints();
-        this.checkElementIsInView(this.yearly);
-      });
+        this.maxOffsets()
+        this.$refs.monthly.style.left = '0px'
+        this.$refs.daily.style.left = '0px'
+        this.computeBreakPoints()
+        this.checkElementIsInView(this.yearly)
+      })
     },
     scrollDayIntoView(el) {
-      if (!el) el = this.$refs.daily.querySelector(`[selected="selected"]`);
-      let offset = -el.offsetLeft + el.parentNode.parentNode.clientWidth / 2 - el.clientWidth / 2;
-      this.daily.realOffset = offset < 0 ? offset : 0;
-      this.$refs.daily.style.left = `${this.daily.realOffset}px`;
+      if (!el) el = this.$refs.daily.querySelector(`[selected="selected"]`)
+      let offset = -el.offsetLeft + el.parentNode.parentNode.clientWidth / 2 - el.clientWidth / 2
+      this.daily.realOffset = offset < 0 ? offset : 0
+      this.$refs.daily.style.left = `${this.daily.realOffset}px`
     },
     checkElementIsInView(state) {
       this.$nextTick(() => {
-        const sel = this.$refs[`${state.id}`].querySelector('[selected="selected"]');
-        if (!sel) return false;
-        const cw = sel.parentNode.parentNode.clientWidth;
+        const sel = this.$refs[`${state.id}`].querySelector('[selected="selected"]')
+        if (!sel) return false
+        const cw = sel.parentNode.parentNode.clientWidth
         if (sel.offsetLeft > -state.realOffset - sel.clientWidth + cw) {
-          state.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
-          if (state.realOffset < state.maxOffset) state.realOffset = state.maxOffset;
-          state.style.left = `${state.realOffset}px`;
+          state.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2
+          if (state.realOffset < state.maxOffset) state.realOffset = state.maxOffset
+          state.style.left = `${state.realOffset}px`
         }
         if (-sel.offsetLeft > state.realOffset) {
-          state.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2;
-          if (state.realOffset > 0) state.realOffset = 0;
-          state.style.left = `${state.realOffset}px`;
+          state.realOffset = -sel.offsetLeft - sel.clientWidth / 2 + cw / 2
+          if (state.realOffset > 0) state.realOffset = 0
+          state.style.left = `${state.realOffset}px`
         }
-      });
+      })
     },
+  },
+  updated() {
+    this.currentMonth
   },
   created() {
     if (this.NUMBER_OF_YEARS) {
-      this.entireCalendar = buildEntireCalendar(this.NUMBER_OF_YEARS);
-      this.calendar.years = Object.keys(this.entireCalendar);
-      this.appendYear(this.calendar.years[0]);
+      this.entireCalendar = buildEntireCalendar(this.NUMBER_OF_YEARS, this.PREPEND_YEARS)
+      this.calendar.years = Object.keys(this.entireCalendar)
+      this.appendYear(this.calendar.years[0])
     } else {
-      this.calendar = buildCalendar(
-        this.NUMBER_OF_DAYS,
-        this.NUMBER_OF_MONTHS,
-        this.PREPEND_MONTHS,
-        this.fullMonths
-      );
+      this.calendar = buildCalendar(this.NUMBER_OF_DAYS, this.NUMBER_OF_MONTHS, this.PREPEND_MONTHS, {
+        fullMonths: this.fullMonths,
+        pastIsDisabled: this.pastIsDisabled,
+      })
     }
-    document.body.addEventListener('mouseup', this.endDrag, false);
-    document.body.addEventListener('mouseleave', this.endDrag, false);
-    document.body.addEventListener('touchend', this.endDrag, false);
-    window.addEventListener('resize', this.handleResize, false);
+    document.body.addEventListener('mouseup', this.endDrag, false)
+    document.body.addEventListener('mouseleave', this.endDrag, false)
+    document.body.addEventListener('touchend', this.endDrag, false)
+    window.addEventListener('resize', this.handleResize, false)
   },
   mounted() {
     if (this.NUMBER_OF_YEARS) {
-      this.yearly.style = this.$refs.yearly.style;
+      this.yearly.style = this.$refs.yearly.style
     }
-    this.daily.style = this.$refs.daily.style;
-    this.monthly.style = this.$refs.monthly.style;
-    this.maxOffsets();
-    this.computeBreakPoints();
-  },
-  updated() {
-    this.currentMonth;
+    this.daily.style = this.$refs.daily.style
+    this.monthly.style = this.$refs.monthly.style
+    this.maxOffsets()
+    this.computeBreakPoints()
   },
   beforeDestroy() {
-    document.body.removeEventListener('mouseup', this.endDrag, false);
-    document.body.removeEventListener('mouseleave', this.endDrag, false);
-    document.body.removeEventListener('touchend', this.endDrag, false);
-    window.removeEventListener('resize', this.handleResize, false);
+    document.body.removeEventListener('mouseup', this.endDrag, false)
+    document.body.removeEventListener('mouseleave', this.endDrag, false)
+    document.body.removeEventListener('touchend', this.endDrag, false)
+    window.removeEventListener('resize', this.handleResize, false)
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 @mixin responsive-font($responsive, $min, $max: false, $fallback: false) {

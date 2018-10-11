@@ -1,6 +1,6 @@
 module.exports = {
   // Fit code within this line limit
-  printWidth: 100,
+  printWidth: 120,
 
   // If true, will use single instead of double quotes
   singleQuote: true,
@@ -30,7 +30,7 @@ module.exports = {
 
   // Whether to add a semicolon at the end of every line (semi: true), or
   // only at the beginning of lines that may introduce ASI failures (semi: false)
-  semi: true,
+  semi: false,
 
   // Prettier can restrict itself to only format files that contain a
   // special comment, called a pragma, at the top of the file. This is

@@ -16,7 +16,15 @@ export default {
     type: Number,
     default: 1,
   },
+  pastIsDisabled: {
+    type: Boolean,
+    default: true,
+  },
   years: {
+    type: Number,
+    default: 0,
+  },
+  prependedYears: {
     type: Number,
     default: 0,
   },
@@ -36,4 +44,4 @@ export default {
     type: String,
     default: '#00008b',
   },
-};
+}

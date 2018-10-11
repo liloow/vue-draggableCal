@@ -3,17 +3,17 @@ export default {
     DAYS: ['DIMANCHE', 'LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI', 'SAMEDI'],
     MONTHS: [
       'JANVIER',
-      'FÉVRIER',
+      'FEVRIER',
       'MARS',
       'AVRIL',
       'MAI',
       'JUIN',
       'JUILLET',
-      'AOÛT',
+      'AOUT',
       'SEPTEMBRE',
       'OCTOBRE',
       'NOVEMBRE',
-      'DÉCEMBRE',
+      'DECEMBRE',
     ],
   },
   EN: {
@@ -33,4 +33,4 @@ export default {
       'DECEMBER',
     ],
   },
-};
+}

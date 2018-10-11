@@ -35,7 +35,6 @@ describe('VueCal', () => {
 
   const noyear = mount(App, {
     sync: false,
-    attachToDocument: true,
     propsData: {
       selected: {
         day: gDay(new Date()) + 100,
@@ -53,12 +52,12 @@ describe('VueCal', () => {
     },
   });
 
-  it('should build noyear', async () => {
+  it('should build noyear', async done => {
     noyear.element.querySelector('.arrow.top.right').click();
-    noyear.vm.$nextTick(() => expect(Number(noyear.vm.monthly.realOffset)).toBeLessThan(0));
+    expect(noyear.vm.monthly.realOffset).toBeLessThan(0);
 
     noyear.element.querySelector('.arrow.bottom.right').click();
-    noyear.vm.$nextTick(() => expect(Number(noyear.vm.daily.realOffset)).toBeLessThan(0));
+    expect(noyear.vm.daily.realOffset).toBeLessThan(0);
 
     noyear.vm.$refs.monthly.childNodes[2].click();
     noyear.vm.$nextTick(() =>
@@ -69,37 +68,34 @@ describe('VueCal', () => {
     expect(noyear.vm.selectedDate).not.toBe(null);
 
     noyear.vm.$refs.daily.childNodes[5].click();
-    noyear.vm.$nextTick(() => expect(noyear.vm.selectedDate).toBe({}));
+    expect(noyear.vm.selectedDate).toBe({});
 
     expect(noyear.element).toMatchSnapshot();
     noyear.vm.$destroy();
+    done();
   });
 
   it('should build year', async () => {
     years.vm.$refs.yearly.childNodes[2].click();
-    years.vm.$nextTick(() =>
-      expect(years.vm.$refs.yearly.childNodes[2].getAttribute('selected')).toBe('selected')
-    );
+    expect(years.vm.$refs.yearly.childNodes[2].getAttribute('selected')).toBe('selected');
 
     years.element.querySelector('.arrow.top.right').click();
-    years.vm.$nextTick(() => expect(Number(years.vm.yearly.realOffset)).toBeLessThan(0));
+    expect(years.vm.yearly.realOffset).toBeLessThan(0);
 
     years.element.querySelector('.arrow.middle.right').click();
-    years.vm.$nextTick(() => expect(Number(years.vm.monthly.realOffset)).toBeLessThan(0));
+    expect(years.vm.monthly.realOffset).toBeLessThan(0);
 
     years.element.querySelector('.arrow.bottom.right').click();
-    years.vm.$nextTick(() => expect(Number(years.vm.daily.realOffset)).toBeLessThan(0));
+    expect(years.vm.daily.realOffset).toBeLessThan(0);
 
     years.vm.$refs.monthly.childNodes[2].click();
-    years.vm.$nextTick(() =>
-      expect(years.vm.$refs.monthly.childNodes[2].getAttribute('selected')).toBe('selected')
-    );
+    expect(years.vm.$refs.monthly.childNodes[2].getAttribute('selected')).toBe('selected');
 
     years.vm.$refs.daily.childNodes[5].click();
-    years.vm.$nextTick(() => expect(years.vm.selectedDate).not.toBe({}));
+    expect(years.vm.selectedDate).not.toBe({});
 
     years.vm.$refs.daily.childNodes[5].click();
-    years.vm.$nextTick(() => expect(years.vm.selectedDate).toBe({}));
+    expect(years.vm.selectedDate).toBe({});
 
     expect(years.element).toMatchSnapshot();
     years.vm.$destroy();
