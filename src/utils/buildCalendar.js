@@ -117,6 +117,8 @@ export function buildEntireCalendar(NUMBER_OF_YEARS, PAST_YEARS = 0) {
     entireCalendar[i] = buildYear(i)
   }
   const c = {m: gMonth(TODAY), d: gDay(TODAY), y: gYear(TODAY)}
+  entireCalendar[c.y].days.find(el => el.monthNumber === c.m && el.day === c.d).today = true
+  if (PAST_YEARS) return entireCalendar
   entireCalendar[c.y].months = entireCalendar[c.y].months.filter(el => el.monthNumber >= c.m)
   entireCalendar[c.y].days = entireCalendar[c.y].days.filter(
     el => el.monthNumber > c.m || (el.monthNumber === c.m && el.day >= c.d)

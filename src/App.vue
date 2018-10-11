@@ -87,6 +87,7 @@ export default {
   },
   data() {
     return {
+      TODAY: new Date(),
       NUMBER_OF_DAYS: this.days,
       NUMBER_OF_MONTHS: this.months,
       NUMBER_OF_YEARS: this.years,
@@ -284,6 +285,7 @@ export default {
     scrollDayIntoView(el) {
       if (!el) el = this.$refs.daily.querySelector(`[selected="selected"]`)
       let offset = -el.offsetLeft + el.parentNode.parentNode.clientWidth / 2 - el.clientWidth / 2
+      console.log(offset)
       this.daily.realOffset = offset < 0 ? offset : 0
       this.$refs.daily.style.left = `${this.daily.realOffset}px`
     },
@@ -312,7 +314,7 @@ export default {
     if (this.NUMBER_OF_YEARS) {
       this.entireCalendar = buildEntireCalendar(this.NUMBER_OF_YEARS, this.PREPEND_YEARS)
       this.calendar.years = Object.keys(this.entireCalendar)
-      this.appendYear(this.calendar.years[0])
+      this.appendYear(`${Number(this.calendar.years[0]) + this.PREPEND_YEARS}`)
     } else {
       this.calendar = buildCalendar(this.NUMBER_OF_DAYS, this.NUMBER_OF_MONTHS, this.PREPEND_MONTHS, {
         fullMonths: this.fullMonths,
@@ -332,6 +334,8 @@ export default {
     this.monthly.style = this.$refs.monthly.style
     this.maxOffsets()
     this.computeBreakPoints()
+    console.log(this.$refs.daily.querySelector('.today'))
+    this.scrollDayIntoView(this.$refs.daily.querySelector('.today'))
   },
   beforeDestroy() {
     document.body.removeEventListener('mouseup', this.endDrag, false)

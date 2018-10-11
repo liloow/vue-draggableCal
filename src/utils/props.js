@@ -22,11 +22,11 @@ export default {
   },
   years: {
     type: Number,
-    default: 0,
+    default: 5,
   },
   prependedYears: {
     type: Number,
-    default: 0,
+    default: 3,
   },
   selected: {
     type: Object,
