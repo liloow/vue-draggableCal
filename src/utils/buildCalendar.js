@@ -139,7 +139,6 @@ export function buildCalendar(
   DISABLED_DAYS,
   {fullMonths, pastIsDisabled}
 ) {
-  console.log(arguments)
   if (NUMBER_OF_MONTHS !== 12) NUMBER_OF_DAYS = computeDaysFromMonths(NUMBER_OF_MONTHS)
   else if (NUMBER_OF_DAYS !== 365) NUMBER_OF_MONTHS = computeMonthsFromDays(NUMBER_OF_DAYS)
   const calendar = {

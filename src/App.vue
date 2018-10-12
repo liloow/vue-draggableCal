@@ -32,7 +32,7 @@
       </div>
       <div class="wrapper">
         <div ref="daily" state="daily" class="days ui-draggable" :style="daily.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} " style="left: 0px;" @mousedown="initDrag($event, daily)" @touchstart="initDrag($event, daily)">
-          <div v-for="day in calendar.days" :key="day | ymd" :date="day | ymd" :disabled="day.disabled" class="cal-cell cell" :class="{first: day.day == 1, next: day.next, prev: day.prev, today: day.today, }" :month-id="day.monthNumber" :year-id="day.fullYear" :day-id="day.day" @click="toggleSelect($event, day)" :selected="isSelected(day, null, null)" :style="{backgroundColor: `${isSelected(day, null, null) ? accentColor : ''}` }">
+          <div v-for="day in calendar.days" :key="day | ymd" :date="day | ymd" :closed="day.disabled" class="cal-cell cell" :class="{first: day.day == 1, next: day.next, prev: day.prev, today: day.today, }" :month-id="day.monthNumber" :year-id="day.fullYear" :day-id="day.day" @click="toggleSelect($event, day)" :selected="isSelected(day, null, null)" :style="{backgroundColor: `${isSelected(day, null, null) ? accentColor : ''}` }">
             <div class="hover" v-if="day.next"> {{day.fullYear}}</div>
             <div class="hover" v-if="day.prev"> {{day.fullYear}}</div>
             <div class="cell-content">
@@ -302,11 +302,9 @@ export default {
       })
     },
     disableDays() {
-      if (this.disableDates.length) {
-        this.disableDates.forEach(date =>
-          this.$refs.daily.querySelector(`[date="${date}"`).setAttribute('disabled', true)
-        )
-      }
+      this.disabledDates.forEach(date => {
+        this.$refs.daily.querySelector(`[date="${date}"]`).setAttribute('disabled', 'disabled')
+      })
     },
   },
   updated() {
@@ -334,6 +332,7 @@ export default {
     }
     this.daily.style = this.$refs.daily.style
     this.monthly.style = this.$refs.monthly.style
+    this.disableDays()
     this.maxOffsets()
     this.computeBreakPoints()
     this.scrollDayIntoView(this.$refs.daily.querySelector('.today'))
@@ -514,7 +513,8 @@ export default {
       &:last-child {
         margin-right: 0.4em;
       }
-      &[disabled='disabled'] {
+      &[disabled='disabled'],
+      &[closed] {
         background-color: rgba(235, 235, 235, 0.5);
         color: #a0a0a0;
         opacity: 0.8;
