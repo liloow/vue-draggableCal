@@ -12,7 +12,7 @@ export default {
     type: Number,
     default: 12,
   },
-  prepended: {
+  prependedMonths: {
     type: Number,
     default: 1,
   },
@@ -32,9 +32,14 @@ export default {
     type: Object,
     default: () => ({}),
   },
-  startYear: {
-    type: Number,
-    default: new Date().getFullYear(),
+  disabledWeekDays: {
+    type: Object,
+    default: () => ({}),
+  },
+  disabledDates: {
+    type: Array,
+    validator: v => v.every(el => !isNaN(Date.UTC(...el.split('-')))),
+    default: () => [],
   },
   fullMonths: {
     type: Boolean,

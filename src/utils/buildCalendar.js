@@ -24,7 +24,7 @@ export function computeDaysFromMonths(NUMBER_OF_MONTH) {
   return NUMBER_OF_DAYS
 }
 
-export function createDaysArray(NUMBER_OF_DAYS, fullMonths) {
+export function createDaysArray(NUMBER_OF_DAYS, DISABLED_DAYS, fullMonths) {
   if (NUMBER_OF_DAYS <= 0) return []
   let currentConstructorDate = new Date()
   const days = []
@@ -32,6 +32,8 @@ export function createDaysArray(NUMBER_OF_DAYS, fullMonths) {
   for (let i = 0; i < NUMBER_OF_DAYS; i++) {
     let date = splitDate(currentConstructorDate)
     if (i === 0) date.today = true
+    if (DISABLED_DAYS[date.dayOfTheWeek]) date.disabled = true
+
     days.push(date)
     currentConstructorDate = new Date(date.fullYear, date.monthNumber, date.day + 1)
   }
@@ -81,20 +83,22 @@ export function createPrependArray(PREPEND_MONTHS, pastIsDisabled = true) {
   return prepended
 }
 
-export function createPastDaysArray(PREPEND_MONTHS, pastIsDisabled = true) {
+export function createPastDaysArray(PREPEND_MONTHS, DISABLED_DAYS, pastIsDisabled = true) {
   if (pastIsDisabled) return []
   let currentConstructorDate = new Date(Date.UTC(gYear(TODAY), gMonth(TODAY) - PREPEND_MONTHS, 1))
   const days = []
 
   while (TODAY - 86400000 - currentConstructorDate > 0) {
     let date = splitDate(currentConstructorDate)
+    if (DISABLED_DAYS[date.dayOfTheWeek]) date.disabled = true
+
     days.push(date)
     currentConstructorDate = new Date(date.fullYear, date.monthNumber, date.day + 1)
   }
   return days
 }
 
-export function buildYear(year) {
+export function buildYear(year, DISABLED_DAYS) {
   let currentConstructorDate = new Date(Date.UTC(year, 0, 1))
   const isLeap = year % 4 === 0 ? 1 : 0
   const entireYear = {
@@ -105,18 +109,21 @@ export function buildYear(year) {
 
   for (let i = 0; i < 365 + isLeap; i++) {
     let date = splitDate(currentConstructorDate)
+    if (DISABLED_DAYS[date.dayOfTheWeek]) date.disabled = true
     entireYear.days.push(date)
     currentConstructorDate = new Date(date.fullYear, date.monthNumber, date.day + 1)
   }
   return entireYear
 }
 
-export function buildEntireCalendar(NUMBER_OF_YEARS, PAST_YEARS = 0) {
+export function buildEntireCalendar(NUMBER_OF_YEARS, DISABLED_DAYS, PAST_YEARS = 0) {
   const entireCalendar = {}
   for (let i = gYear(TODAY) - PAST_YEARS; i < gYear(TODAY) + NUMBER_OF_YEARS; i++) {
-    entireCalendar[i] = buildYear(i)
+    entireCalendar[i] = buildYear(i, DISABLED_DAYS)
   }
   const c = {m: gMonth(TODAY), d: gDay(TODAY), y: gYear(TODAY)}
+  entireCalendar[c.y].days.find(el => el.monthNumber === c.m && el.day === c.d).today = true
+  if (PAST_YEARS) return entireCalendar
   entireCalendar[c.y].months = entireCalendar[c.y].months.filter(el => el.monthNumber >= c.m)
   entireCalendar[c.y].days = entireCalendar[c.y].days.filter(
     el => el.monthNumber > c.m || (el.monthNumber === c.m && el.day >= c.d)
@@ -125,11 +132,20 @@ export function buildEntireCalendar(NUMBER_OF_YEARS, PAST_YEARS = 0) {
   return entireCalendar
 }
 
-export function buildCalendar(NUMBER_OF_DAYS, NUMBER_OF_MONTHS, PREPEND_MONTHS, {fullMonths, pastIsDisabled}) {
+export function buildCalendar(
+  NUMBER_OF_DAYS,
+  NUMBER_OF_MONTHS,
+  PREPEND_MONTHS,
+  DISABLED_DAYS,
+  {fullMonths, pastIsDisabled}
+) {
   if (NUMBER_OF_MONTHS !== 12) NUMBER_OF_DAYS = computeDaysFromMonths(NUMBER_OF_MONTHS)
   else if (NUMBER_OF_DAYS !== 365) NUMBER_OF_MONTHS = computeMonthsFromDays(NUMBER_OF_DAYS)
   const calendar = {
-    days: [...createPastDaysArray(PREPEND_MONTHS, pastIsDisabled), ...createDaysArray(NUMBER_OF_DAYS, fullMonths)],
+    days: [
+      ...createPastDaysArray(PREPEND_MONTHS, DISABLED_DAYS, pastIsDisabled),
+      ...createDaysArray(NUMBER_OF_DAYS, DISABLED_DAYS, fullMonths),
+    ],
     months: [...createPrependArray(PREPEND_MONTHS, pastIsDisabled), ...createMonthsArray(NUMBER_OF_MONTHS)],
   }
 

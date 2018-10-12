@@ -9,13 +9,17 @@
   <div class="container-fluid">
     <noyear></noyear>
   </div>
+  <h1 style="backgroundColor: #00bcd4b0;"> Sunday Disabled</h1>
+  <div class="container-fluid">
+    <byebyesunday :disabled-week-days="{0:true}" accent-color="#00bcd4"></byebyesunday>
+  </div>
   <h1 style="backgroundColor: #dbde1bb0;"> 18 Full Months </h1>
   <div class="container-fluid">
     <noyearcustom :days=2 :months=18 :full-months=true accent-color="#dbde1b"></noyearcustom>
   </div>
-  <h1 style="backgroundColor: #f44336b0;"> Year Mode 5 Years </h1>
+  <h1 style="backgroundColor: #f44336b0;">Year Enabled Next 3 days disabled </h1>
   <div class="container-fluid">
-    <year :years=5 accent-color="#f44336"></year>
+    <year :years=5 :disabled-dates="[`${y}-${m}-${d + 1}`,`${y}-${m}-${d + 2}`,`${y}-${m}-${d + 3}`]" accent-color="#f44336"></year>
   </div>
   <h1 style="backgroundColor: #8bc34ab0;"> Past Dates 11 Months</h1>
   <div class="container-fluid">
@@ -28,10 +32,20 @@
 </div>
 
 <script>
+  const today = new Date()
+
   new Vue({
+    data() {
+      return {
+        m: today.getMonth(),
+        d: today.getDate(),
+        y: today.getFullYear(),
+      }
+    },
     components: {
       noyear: draggableCal,
       year: draggableCal,
+      byebyesunday: draggableCal,
       noyearcustom: draggableCal,
       pastenabled: draggableCal,
       pastenabledyears: draggableCal,
