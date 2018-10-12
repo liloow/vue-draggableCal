@@ -1,7 +1,7 @@
 <template>
   <section class="container">
-    <div class="drag-calendar" style="display: block; background-color: 'transparent'" :style="{height: NUMBER_OF_YEARS ? '12.6rem' : '9.6rem'}">
-      <div v-if="NUMBER_OF_YEARS" :class="yearly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'">
+    <div class="drag-calendar" style="display: block; background-color: 'transparent'" :style="{height: years ? '12.6rem' : '9.6rem'}">
+      <div v-if="years" :class="yearly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'">
         <div ref="yearly" state="yearly" class="years ui-draggable" style="left: 0px;" @mousedown="initDrag($event, yearly)" @touchstart="initDrag($event, yearly)" :style="yearly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} ">
           <div v-for="year in calendar.years" :key="year" class="year-cell cell" @click="toggleSelectYear($event, year)" :year-id="year" :selected="isSelected(null,null,year)">
             <div class="cell-content" :style="{backgroundColor: `${isSelected(null, null, year) ? accentColor : ''}` }">
@@ -10,9 +10,9 @@
           </div>
         </div>
       </div>
-      <div v-if="NUMBER_OF_YEARS" class="arrow top left" @click="goTo($event, yearly, -1)" :style="{visibility: yearly.realOffset >= 0 ? 'hidden' : 'visible'}">
+      <div v-if="years" class="arrow top left" @click="goTo($event, yearly, -1)" :style="{visibility: yearly.realOffset >= 0 ? 'hidden' : 'visible'}">
       </div>
-      <div v-if="NUMBER_OF_YEARS" class="arrow top right" @click="goTo($event, yearly, 1)" :style="{visibility: yearly.realOffset <= yearly.maxOffset ? 'hidden' : 'visible'}">
+      <div v-if="years" class="arrow top right" @click="goTo($event, yearly, 1)" :style="{visibility: yearly.realOffset <= yearly.maxOffset ? 'hidden' : 'visible'}">
       </div>
       <div :class="monthly.maxOffset < 0 ? 'wrapper' : 'wrapper-flex'">
         <div ref="monthly" state="monthly" class="months ui-draggable" style="left: 0px;" @mousedown="initDrag($event, monthly)" @touchstart="initDrag($event, monthly)" :style="monthly.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} ">
@@ -21,18 +21,18 @@
               <span class="cell-content month-name">{{MONTHS[month.monthNumber] | abr}} </span>
               <div class="hover" v-if="month.next"> {{month.fullYear}}</div>
               <div class="hover" v-if="month.prev"> {{month.fullYear}}</div>
-              <span v-if="!NUMBER_OF_YEARS"> {{month.fullYear%1000}}</span>
+              <span v-if="!years"> {{month.fullYear%1000}}</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="arrow left" :class="NUMBER_OF_YEARS ? 'middle' : 'top'" @click="goTo($event, monthly, -1)" :style="{visibility: monthly.realOffset >= 0 ? 'hidden' : 'visible'}">
+      <div class="arrow left" :class="years ? 'middle' : 'top'" @click="goTo($event, monthly, -1)" :style="{visibility: monthly.realOffset >= 0 ? 'hidden' : 'visible'}">
       </div>
-      <div class="arrow right" :class="NUMBER_OF_YEARS ? 'middle' : 'top'" @click="goTo($event, monthly, 1)" :style="{visibility: monthly.realOffset <= monthly.maxOffset ? 'hidden' : 'visible'}">
+      <div class="arrow right" :class="years ? 'middle' : 'top'" @click="goTo($event, monthly, 1)" :style="{visibility: monthly.realOffset <= monthly.maxOffset ? 'hidden' : 'visible'}">
       </div>
       <div class="wrapper">
         <div ref="daily" state="daily" class="days ui-draggable" :style="daily.phase === 'dragging' ? {pointerEvents: 'none', transition: 'none', cursor:'-webkit-grab'} : {} " style="left: 0px;" @mousedown="initDrag($event, daily)" @touchstart="initDrag($event, daily)">
-          <div v-for="day in calendar.days" :key="`${day.fullYear}-${day.monthNumber}-${day.day}`" :date="`${day.fullYear}-${day.monthNumber}-${day.day}`" class="cal-cell cell" :class="{first: day.day == 1, next: day.next, prev: day.prev, today: day.today}" :month-id="day.monthNumber" :year-id="day.fullYear" :day-id="day.day" @click="toggleSelect($event, day)" :selected="isSelected(day, null, null)" :style="{backgroundColor: `${isSelected(day, null, null) ? accentColor : ''}` }">
+          <div v-for="day in calendar.days" :key="day | ymd" :date="day | ymd" :disabled="day.disabled" class="cal-cell cell" :class="{first: day.day == 1, next: day.next, prev: day.prev, today: day.today, }" :month-id="day.monthNumber" :year-id="day.fullYear" :day-id="day.day" @click="toggleSelect($event, day)" :selected="isSelected(day, null, null)" :style="{backgroundColor: `${isSelected(day, null, null) ? accentColor : ''}` }">
             <div class="hover" v-if="day.next"> {{day.fullYear}}</div>
             <div class="hover" v-if="day.prev"> {{day.fullYear}}</div>
             <div class="cell-content">
@@ -54,13 +54,13 @@
   </section>
 </template>
 <script>
-import {abr} from '@/utils/filters'
+import {abr, ymd} from '@/utils/filters'
 import {buildCalendar, buildEntireCalendar} from '@/utils/buildCalendar'
 import props from '@/utils/props'
 import languages from '@/utils/CONSTANTS'
 export default {
   name: 'VueCal',
-  filters: {abr},
+  filters: {abr, ymd},
   props: props,
   computed: {
     currentMonth() {
@@ -88,12 +88,6 @@ export default {
   data() {
     return {
       TODAY: new Date(),
-      NUMBER_OF_DAYS: this.days,
-      NUMBER_OF_MONTHS: this.months,
-      NUMBER_OF_YEARS: this.years,
-      START_YEAR: this.startYear,
-      PREPEND_YEARS: this.prependedYears,
-      PREPEND_MONTHS: this.prepended,
       DAYS: languages[this.lang].DAYS,
       MONTHS: languages[this.lang].MONTHS,
       selectedDate: this.selected,
@@ -232,7 +226,7 @@ export default {
       if (m.maxOffset > 0) m.maxOffset = 0
       if (d.style.left.slice(0, -2) < d.maxOffset) d.style.left = `${d.maxOffset}px`
       if (m.style.left.slice(0, -2) < m.maxOffset) m.style.left = `${m.maxOffset}px`
-      if (this.NUMBER_OF_YEARS) {
+      if (this.years) {
         y.maxOffset = this.$refs.yearly.parentNode.clientWidth - this.$refs.yearly.clientWidth
         if (y.maxOffset > 0) y.maxOffset = 0
         if (y.style.left.slice(0, -2) < y.maxOffset) y.style.left = `${y.maxOffset}px`
@@ -276,8 +270,10 @@ export default {
       }
       this.$nextTick(() => {
         this.maxOffsets()
-        this.$refs.monthly.style.left = '0px'
-        this.$refs.daily.style.left = '0px'
+        if (!this.prependedYears) {
+          this.$refs.daily.style.left = '0px'
+          this.$refs.monthly.style.left = '0px'
+        }
         this.computeBreakPoints()
         this.checkElementIsInView(this.yearly)
       })
@@ -285,7 +281,6 @@ export default {
     scrollDayIntoView(el) {
       if (!el) el = this.$refs.daily.querySelector(`[selected="selected"]`)
       let offset = -el.offsetLeft + el.parentNode.parentNode.clientWidth / 2 - el.clientWidth / 2
-      console.log(offset)
       this.daily.realOffset = offset < 0 ? offset : 0
       this.$refs.daily.style.left = `${this.daily.realOffset}px`
     },
@@ -306,17 +301,24 @@ export default {
         }
       })
     },
+    disableDays() {
+      if (this.disableDates.length) {
+        this.disableDates.forEach(date =>
+          this.$refs.daily.querySelector(`[date="${date}"`).setAttribute('disabled', true)
+        )
+      }
+    },
   },
   updated() {
     this.currentMonth
   },
   created() {
-    if (this.NUMBER_OF_YEARS) {
-      this.entireCalendar = buildEntireCalendar(this.NUMBER_OF_YEARS, this.PREPEND_YEARS)
+    if (this.years) {
+      this.entireCalendar = buildEntireCalendar(this.years, this.disabledWeekDays, this.prependedYears)
       this.calendar.years = Object.keys(this.entireCalendar)
-      this.appendYear(`${Number(this.calendar.years[0]) + this.PREPEND_YEARS}`)
+      this.appendYear(`${Number(this.calendar.years[0]) + this.prependedYears}`)
     } else {
-      this.calendar = buildCalendar(this.NUMBER_OF_DAYS, this.NUMBER_OF_MONTHS, this.PREPEND_MONTHS, {
+      this.calendar = buildCalendar(this.days, this.months, this.prependedMonths, this.disabledWeekDays, {
         fullMonths: this.fullMonths,
         pastIsDisabled: this.pastIsDisabled,
       })
@@ -327,14 +329,13 @@ export default {
     window.addEventListener('resize', this.handleResize, false)
   },
   mounted() {
-    if (this.NUMBER_OF_YEARS) {
+    if (this.years) {
       this.yearly.style = this.$refs.yearly.style
     }
     this.daily.style = this.$refs.daily.style
     this.monthly.style = this.$refs.monthly.style
     this.maxOffsets()
     this.computeBreakPoints()
-    console.log(this.$refs.daily.querySelector('.today'))
     this.scrollDayIntoView(this.$refs.daily.querySelector('.today'))
   },
   beforeDestroy() {
@@ -369,10 +370,6 @@ export default {
 
   font-size: $responsive;
 }
-
-/* ========================================================================== */
-
-/* ========================================================================== */
 
 @font-face {
   font-family: 'Oswald';
@@ -516,6 +513,13 @@ export default {
       }
       &:last-child {
         margin-right: 0.4em;
+      }
+      &[disabled='disabled'] {
+        background-color: rgba(235, 235, 235, 0.5);
+        color: #a0a0a0;
+        opacity: 0.8;
+        pointer-events: none;
+        border-radius: 0.5em;
       }
       &.next,
       &.prev {
