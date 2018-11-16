@@ -82,7 +82,7 @@ new Vue({
 Emits events
 
 ```html
-<DraggableCal @selectedDate="doSomething($event)"></DraggableCal>
+<DraggableCal @dateSelected="doSomething($event)"></DraggableCal>
 ```
 
 ## Available props
