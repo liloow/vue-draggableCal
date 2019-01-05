@@ -2367,8 +2367,8 @@ var es6_regexp_split = __webpack_require__("28a5");
 /* harmony default export */ var props = ({
   lang: {
     type: String,
-    enum: ['EN', 'FR'],
-    default: 'EN'
+    enum: ['TR','EN', 'FR'],
+    default: 'TR'
   },
   days: {
     type: Number,
