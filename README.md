@@ -30,6 +30,12 @@ I am planning to add a few more customizations props in the near future, but I d
 ## Install
 
 ```bash
+npm install git+https://github.com/gurkankesebir/vue-draggableCal-Turkish.git
+```
+
+or
+
+```bash
 npm i vue-draggable-cal --save
 ```
 
@@ -82,7 +88,7 @@ new Vue({
 Emits events
 
 ```html
-<DraggableCal @selectedDate="doSomething($event)"></DraggableCal>
+<DraggableCal @dateSelected="doSomething($event)"></DraggableCal>
 ```
 
 ## Available props
@@ -114,7 +120,8 @@ These events are emitted on actions in the datepicker
 
 | Abbr | Language |           |
 | ---- | -------- | --------- |
-| EN   | English  | _Default_ |
+| TR   | Turkish  | _Default_ |
+| EN   | English  |           |
 | FR   | French   |           |
 
 ## Dev & Build
