@@ -33,4 +33,21 @@ export default {
       'DECEMBER',
     ],
   },
+  PT_BR: {
+    DAYS: ['DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO'],
+    MONTHS: [
+      'JANEIRO', 
+      'FEVEREIRO', 
+      'MARÇO', 
+      'ABRIL', 
+      'MAIO', 
+      'JUNHO', 
+      'JULHO', 
+      'AGOSTO', 
+      'SETEMBRO', 
+      'OUTUBRO', 
+      'NOVEMBRO', 
+      'DEZEMBRO'
+    ]
+  },
 }
