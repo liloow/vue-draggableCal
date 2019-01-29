@@ -27,7 +27,7 @@ describe('VueCal', () => {
 
   it('should change the language', () => {
     const wrapper = shallowMount(App, {
-      propsData: {lang: 'FR'},
+      propsData: {lang: 'PT_BR'},
       sync: false,
     });
     expect(wrapper.vm.MONTHS[0]).toMatch('JANVIER');

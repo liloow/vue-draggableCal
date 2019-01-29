@@ -1,5 +1,5 @@
 {
-  "name": "vue-draggable-cal",
+  "name": "vue-draggable-cal-ptbr",
   "version": "2.6.0",
   "main": "dist/draggableCal.common.js",
   "module": "dist/draggableCal.esm.js",
