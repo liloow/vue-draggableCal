@@ -112,10 +112,11 @@ These events are emitted on actions in the datepicker
 
 ## Available languages
 
-| Abbr | Language |           |
-| ---- | -------- | --------- |
-| EN   | English  | _Default_ |
-| FR   | French   |           |
+| Abbr   | Language        |           |
+| ------ | --------        | --------- |
+| EN     | English         |           |
+| FR     | French          |           |
+| PT_BR  | Portuguese (BR) | _Default_ |
 
 ## Dev & Build
 

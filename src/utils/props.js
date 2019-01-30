@@ -1,7 +1,7 @@
 export default {
   lang: {
     type: String,
-    enum: ['EN', 'FR'],
+    enum: ['EN', 'FR', 'PT_BR'],
     default: 'EN',
   },
   days: {
