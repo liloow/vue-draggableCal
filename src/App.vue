@@ -195,14 +195,14 @@ export default {
       }
       if (e.target.getAttribute('selected')) {
         this.selectedDate = {}
-        return this.$emit('dateCleared')
+        return this.$emit('date-cleared')
       }
       this.dateSelected(day)
     },
     dateSelected(date) {
       this.selectedDate = date
       const formattedDate = new Date(Date.UTC(date.fullYear, date.monthNumber, date.day))
-      this.$emit('dateSelected', formattedDate)
+      this.$emit('date-selected', formattedDate)
     },
     handleResize() {
       this.daily.phase = 'dragging'
@@ -252,7 +252,7 @@ export default {
       year = Number(year)
       if (this.selectedDate.day) {
         this.selectedDate = {}
-        this.$emit('dateCleared')
+        this.$emit('date-cleared')
       }
       this.monthly.realOffset = 0
       this.daily.realOffset = 0
